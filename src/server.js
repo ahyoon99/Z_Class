@@ -2,6 +2,7 @@ import http from "http";
 import socketIO from "socket.io";
 import express from "express";
 import webRTC from "wrtc";
+import fs from "fs";
 
 const app = express();
 
@@ -10,7 +11,9 @@ app.set("views", __dirname + "/public/views");
 app.set("view engine", "ejs");
 app.use("/public", express.static(__dirname + "/public"));
 
-app.get("/", (req, res) => res.render("home.html"));
+app.get("/", (req, res) => res.render("main.html"));
+app.get("/sign_up.html", (req, res) => res.render("sign_up.html"));
+app.get("/home", (req, res) => res.render("home.html"));
 
 const httpServer = http.createServer(app);
 const wsServer = socketIO(httpServer);
@@ -42,6 +45,15 @@ wsServer.on("connection", (socket) => {
     // 초기화
     userStreams[socket.id] = new webRTC.MediaStream();
     socket.sendPCs = [];
+
+    socket.on("signUp_getPic", (_data, _i)=>{
+      console.log("data 받음");
+      fs.writeFile(`pic${_i}.png`,_data,(_err)=>{});
+
+
+    });
+
+
 
     // client의 offer 받고 answer 보냄
     socket.on("sendOffer", async (_offer) => {
