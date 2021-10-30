@@ -48,7 +48,7 @@ wsServer.on("connection", (socket) => {
 
     socket.on("signUp_getPic", (_data, _i)=>{
       console.log("data 받음");
-      fs.writeFile(`pic${_i}.png`,_data,(_err)=>{});
+      fs.writeFile(`data/face_pic/pic${_i}.png`,_data,(_err)=>{});
 
 
     });
