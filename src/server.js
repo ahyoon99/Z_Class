@@ -1,8 +1,9 @@
-import http from "http";
+import http, { request } from "http";
 import socketIO from "socket.io";
 import express from "express";
 import webRTC from "wrtc";
 import fs from "fs";
+import axios from "axios";
 
 const app = express();
 
@@ -12,8 +13,18 @@ app.set("view engine", "ejs");
 app.use("/public", express.static(__dirname + "/public"));
 
 app.get("/", (req, res) => res.render("main.html"));
-app.get("/sign_up.html", (req, res) => res.render("sign_up.html"));
+app.get("/sign_up", (req, res) => res.render("sign_up.html"));
 app.get("/home", (req, res) => res.render("home.html"));
+
+// /flask 주소로 접속 시 5000번 port의 경로로 접속해서 response 받음
+app.get("/flask",async (req,res)=>{
+    const response = await axios.get('http://127.0.0.1:5000/flask');
+    console.log(response.data);
+
+    // response.data 값을 client에게 보내줌
+    res.send(response.data);
+    
+});
 
 const httpServer = http.createServer(app);
 const wsServer = socketIO(httpServer);
