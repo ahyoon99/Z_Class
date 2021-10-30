@@ -51,8 +51,7 @@ async function GetMyStream() {
     myFace.setAttribute("height", "320");
     myFace.srcObject = myStream;
     videoDiv.appendChild(myFace);
-    console.log("새 유저의 비디오 생성");
-    console.log("@@@@@ 유저 디바이스 읽음 @@@@@");
+    console.log("### 유저의 video 읽음");
     myStream.getAudioTracks()[0].enabled = false; // constrain을 false로 줄 경우 audio 안가져오므로 true로 받아오고 enable을 꺼줌
   } catch (e) {
     console.log(e);
