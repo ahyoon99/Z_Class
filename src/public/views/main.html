@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/public/css/style.css">
     <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
+    
+   
 </head>
 
 <body>
@@ -15,33 +17,21 @@
         <h1>Z-Class</h1>
     </div>
     <div class="loginForm">
+   
         <div class="loginForm_id">
-            <span class="title_space">ID</span>
-            <input id="loginId">
+            ID<input type="text" id="loginId">
         </div>
         <div class="loginForm_password">
-            <span class="title_space">PW</span>
-            <input type="password" id="loginPassword">
+            PW<input type="password" id="loginPassword">
         </div>
         <button id="btnSignIn">Sign in</button>
         <button id="btnSignUp">Sign up</button>
         <button>Forgot ID/PW?</button>
-        <script src="/public/js/main.js"></script>
+        
     </div>
 
-    <script>
-        let login_obj={
-            id:"",
-            pwd:""
-        }; 
-
-        login_obj.id=$("#loginId").val();
-        login_obj.pwd=$("#loginPassword").val();
-
-     
-
-
-    </script>
+    <script src="/public/js/main.js"></script>
+  
 </body>
 
 </html>
