@@ -4,9 +4,18 @@ import express from "express";
 import webRTC from "wrtc";
 import fs from "fs";
 
-// test
-
+const connectDB = require("/Users/kim-ahyoon/Z_Class/config/db");
 const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.get("/",(req,res)=>{
+  res.send("API RUNNING...");
+});
+
+// connect DB
+connectDB();
+
+app.listen(PORT, () => console.log('Server started on port '+PORT));
 
 app.engine("html", require("ejs").renderFile);
 app.set("views", __dirname + "/public/views");
