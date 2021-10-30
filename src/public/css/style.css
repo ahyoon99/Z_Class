@@ -28,3 +28,18 @@ h1{
     margin-top:50px;
     padding-bottom: 50px;
 }
+
+div#outer
+{
+    position: absolute;
+    top:50%;
+    left:50%;
+    border:solid 1px gray;
+    width:500px; height:300px;
+    margin-left:-250px;
+    margin-top:-150px;
+    text-align:center;
+}
+
+
+

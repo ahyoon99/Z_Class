@@ -6,6 +6,7 @@ import fs from "fs";
 
 const app = express();
 
+
 app.engine("html", require("ejs").renderFile);
 app.set("views", __dirname + "/public/views");
 app.set("view engine", "ejs");
@@ -14,6 +15,10 @@ app.use("/public", express.static(__dirname + "/public"));
 app.get("/", (req, res) => res.render("main.html"));
 app.get("/sign_up.html", (req, res) => res.render("sign_up.html"));
 app.get("/home", (req, res) => res.render("home.html"));
+app.get("/teacher_enter_room.html", (req, res) => res.render("teacher_enter_room.html"));
+app.get("/student_enter_room.html", (req, res) => res.render("student_enter_room.html"));
+app.get("/create_course.html", (req, res) => res.render("create_course.html"));
+
 
 const httpServer = http.createServer(app);
 const wsServer = socketIO(httpServer);
@@ -21,6 +26,13 @@ const wsServer = socketIO(httpServer);
 httpServer.listen(3000);
 
 
+const mongoose = require('mongoose')
+mongoose.connect('mongodb+srv://sohyuni_0430:aa122306@cluster0.rpzzm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+    
+}).then(() => console.log('MongoDB connected...'))
+.catch(error => console.log(error))
+
+app.get('/', (req, res) => res.send('Develog!'))
 
 
 let sockets = [];           // 연결된 socket들을 저장하는 배열
