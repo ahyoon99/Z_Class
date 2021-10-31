@@ -17,6 +17,12 @@ connectDB();
 
 app.listen(PORT, () => console.log('Server started on port '+PORT));
 
+// allow us to get the data in request.body
+app.use(express.json({ extended: false })); 
+
+// Define Routes
+app.use("/api/register", require("/Users/kim-ahyoon/Z_Class/routes/api/register"))
+
 app.engine("html", require("ejs").renderFile);
 app.set("views", __dirname + "/public/views");
 app.set("view engine", "ejs");
