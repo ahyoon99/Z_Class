@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 # localhost:5000/flask로 접속 시 Flask server 출력됨
 # node js 서버에서 127.0.0.1:5000/flask로 접속
+# python -m flask run 으로 터미널에서 실행 가능
 
 @app.route('/flask', methods=['GET'])
 def test():
