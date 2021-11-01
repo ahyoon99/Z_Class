@@ -195,3 +195,94 @@ socket.on("userExit", (_id)=>{
     if(document.getElementById(_id))
         videoDiv.removeChild(document.getElementById(_id));
 });
+
+
+
+
+// ############### 채팅 관련 기능  ################
+
+const tBoxInput = document.querySelector("#tBoxInput");
+
+// 마지막으로 채팅친 사람의 이름, 닉네임 중복 출력 방지
+let lastChattedName;
+
+
+tBoxInput.addEventListener("keyup", EnterMessage);
+
+function EnterMessage(event){
+  if(event.keyCode == 13){  // 엔터키
+    const msg = tBoxInput.value;
+    // 보낼 메시지 없을 경우 수행 x
+    if(msg==="")
+      return;
+    // socket.id 는 사용자 명으로 바꾸면 됨
+    socket.emit("sendChat", msg, socket.id);
+    tBoxInput.value="";
+
+
+    // 내가 보낸 메시지를 내 채팅창에 띄움
+
+    const msg_box = document.createElement('div');
+    const msg_name = document.createElement('span');
+    const msg_content = document.createElement('div');
+    if(lastChattedName !== socket.id)
+      msg_box.appendChild(msg_name);
+    msg_box.appendChild(msg_content);
+    msg_name.id = "chat_name_me";
+    msg_content.id = "chat_content_me";
+  
+  
+    msg_name.innerText = socket.id;
+    lastChattedName=socket.id;
+    msg_content.innerText = msg;
+  
+    // 스크롤이 가장 최신이었을 경우 새 채팅으로 스크롤 최신화
+    const nowScroll = Math.floor(messageBox.scrollTop);
+    let canScroll = false;
+    if(nowScroll === messageBox.scrollHeight-messageBox.clientHeight)
+    {
+      canScroll = true;
+    }
+  
+    messageBox.appendChild(msg_box);
+    
+  
+    if(canScroll){
+      messageBox.scrollTo(0,messageBox.scrollHeight);
+    }
+  }
+}
+
+const messageBox = document.querySelector("#messageBox");
+
+
+// 채팅 메시지를 서버로부터 받은 경우
+socket.on("receiveChat", (_msg, _id)=>{
+  const msg_box = document.createElement('div');
+  const msg_name = document.createElement('span');
+  const msg_content = document.createElement('div');
+  if(lastChattedName !== _id)
+    msg_box.appendChild(msg_name);
+  msg_box.appendChild(msg_content);
+  msg_name.id = "chat_name";
+  msg_content.id = "chat_content";
+
+
+  msg_name.innerText = _id;
+  lastChattedName = _id;
+  msg_content.innerText = _msg;
+
+
+  const nowScroll = Math.floor(messageBox.scrollTop);
+  let canScroll = false;
+  if(nowScroll === messageBox.scrollHeight-messageBox.clientHeight)
+  {
+    canScroll = true;
+  }
+
+  messageBox.appendChild(msg_box);
+
+  if(canScroll){
+    messageBox.scrollTo(0,messageBox.scrollHeight);
+  }
+});

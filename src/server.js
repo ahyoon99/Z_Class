@@ -51,6 +51,7 @@ wsServer.on("connection", (socket) => {
   // 초기화
   userStreams[socket.id] = new webRTC.MediaStream();
   socket.sendPCs = [];
+  socket.join("Class");
 
   socket.on("signUp_getPic", (_data, _i) => {
     console.log("data 받음");
@@ -103,7 +104,6 @@ wsServer.on("connection", (socket) => {
       await socket.receivePC.setLocalDescription(answer);
       console.log("send answer 보냄");
       socket.emit("sendAnswer", answer);
-      socket.join("Class");
     } catch (e) {
       console.log(e);
     }
@@ -157,4 +157,9 @@ wsServer.on("connection", (socket) => {
     sockets = sockets.filter((_socket) => _socket.id !== socket.id);
     socket.to("Class").emit("userExit", socket.id);
   });
+
+  socket.on("sendChat", (_msg,_id)=>{
+    console.log("메시지 받음");
+    socket.to("Class").emit("receiveChat", _msg, _id);
+  })
 });
