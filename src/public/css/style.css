@@ -30,7 +30,8 @@ h1{
 }
 
 #chatRoom{
-    border:0.2em solid black;
+    border:0.2rem solid #000000;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     position:fixed;
@@ -40,13 +41,13 @@ h1{
     height: 100%;
 }
 #messageBox{
-    border: 0.3em solid gray;
+    border: 0.2em solid #585858;
     flex:1;
     overflow-y: scroll;
 }
 
 #inputBox{
-    border: 0.2em solid blueviolet;
+    border: 0.2em solid #9CE8DB;
     height:2em;
 }
 
@@ -58,29 +59,42 @@ h1{
 }
 
 #chat_name{
-    font: bold;
-    color: lightseagreen;}
+    font-weight:bold;
+    color: lightseagreen;
+    display:block;
+    float:left;
+    clear:both;
+    box-sizing:border-box;
+    margin:0.3rem;
+}
 
 #chat_content{
+    background-color: azure;
     box-sizing:border-box;
-    width:100%;
     word-break: break-all;
+    float: left;
+    clear: left;
+    border-radius: 10px;
+    padding: 0.5rem;
+    margin: 0.2rem 0.4rem;
 }
-
 
 #chat_name_me{
-    font:bold;
+    font-weight:bold;
     color:aquamarine;
-    display:inline-block;
-    text-align: right;
+    display:block;
+    float: right;
+    clear:both;
     box-sizing:border-box;
-    width:100%;
+    margin:0.3rem;
 }
 #chat_content_me{
-    
-    display:inline-block;
-    text-align: right;
+    background-color: lightgray;
     box-sizing:border-box;
-    width:100%;
     word-break: break-all;
+    float: right;
+    clear: right;
+    border-radius: 10px;
+    padding: 0.5rem;
+    margin: 0.2rem 0.4rem;
 }

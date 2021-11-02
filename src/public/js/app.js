@@ -228,6 +228,7 @@ function EnterMessage(event){
     if(lastChattedName !== socket.id)
       msg_box.appendChild(msg_name);
     msg_box.appendChild(msg_content);
+    msg_box.id = "chat_box";
     msg_name.id = "chat_name_me";
     msg_content.id = "chat_content_me";
   
@@ -236,20 +237,11 @@ function EnterMessage(event){
     lastChattedName=socket.id;
     msg_content.innerText = msg;
   
-    // 스크롤이 가장 최신이었을 경우 새 채팅으로 스크롤 최신화
-    const nowScroll = Math.floor(messageBox.scrollTop);
-    let canScroll = false;
-    if(nowScroll === messageBox.scrollHeight-messageBox.clientHeight)
-    {
-      canScroll = true;
-    }
-  
     messageBox.appendChild(msg_box);
-    
-  
-    if(canScroll){
+
+    // 메시지 보냈으므로 스크롤 최신화
       messageBox.scrollTo(0,messageBox.scrollHeight);
-    }
+
   }
 }
 
@@ -273,7 +265,7 @@ socket.on("receiveChat", (_msg, _id)=>{
   msg_content.innerText = _msg;
 
 
-  const nowScroll = Math.floor(messageBox.scrollTop);
+  const nowScroll = Math.ceil(messageBox.scrollTop);
   let canScroll = false;
   if(nowScroll === messageBox.scrollHeight-messageBox.clientHeight)
   {
