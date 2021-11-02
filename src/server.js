@@ -4,26 +4,161 @@ import express from "express";
 import webRTC from "wrtc";
 import fs from "fs";
 
-// test
-
 const app = express();
+const ejs = require("ejs");
+const bodyParser = require('body-parser');
 
 app.engine("html", require("ejs").renderFile);
 app.set("views", __dirname + "/public/views");
 app.set("view engine", "ejs");
 app.use("/public", express.static(__dirname + "/public"));
 
-app.get("/", (req, res) => res.render("main.html"));
+app.use(bodyParser.urlencoded({extended:false}));   //URL 인코딩 안함
+app.use(bodyParser.json()); 
+app.get("/", (req, res) => res.render("main"));
 app.get("/sign_up.html", (req, res) => res.render("sign_up.html"));
 app.get("/home", (req, res) => res.render("home.html"));
+app.get("/pre_sign_up", (req, res) => res.render("pre_sign_up"));
+app.get("/sign_up_info", (req, res) => res.render("sign_up_info"));
+app.get("/sign_up_info_teacher", (req, res) => res.render("sign_up_info_teacher"));
+
 
 const httpServer = http.createServer(app);
 const wsServer = socketIO(httpServer);
 
 httpServer.listen(3000);
 
+var db;
+const MongoClient = require('mongodb').MongoClient;
+MongoClient.connect('mongodb+srv://ahyoon:0412@cluster0.gbv0x.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{useUnifiedTopology:true},function(err,client){
+  if(err) return console.log(err);
+  db=client.db('myFirstDatabase');
+  //자료추가 코드
+  // db.collection('courses').insertOne({title:'영어',_id:100},function(err,result){
+  //   console.log('저장완료');
+  // })
+  console.log('Mongo db connect');
+});
 
+app.post('/sign_up_info',function(req,res){
+  console.log("post");
+  db.collection('members').findOne({name:req.body.name}, function(err, result){
+    if (result){  // 해당 이름을 가진 회원 존재
+      var findphone = result.phone_number;
+      if( req.body.phone_number ==findphone){
+        // 중복된 회원
+        console.log('중복');
+        res.write('<script type="text/javascript">alert("already existed");</script>');
+        res.write('<script>window.location=\"sign_up_info\"</script>"');
+      }
+      else{ // 해당 이름을 가진 회원은 존재, 하지만 번호는 다름, post해도 됨
+        db.collection('members_counter').findOne({name:'totalMembers'},function(err,result){
+          var total_students = result.totalMembers;
+          db.collection('members').insertOne({
+            _id:(total_students+1),
+            name:req.body.name,
+            password : req.body.password,
+            grade : req.body.grade,
+            phone_number : req.body.phone_number,
+            type : "student"
+          },function(err,result){
+            db.collection('members_counter').updateOne({name:'totalMembers'},{$inc:{totalMembers:1},function(err,result){
+              if(err){return console.log(err)} 
+              console.log('저장완료');
+              res.send('전송완료');
+            }
+            })
+          });
+      
+        })
+        res.write('<script type="text/javascript">alert("sign up successfully");</script>');
+        res.write('<script>window.location=\"sign_up.html\"</script>"');
+      }
+    }
+    else{ // 해당 이름을 가진 회원 존재하지 않음.
+      db.collection('members_counter').findOne({name:'totalMembers'},function(err,result){
+        var total_students = result.totalMembers;
+        db.collection('members').insertOne({
+          _id:(total_students+1),
+          name:req.body.name,
+          password : req.body.password,
+          grade : req.body.grade,
+          phone_number : req.body.phone_number,
+          type : "student"
+        },function(err,result){
+          db.collection('members_counter').updateOne({name:'totalMembers'},{$inc:{totalMembers:1},function(err,result){
+            if(err){return console.log(err)} 
+            console.log('저장완료');
+            res.send('전송완료');
+          }
+          })
+        });
+      })
+      res.write('<script type="text/javascript">alert("sign up successfully");</script>');
+      res.write('<script>window.location=\"sign_up.html\"</script>"');
+    }
+  });
+})
 
+app.post('/sign_up_info_teacher',function(req,res){
+  console.log("post");
+
+  db.collection('members').findOne({name:req.body.name}, function(err, result){
+    if(result){ // 중복된 이름 존재
+      var findphone = result.phone_number;
+      if( req.body.phone_number ==findphone){ // 중복된 이름+중복된 번호 -> 회원가입 불가
+        // 중복된 회원
+        console.log('중복');
+        res.write('<script type="text/javascript">alert("already existed");</script>');
+        res.write('<script>window.location=\"\"</script>"');
+     }
+     else{  // 이름은 중복, 번호는 중복 x
+      db.collection('members_counter').findOne({name:'totalMembers'},function(err,result){
+        var total_students = result.totalMembers;
+        db.collection('members').insertOne({
+          _id:(total_students+1),
+          name:req.body.name,
+          password : req.body.password,
+          grade : req.body.grade,
+          phone_number : req.body.phone_number,
+          type : "teacher"
+        },function(err,result){
+          db.collection('members_counter').updateOne({name:'totalMembers'},{$inc:{totalMembers:1},function(err,result){
+            if(err){return console.log(err)} 
+            console.log('저장완료');
+            res.send('전송완료');
+          }
+          })
+        });
+      })
+      res.write('<script type="text/javascript">alert("sign up successfully");</script>');
+      res.write('<script>window.location=\"/\"</script>"');
+     }
+    }
+    else{ // 중복된 이름 존재하지 않음
+      db.collection('members_counter').findOne({name:'totalMembers'},function(err,result){
+        var total_students = result.totalMembers;
+        db.collection('members').insertOne({
+          _id:(total_students+1),
+          name:req.body.name,
+          password : req.body.password,
+          grade : req.body.grade,
+          phone_number : req.body.phone_number,
+          type : "teacher"
+        },function(err,result){
+          db.collection('members_counter').updateOne({name:'totalMembers'},{$inc:{totalMembers:1},function(err,result){
+            if(err){return console.log(err)} 
+            console.log('저장완료');
+            res.send('전송완료');
+          }
+          })
+        });
+      })
+      res.write('<script type="text/javascript">alert("sign up successfully");</script>');
+      res.write('<script>window.location=\"/\"</script>"');
+    }
+  });
+})
 
 let sockets = [];           // 연결된 socket들을 저장하는 배열
 let userStreams = {};       // sendPC로부터 받아온 stream을 저장

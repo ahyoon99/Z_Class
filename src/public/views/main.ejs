@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z-Class</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
+      <!--제이쿼리 불러오기-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    
+   
+</head>
+
+<body>
+    <div>
+        <h1>Z-Class</h1>
+    </div>
+    <div class="loginForm">
+            ID<input type="text" id="loginId"><p></p>
+            PW<input type="password" id="loginPassword"><p></p>
+            <input type="submit" value="Sign in" id="logIn">
+            <input type="button" value="Sign up" onclick="moveSignUpInfoPage()">
+            <button>Forgot ID/PW?</button>
+    </div>
+    </div>
+    <script>
+        $("#logIn").click(function(){
+            //OK 버튼 클릭하면
+            $.ajax({
+                url:'/logIn',   //login주소로 
+                async:true,         //동기화-서버에서 반응이 올때까지 기다림
+                type:'POST',        //post 방식으로
+                data:{
+                    ID:$("#loginId").val(),   //텍스트필드에 입력한 값을 ID라는 이름으로 보냄
+                    PWD:$("#loginPassword").val()
+
+                },
+                dataType:'json'
+      
+
+            })
+        })
+    </script>
+
+    <script type="text/javascript">
+        function moveSignUpInfoPage(){
+            location.href="/pre_sign_up";
+        }
+    </script>
+
+  
+</body>
+
+</html>

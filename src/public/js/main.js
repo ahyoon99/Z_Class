@@ -4,5 +4,5 @@ btnSignUp.addEventListener("click", SignUp);
 
 function SignUp(event){
     event.preventDefault();
-    window.location.href = 'sign_up.html'
+    window.location.href = 'pre_sign_up'
 }
