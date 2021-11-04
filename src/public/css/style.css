@@ -1,100 +1,36 @@
-body{
+* {
+    font-family: '맑은 고딕';
+}
+
+body {
     background-color: lightsteelblue;
 }
 
-video{
-    pointer-events : none;
+video {
+    pointer-events: none;
 }
 
-h1{
-    color:slateblue;
+h1 {
+    color: slateblue;
     text-align: center;
     font-size: 50px;
 }
 
-.loginForm{
+.loginForm {
     background-color: white;
-    width:300px;
-    height:400px;
-    border-radius:30px;
+    width: 300px;
+    height: 400px;
+    border-radius: 30px;
     margin-left: auto;
     margin-right: auto;
     padding: 20px;
 }
-#btnSignIn{
-    margin-top:5px;
+#btnSignIn {
+    margin-top: 5px;
 }
-.title_space{
-    margin-top:50px;
+.title_space {
+    margin-top: 50px;
     padding-bottom: 50px;
 }
 
-#chatRoom{
-    border:0.2rem solid #000000;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    position:fixed;
-    top:0px;
-    right:0px;
-    width: 30%;
-    height: 100%;
-}
-#messageBox{
-    border: 0.2em solid #585858;
-    flex:1;
-    overflow-y: scroll;
-}
 
-#inputBox{
-    border: 0.2em solid #9CE8DB;
-    height:2em;
-}
-
-#tBoxInput{
-    width:100%;
-    height:100%;
-    box-sizing:border-box;
-    border:none;
-}
-
-#chat_name{
-    font-weight:bold;
-    color: lightseagreen;
-    display:block;
-    float:left;
-    clear:both;
-    box-sizing:border-box;
-    margin:0.3rem;
-}
-
-#chat_content{
-    background-color: azure;
-    box-sizing:border-box;
-    word-break: break-all;
-    float: left;
-    clear: left;
-    border-radius: 10px;
-    padding: 0.5rem;
-    margin: 0.2rem 0.4rem;
-}
-
-#chat_name_me{
-    font-weight:bold;
-    color:aquamarine;
-    display:block;
-    float: right;
-    clear:both;
-    box-sizing:border-box;
-    margin:0.3rem;
-}
-#chat_content_me{
-    background-color: lightgray;
-    box-sizing:border-box;
-    word-break: break-all;
-    float: right;
-    clear: right;
-    border-radius: 10px;
-    padding: 0.5rem;
-    margin: 0.2rem 0.4rem;
-}

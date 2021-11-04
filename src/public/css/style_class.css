@@ -1,0 +1,162 @@
+* {
+    font-family: '맑은 고딕';
+}
+
+body {
+    margin: 0;
+    background-color: #D1F2EB;
+}
+
+/* #####  학생 영상 영역  ##### */
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 양 끝에 버튼 추가해서 스크롤 만들어야 함 */
+
+#studentsMediaContainer {
+    background-color: #D1F2EB;
+    position: fixed;
+    width: 100%;
+    height: 20%;
+
+    display:flex;
+    justify-content: center;    /* 중앙부터 정렬 */
+
+    overflow-x:scroll;
+    -ms-overflow-style: none;
+
+}
+
+#studentsMediaContainer::-webkit-scrollbar{
+    display:none;
+}
+
+/* 각 학생의 media와 이름을 담음 */
+
+.studentMediaContainer{
+    border: 0.15rem solid #148F77;
+    border-radius: 5px;
+    margin:0.3rem;
+    position:relative;
+    
+}
+
+.studentMedia{
+    height: 100%;
+}
+
+.studentName{
+    position:absolute;
+    bottom:0;
+    right:0;
+    font-size: 1rem;
+    color:white;
+    background-color: rgba(0,0,0,0.3);
+    padding-left:0.25rem;
+    padding-right:0.25rem;
+}
+
+#mainContainer{
+    display: flex;
+    position:fixed;
+    top:20%;
+    width: 100%;
+    height:80%;
+}
+
+
+
+/* #####  선생님 영상 영역  ##### */
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ db 연동 시 추가해야함 */
+
+#teacherMediaContainer{
+    background-color: black;
+    height:100%;
+    flex-basis:70%;
+    flex:1;
+
+}
+
+
+/* #####  채팅창  ##### */
+
+#chatRoom {
+    background: linear-gradient(180deg, #d1f2eb 0%, #e8f8f5 50%, #FFFFFF 100%);
+
+    box-sizing: border-box;
+    border: 0.15rem solid #148F77;
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 30%;
+    max-width: 350px;
+}
+
+/* 채팅창 세부 인터페이스 */
+
+#chatRoomTitle {
+    box-sizing: border-box;
+    border-bottom: 0.15rem solid #148F77;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background: linear-gradient(135deg, #1ABC9C 0%, #76D7C4 66%, #D1F2EB 100%);
+    text-align: center;
+    color: #0E6251;
+    font-weight: bold;
+    font-size: 1.25rem;
+    padding-bottom: 0.3rem;
+}
+
+#messageBox {
+    flex: 1;
+    overflow-y: scroll;
+}
+
+#inputBox {
+    margin-top: 0.25rem;
+    border: none;
+    border-top: 0.15rem solid #148F77;
+
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+
+    height: 2.25rem;
+    box-sizing: border-box;
+    background-color: #A3E4D7;
+    padding-left: 0.5rem;
+    padding-bottom: 0.25rem;
+}
+
+/* 채팅 메시지 이름, 내용 */
+
+.chat_name {
+    font-weight: bold;
+    display: block;
+    box-sizing: border-box;
+    margin: 0.3rem;
+    clear: both;
+}
+#chat_name_other {
+    color: #73C6B6;
+    float: left;
+}
+#chat_name_me {
+    color: #7DCEA0;
+    float: right;
+}
+
+.chat_content {
+    box-sizing: border-box;
+    word-break: break-all;
+    border-radius: 10px;
+    padding: 0.5rem;
+    margin: 0.2rem 0.4rem;
+    clear: both;
+}
+#chat_content_other {
+    background-color: #A2D9CE;
+    float: left;
+}
+#chat_content_me {
+    background-color: #A9DFBF;
+    float: right;
+}
