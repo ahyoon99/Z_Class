@@ -1,5 +1,6 @@
 * {
     font-family: '맑은 고딕';
+    box-sizing: border-box;
 }
 
 body {
@@ -35,7 +36,6 @@ body {
     border-radius: 5px;
     margin:0.3rem;
     position:relative;
-    
 }
 
 .studentMedia{
@@ -53,12 +53,21 @@ body {
     padding-right:0.25rem;
 }
 
+
+
+
+
+
 #mainContainer{
-    display: flex;
     position:fixed;
     top:20%;
     width: 100%;
     height:80%;
+
+    
+    display: flex;
+    align-items:stretch;
+    box-sizing: border-box;
 }
 
 
@@ -67,34 +76,93 @@ body {
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ db 연동 시 추가해야함 */
 
 #teacherMediaContainer{
-    background-color: black;
-    height:100%;
-    flex-basis:70%;
-    flex:1;
+    border: 0.15rem solid #148F77;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin:0.25rem;
 
+    flex-basis: 70%;
+    flex-grow: 1;
+    flex-shrink:0;
+}
+
+/* #####  우측 영역  ##### */
+
+#sideContainer{
+
+    flex-basis:350px;
+    flex-grow:0;
+    flex-shrink: 1;
+    
+    padding: 0.25rem;
+
+    display: flex;
+    flex-direction: column;
 }
 
 
+
+
+/* #####  옵션창  ##### */
+
+#optionContainer{
+    box-sizing: border-box;
+    border: 0.15rem solid #148F77;
+    background-color: #76D7C4;
+    border-radius: 5px;
+
+    margin-top:0.25rem;
+
+    flex-basis:10%;
+
+    display:flex;
+    align-items: stretch;
+    
+}
+.btnOptions{
+    flex: 1;
+    text-align: center;
+    background: linear-gradient(135deg, #1ABC9C 0%, #76D7C4 33%, #D1F2EB 100%);  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.15rem solid #1ABC9C;
+    border-radius: 3px;
+
+    -ms-user-select: none; 
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 /* #####  채팅창  ##### */
 
-#chatRoom {
+#chatRoomContainer {
+    flex-basis:90%;
+
     background: linear-gradient(180deg, #d1f2eb 0%, #e8f8f5 50%, #FFFFFF 100%);
 
     box-sizing: border-box;
     border: 0.15rem solid #148F77;
     border-radius: 5px;
 
+    position:relative;
+
+}
+#chatRoom{
     display: flex;
     flex-direction: column;
-
-    width: 30%;
-    max-width: 350px;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
 }
 
 /* 채팅창 세부 인터페이스 */
 
 #chatRoomTitle {
-    box-sizing: border-box;
     border-bottom: 0.15rem solid #148F77;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -109,7 +177,22 @@ body {
 #messageBox {
     flex: 1;
     overflow-y: scroll;
+    overflow-x:hidden;
 }
+#messageBox::-webkit-scrollbar-track{
+    background-color: #A3E4D7;
+}
+#messageBox::-webkit-scrollbar-thumb{
+    background-color: #148F77;
+    background-clip: padding-box;
+    border: 0.2rem solid transparent;
+    border-radius:8px;
+}
+#messageBox::-webkit-scrollbar{
+    background-color: #A3E4D7;
+    width:0.75rem;
+}
+
 
 #inputBox {
     margin-top: 0.25rem;
@@ -125,6 +208,7 @@ body {
     padding-left: 0.5rem;
     padding-bottom: 0.25rem;
 }
+
 
 /* 채팅 메시지 이름, 내용 */
 
