@@ -1,3 +1,8 @@
+:root{
+    --border-color: #148F77;
+    --text-title-color: #0E6251;
+
+}
 * {
     font-family: '맑은 고딕';
     box-sizing: border-box;
@@ -8,33 +13,93 @@ body {
     background-color: #D1F2EB;
 }
 
-/* #####  학생 영상 영역  ##### */
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 양 끝에 버튼 추가해서 스크롤 만들어야 함 */
+/* ######  윗쪽 영역  ###### */
 
-#studentsMediaContainer {
-    background-color: #D1F2EB;
+#topContainer{
     position: fixed;
     width: 100%;
     height: 20%;
+    padding:0.25rem;
 
+}
+
+
+/*      #####  학생 영상 영역  ##### */
+
+#studentsMediaWrapper{
+    position:relative;
+    width:100%; 
+    height:100%;
+    border: 0.15rem solid var(--border-color);
+    border-radius: 5px;
+}
+
+
+/* 학생 영상이 들어갈 공간 */
+
+#studentsMediaContainer {
     display:flex;
-    justify-content: center;    /* 중앙부터 정렬 */
+    flex-direction: row;
 
     overflow-x:scroll;
     -ms-overflow-style: none;
 
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
 }
 
 #studentsMediaContainer::-webkit-scrollbar{
     display:none;
 }
 
+
+/* 스크롤을 위한 버튼 */
+
+#btnLeftStudentContainer{
+    position:absolute;
+    left: 0;
+}
+
+#btnRightStudentContainer{
+    position: absolute;
+    right:0;
+}
+.btnScrollContainer{
+    height:100%;
+    width:1.75rem;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.25);
+}
+
+.btnScrollContainer:active{
+    background-color: rgba(0,0,0,0.5);
+}
+
+.btnScroll{
+    flex:1;
+    text-align: center;
+    color:var(--text-title-color);
+
+    -ms-user-select: none; 
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 /* 각 학생의 media와 이름을 담음 */
 
 .studentMediaContainer{
-    border: 0.15rem solid #148F77;
+    background-color: #A3E4D7;
+    border: 0.15rem solid var(--border-color);
     border-radius: 5px;
-    margin:0.3rem;
+    margin:0.25rem;
     position:relative;
 }
 
@@ -51,11 +116,17 @@ body {
     background-color: rgba(0,0,0,0.3);
     padding-left:0.25rem;
     padding-right:0.25rem;
+
+    -ms-user-select: none; 
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 
 
-
+/* ######  메인 영역  ###### */
 
 
 #mainContainer{
@@ -64,10 +135,7 @@ body {
     width: 100%;
     height:80%;
 
-    
     display: flex;
-    align-items:stretch;
-    box-sizing: border-box;
 }
 
 
@@ -76,9 +144,9 @@ body {
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ db 연동 시 추가해야함 */
 
 #teacherMediaContainer{
+    background-color: #A3E4D7;
     border: 0.15rem solid #148F77;
     border-radius: 5px;
-    box-sizing: border-box;
     margin:0.25rem;
 
     flex-basis: 70%;
@@ -106,7 +174,6 @@ body {
 /* #####  옵션창  ##### */
 
 #optionContainer{
-    box-sizing: border-box;
     border: 0.15rem solid #148F77;
     background-color: #76D7C4;
     border-radius: 5px;
@@ -122,18 +189,29 @@ body {
 .btnOptions{
     flex: 1;
     text-align: center;
-    background: linear-gradient(135deg, #1ABC9C 0%, #76D7C4 33%, #D1F2EB 100%);  
+    background: linear-gradient(135deg, #1ABC9C 0%, #76D7C4 50%, #D1F2EB 100%);  
     display: flex;
     justify-content: center;
     align-items: center;
     border: 0.15rem solid #1ABC9C;
     border-radius: 3px;
 
+    
+    color: #0E6251;
+    font-weight: bold;
+
     -ms-user-select: none; 
     -moz-user-select: -moz-none;
     -khtml-user-select: none;
     -webkit-user-select: none;
     user-select: none;
+}
+.btnOptions:hover{
+    background: linear-gradient(135deg, #1ABC9C 0%, #76D7C4 75%, #D1F2EB 100%);  
+    transition: background-color .5s;    
+}
+.btnOptions:active{
+    background: #148F77;
 }
 
 /* #####  채팅창  ##### */
@@ -143,7 +221,6 @@ body {
 
     background: linear-gradient(180deg, #d1f2eb 0%, #e8f8f5 50%, #FFFFFF 100%);
 
-    box-sizing: border-box;
     border: 0.15rem solid #148F77;
     border-radius: 5px;
 
@@ -172,6 +249,13 @@ body {
     font-weight: bold;
     font-size: 1.25rem;
     padding-bottom: 0.3rem;
+
+    
+    -ms-user-select: none; 
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #messageBox {
@@ -203,7 +287,6 @@ body {
     border-bottom-right-radius: 3px;
 
     height: 2.25rem;
-    box-sizing: border-box;
     background-color: #A3E4D7;
     padding-left: 0.5rem;
     padding-bottom: 0.25rem;
@@ -215,7 +298,6 @@ body {
 .chat_name {
     font-weight: bold;
     display: block;
-    box-sizing: border-box;
     margin: 0.3rem;
     clear: both;
 }
@@ -229,7 +311,6 @@ body {
 }
 
 .chat_content {
-    box-sizing: border-box;
     word-break: break-all;
     border-radius: 10px;
     padding: 0.5rem;

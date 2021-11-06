@@ -12,9 +12,18 @@
 
     <body>
 
-        <!-- 학생 화면 영역 -->
-        <div id="studentsMediaContainer"></div>
-
+        <div id="topContainer">
+            <!-- 학생 화면 영역 -->
+            <div id="studentsMediaWrapper">
+                <div id="studentsMediaContainer"></div>
+                <div id="btnLeftStudentContainer" class="btnScrollContainer">
+                    <div class="btnScroll">◀</div>
+                </div>
+                <div id="btnRightStudentContainer" class="btnScrollContainer">
+                    <div class="btnScroll">▶</div>
+                </div>
+            </div>
+        </div>
         <div id="mainContainer">
             <!-- 선생님 화면 영역-->
             <div id="teacherMediaContainer">
@@ -32,8 +41,8 @@
                 </div>
                 <!-- 옵션 영역 -->
                 <div id="optionContainer">
-                    <div id="btnCam" class="btnOptions">Cam OFF</div>
-                    <div id="btnMic" class="btnOptions">Mic OFF</div>
+                    <div id="btnCamSwitch" class="btnOptions">Cam OFF</div>
+                    <div id="btnMicSwitch" class="btnOptions">Mic ON</div>
                     <div id="btnExit" class="btnOptions">Exit</div>
                 </div>
             </div>

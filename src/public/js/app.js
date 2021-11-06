@@ -239,6 +239,23 @@ socket.on("userExit", (_id) => {
     }
 );
 
+
+// student 수 많을 시 좌우 스크롤 버튼 기능
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 스크롤 기능 좀 더 깔끔하면 좋을 듯
+
+const btnLeftStudent = document.querySelector("#btnLeftStudentContainer");
+const btnRightStudent = document.querySelector("#btnRightStudentContainer");
+
+btnLeftStudent.addEventListener("click", (event) =>{
+    studentsMediaContainer.scrollBy({top:0,left:-150,behavior:'smooth'});
+});
+
+
+btnRightStudent.addEventListener("click", (event) =>{
+    studentsMediaContainer.scrollBy({top:0,left:150,behavior:'smooth'});
+});
+
+
 // ############### 채팅 관련 기능  ################
 
 const tBoxInput = document.querySelector("#inputBox");
@@ -323,3 +340,53 @@ socket.on("receiveChat", (_msg, _id) => {
         messageBox.scrollTo(0, messageBox.scrollHeight);
     }
 });
+
+
+// ###############  옵션 관련 기능  ############### 
+
+const btnCamSwitch = document.querySelector("#btnCamSwitch");
+const btnMicSwitch = document.querySelector("#btnMicSwitch");
+const btnExit = document.querySelector("#btnExit");
+
+
+// cam ON / OFF 버튼
+
+btnCamSwitch.addEventListener("click", (event)=>{
+    try{
+        myStream.getVideoTracks()[0].enabled = !myStream.getVideoTracks()[0].enabled;
+
+        if(myStream.getVideoTracks()[0].enabled)
+            btnCamSwitch.innerText = "Cam Off";
+        else
+            btnCamSwitch.innerText = "Cam On";
+    }
+    catch(e){
+        window.alert("카메라를 찾을 수 없습니다.");
+    }
+});
+
+
+// Mic ON / OFF 버튼
+
+btnMicSwitch.addEventListener("click", (event)=>{
+    try{
+        myStream.getAudioTracks()[0].enabled = !myStream.getAudioTracks()[0].enabled;
+        if(myStream.getAudioTracks()[0].enabled)
+            btnMicSwitch.innerText = "Mic Off";
+        else
+            btnMicSwitch.innerText = "Mic On";
+    }catch(e){
+        window.alert("마이크를 찾을 수 없습니다.");
+    }
+});
+
+
+// 종료 확인 버튼
+
+btnExit.addEventListener("click", (event)=>{
+    if(confirm("종료하시겠습니까?"))
+        window.location.href = '/';
+});
+
+
+//  #################################################
