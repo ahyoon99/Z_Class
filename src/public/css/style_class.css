@@ -75,6 +75,7 @@ body {
     align-items: center;
     justify-content: center;
     background-color: rgba(0,0,0,0.25);
+    border-radius: 3px;
 }
 
 .btnScrollContainer:active{
@@ -145,7 +146,7 @@ body {
 
 #teacherMediaContainer{
     background-color: #A3E4D7;
-    border: 0.15rem solid #148F77;
+    border: 0.15rem solid var(--border-color);
     border-radius: 5px;
     margin:0.25rem;
 
@@ -221,7 +222,7 @@ body {
 
     background: linear-gradient(180deg, #d1f2eb 0%, #e8f8f5 50%, #FFFFFF 100%);
 
-    border: 0.15rem solid #148F77;
+    border: 0.15rem solid var(--border-color);
     border-radius: 5px;
 
     position:relative;
@@ -240,7 +241,7 @@ body {
 /* 채팅창 세부 인터페이스 */
 
 #chatRoomTitle {
-    border-bottom: 0.15rem solid #148F77;
+    border-bottom: 0.15rem solid var(--border-color);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     background: linear-gradient(135deg, #1ABC9C 0%, #76D7C4 66%, #D1F2EB 100%);
