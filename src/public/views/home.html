@@ -1,24 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Z-Class</title>
-    <link rel="stylesheet" href="/public/css/style.css">
-    <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Z-Class 강의</title>
+        <link rel="stylesheet" href="/public/css/style_class.css">
+        <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
+    </head>
 
-<body>
+    <body>
 
+        <div id="topContainer">
+            <!-- 학생 화면 영역 -->
+            <div id="studentsMediaWrapper">
+                <div id="studentsMediaContainer"></div>
+                <div id="btnLeftStudentContainer" class="btnScrollContainer">
+                    <div class="btnScroll">◀</div>
+                </div>
+                <div id="btnRightStudentContainer" class="btnScrollContainer">
+                    <div class="btnScroll">▶</div>
+                </div>
+            </div>
+        </div>
+        <div id="mainContainer">
+            <!-- 선생님 화면 영역-->
+            <div id="teacherMediaContainer">
+                <video id="teacherMedia" autoplay="autoplay" playsinline="playsinline"></video>
+            </div>
 
-    <div>
-
-    </div>
-    <button id="start" disabled="true">시작</button>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/public/js/app.js"></script>
-</body>
+            <div id="sideContainer">
+                <!-- 채팅방 영역 -->
+                <div id="chatRoomContainer">
+                    <div id="chatRoom">
+                        <div id="chatRoomTitle">Message</div>
+                        <div id="messageBox"></div>
+                        <input type="text" id="inputBox" placeholder="Enter Message...">
+                    </div>
+                </div>
+                <!-- 옵션 영역 -->
+                <div id="optionContainer">
+                    <div id="btnCamSwitch" class="btnOptions">Cam OFF</div>
+                    <div id="btnMicSwitch" class="btnOptions">Mic ON</div>
+                    <div id="btnExit" class="btnOptions">Exit</div>
+                </div>
+            </div>
+        </div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/public/js/app.js"></script>
+    </body>
 
 </html>
