@@ -125,7 +125,7 @@ passport.deserializeUser(function (id, done) {
 
 //create course로 입장 시 실행.
 app.get('/create_course',function(req,res){
-    db.collection('students').find().toArray(function(err,result){
+    db.collection('members').find().toArray(function(err,result){
     //console.log(result)
     res.render('create_course.ejs',{students:result})
     //create course 렌더링과 동시에 array값들 넘겨줌
