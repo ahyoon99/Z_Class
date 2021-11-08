@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z-Class</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div>
+        <h1>Z-Class</h1>
+    </div>
+    <div class="loginForm">
+        <input type="button" value="학생" onclick="moveSignUpInfo()">
+        <input type="button" value="교사" onclick="moveSignUpInfoTeacher()">
+        <script src="/public/js/pre_sign_up.js"></script>
+    </div>
+</body>
+<script type="text/javascript">
+    function moveSignUpInfo(){
+        location.href="/sign_up_info";
+    }
+</script>
+
+<script type="text/javascript">
+    function moveSignUpInfoTeacher(){
+        location.href="/sign_up_info_teacher";
+    }
+</script>
+
+</html>
