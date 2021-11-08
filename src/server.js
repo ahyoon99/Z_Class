@@ -63,8 +63,6 @@ app.get("/flask", async (req, res) => {
   res.send(response.data);
 });
 
-const httpServer = http.createServer(app);
-const wsServer = socketIO(httpServer);
 
 //logIn 주소로 get요청 받으면 이 부분 실행
 app.get('/logIn',(req,res)=>{
