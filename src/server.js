@@ -47,8 +47,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => res.render("main"));
-app.get("/sign_up.html", (req, res) => res.render("sign_up.html"));
-app.get("/home", (req, res) => res.render("home.html"));
+app.get("/sign_up666", (req, res) => res.render("sign_up.html"));
+app.get("/class_student", (req, res) => res.render("class_student.html"));
 app.get("/pre_sign_up", (req, res) => res.render("pre_sign_up"));
 app.get("/sign_up_info", (req, res) => res.render("sign_up_info"));
 app.get("/sign_up_info_teacher", (req, res) => res.render("sign_up_info_teacher"));
