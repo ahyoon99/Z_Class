@@ -129,7 +129,7 @@ app.post('/sign_up_info',function(req,res){
       
         })
         res.write('<script type="text/javascript">alert("sign up successfully");</script>');
-        res.write('<script>window.location=\"sign_up.html\"</script>"');
+        res.write('<script>window.location=\"sign_up\"</script>"');
       }
     }
     else{ // 해당 이름을 가진 회원 존재하지 않음.
@@ -152,7 +152,7 @@ app.post('/sign_up_info',function(req,res){
         });
       })
       res.write('<script type="text/javascript">alert("sign up successfully");</script>');
-      res.write('<script>window.location=\"sign_up.html\"</script>"');
+      res.write('<script>window.location=\"sign_up\"</script>"');
     }
   });
 })
