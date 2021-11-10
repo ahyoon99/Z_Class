@@ -75,7 +75,7 @@ app.post("/logIn",passport.authenticate('local',{
 
 }), (req,res)=>{
   //회원 인증 성공하면 redirect
-  if(req.user.id==='tt')
+  if(req.user.type==='teacher')
   {
     //선생인 경우
     res.redirect('teacher_enter_room');
@@ -179,11 +179,11 @@ passport.use(new LocalStrategy({
   passReqToCallback: false,     //아이디, 비번 말고도 다른 정보 검증시 true로 바꾸고, funciton안에 파라미터 넣어주면 됨 
 }, function (입력한아이디, 입력한비번, done) {
   //console.log(입력한아이디, 입력한비번);
-  db.collection('login').findOne({ id: 입력한아이디 }, function (에러, 결과) {
+  db.collection('members').findOne({ name: 입력한아이디 }, function (에러, 결과) {
     if (에러) return done(에러)
 
     if (!결과) return done(null, false, { message: '존재하지않는 아이디요' })
-    if (입력한비번 == 결과.pw) {
+    if (입력한비번 == 결과.password) {
       //DB에 아이디가 있으면, 입력한 비번과 결과.pw 비교
       return done(null, 결과)   //done(서버에러,성공시 사용자 DB 데이터,에러메세지);
     } else {
@@ -194,13 +194,13 @@ passport.use(new LocalStrategy({
 
 //세션 만들기 - 로그인 성공시 발동
 passport.serializeUser(function (user, done) {
-  done(null, user.id)
+  done(null, user.name)
 });
 
 //이러한 세션 데이터를 가진 사람을 DB에서 찾아주세요
 passport.deserializeUser(function (id, done) {
   //db에서 위에 있는 user.id 로 유저를 찾은 뒤에, 유저 정 done(null,{여기에 넣음});
-  db.collection('login').findOne({id:id},function(에러,결과){
+  db.collection('members').findOne({name:id},function(에러,결과){
     done(null, 결과)
   })
 }); 
