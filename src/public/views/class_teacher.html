@@ -11,7 +11,7 @@
     </head>
 
     <body>
-        <div id="container_student">
+        <div id="container_teacher">
             <div id="topContainer">
                 <!-- 학생 화면 영역 -->
                 <div id="studentsMediaWrapper">
@@ -28,24 +28,28 @@
                 <!-- 선생님 화면 영역-->
                 <div id="teacherMediaContainer">
                     <video id="teacherMedia" autoplay="autoplay" playsinline="playsinline"></video>
-                </div>    
+                </div>
+
             </div>
             <div id="sideContainer">
-                    <!-- 채팅방 영역 -->
-                    <div id="chatRoomContainer">
-                        <div id="chatRoom">
-                            <div id="chatRoomTitle">Message</div>
-                            <div id="messageBox"></div>
-                            <input type="text" id="inputBox" placeholder="Enter Message...">
-                        </div>
-                    </div>
-                    <!-- 옵션 영역 -->
-                    <div id="optionContainer">
-                        <div id="btnCamSwitch" class="btnOptions">Cam OFF</div>
-                        <div id="btnMicSwitch" class="btnOptions">Mic ON</div>
-                        <div id="btnExit" class="btnOptions">Exit</div>
+                <!-- 강의 정보 영역 -->
+                <div id="classInfoContainer"></div>
+
+                <!-- 채팅방 영역 -->
+                <div id="chatRoomContainer">
+                    <div id="chatRoom">
+                        <div id="chatRoomTitle">Message</div>
+                        <div id="messageBox"></div>
+                        <input type="text" id="inputBox" placeholder="Enter Message...">
                     </div>
                 </div>
+                <!-- 옵션 영역 -->
+                <div id="optionContainer">
+                    <div id="btnCamSwitch" class="btnOptions">Cam OFF</div>
+                    <div id="btnMicSwitch" class="btnOptions">Mic ON</div>
+                    <div id="btnExit" class="btnOptions">Exit</div>
+                </div>
+            </div>
         </div>
         <script src="/socket.io/socket.io.js"></script>
         <script src="/public/js/class.js"></script>
