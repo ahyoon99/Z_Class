@@ -53,7 +53,7 @@ app.get("/pre_sign_up", (req, res) => res.render("pre_sign_up"));
 app.get("/sign_up_info", (req, res) => res.render("sign_up_info"));
 app.get("/sign_up_info_teacher", (req, res) => res.render("sign_up_info_teacher"));
 
-app.get("/student_enter_room", (req, res) => res.render("student_enter_room.ejs"));
+//app.get("/student_enter_room", (req, res) => res.render("student_enter_room.ejs"));
 // /flask 주소로 접속 시 5000번 port의 경로로 접속해서 response 받음
 app.get("/flask", async (req, res) => {
   const response = await axios.get("http://127.0.0.1:5000/flask");
@@ -164,6 +164,12 @@ app.get('/teacher_enter_room', 로그인했니, function (요청, 응답) {
   응답.render('teacher_enter_room.ejs', {사용자 : 요청.user});
 })
 
+app.get('/student_enter_room', 로그인했니, function (요청, 응답) {
+  console.log(요청.user); //요청.user에 deserialize로얻은 사용자의 정보 담겨있음
+
+  응답.render('student_enter_room.ejs', {사용자 : 요청.user});
+})
+
 function 로그인했니(요청, 응답, next) {
   if (요청.user) {
     next()
@@ -214,6 +220,9 @@ app.get('/create_course',function(req,res){
    // res.render('create_course.ejs');
     })
 });
+// app.get('/student_enter_room',function(req,res){
+//   res.render('student_enter_room.ejs',{member_id : req.user});
+// })
 //api/course 즉 강의개설 post 요청시 실행.
 app.post('/api/courses',function(req,res){
   db.collection('course_counter').findOne({name:'Total Course'},function(err,result){

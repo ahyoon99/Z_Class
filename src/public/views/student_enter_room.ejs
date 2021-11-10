@@ -6,12 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/style.css">
+     <!--제이쿼리 불러오기-->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Z-Class</title>
 </head>
 <body>
     
     <div id="outer">
         <h3>수업 입장</h3>
+        <h3>학생 이름 : <%= 사용자.name %></h3>
         수강할 과목을 선택해주세요.<p></p>
     <div class="inner">
         <select id="all_course" style="width:50%; display: inline" >
