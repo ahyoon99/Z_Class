@@ -47,7 +47,19 @@ app.use("/public", express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: false})); //URL 인코딩 안함
 app.use(bodyParser.json()); //
 
-app.use(session({secret: 'abcd', resave: true, saveUninitialized: false}));
+const sessionMiddleware = session({
+    secret: "asdfewrq",
+    resave: false,
+    saveUninitialized: true
+});
+
+//app.use(session({secret: 'abcd', resave: true, saveUninitialized: false}));
+
+
+wsServer.use(function(socket, next){
+    sessionMiddleware(socket.request, socket.request.res || {}, next);
+});
+app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -446,6 +458,7 @@ const pcConfig = {
 };
 
 wsServer.on("connection", (socket) => {
+    console.log(socket.request.session.passport);
     // 초기화
     userStreams[socket.id] = new webRTC.MediaStream();
     socket.sendPCs = [];
