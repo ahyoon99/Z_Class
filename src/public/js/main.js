@@ -3,3 +3,4 @@ btn_sign_up.addEventListener('click', (event)=>{
     event.preventDefault();
     window.location.href = '/user/sign_up';
 })
+

@@ -29,7 +29,7 @@ router.post('/sign-in', function(req, res){
             })
         }
         else{                                                   // db와 id, password가 일치하지 않는 경우
-            
+            res.send('아이디가 존재하지 않거나 비밀번호가 맞지 않습니다.');
         }
     });
 });
@@ -39,11 +39,46 @@ router.get('/user/sign_up', function(req,res){
     res.render('sign_up');
 })
 
+router.post('/user/sign_up', function (req, res) {
+    const input_id = req.body.id;
+    const input_password = req.body.password;
+    const input_name = req.body.name;
+    const input_type = req.body.job;
+    const input_grade = req.body.grade;
+    const input_phone_number = req.body.phone_number;
+    const input_affiliation = req.body.affiliation;
+    User
+        .findOne({'id': input_id})
+        .then((result) => {
+            if (result) {
+                res.send("user exists");
+            } else {
+                User
+                    .signUp({
+                        id: input_id,
+                        password: input_password,
+                        name: input_name,
+                        type: input_type,
+                        grade: input_grade,
+                        phone_number: input_phone_number,
+                        affiliation: input_affiliation
+                    })
+                    .then(newUser => {
+                        res.send('user created');
+                    })
+                    .catch(err => res.send(err));
+            }
+        })
+        .catch((err) => {
+            res.send(err)
+        });
+});
 
 // logout 버튼 누를 시 해당 주소로 이동, session을 삭제하고 메인 페이지로 redirect시킴
 router.get('/user/logout', function(req,res){
-    req.session.destroy();
-    res.redirect('/');
+    if(req.session)
+        req.session.destroy();
+    res.redirect('../');
 })
 
 module.exports = router;

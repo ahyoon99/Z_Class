@@ -12,28 +12,32 @@
 
     <body>
         <h1>Z-Class 회원가입</h1>
-        <form action="/sign-up" method="post">
+        <form action="/user/sign_up" method="post">
             <p>해당하는 것을 선택해주세요</p>
             <input type="radio" id="radio_student" name="job" value="student">
             <label for="radio_student">student</label>
             <input type="Radio" id="radio_teacher" name="job" value="teacher">
             <label for="radio_teacher">teacher</label>
-            <div>
-                id<input id="id" name="id" type="text">
-                pw<input id="password" name="password" type="password">
+            <div id="input_container" class="invisible">
+                아이디<input id="id" name="id" type="text">
+                비밀번호<input id="password" name="password" type="password">
+                비밀번호 확인<input id="password_repeat" name="password_repeat" type="password">
                 이름<input id="name" name="name" type="text">
-                <div>
-                    부모님 번호<input id="parent_phone_number" name="parent_phone_number" type="text">
+                <div id="student_container">
+                학년
+                <input id="grade" name="grade" type="text">
                 </div>
-                <div>
-                    번호<input id="phone_number" name="phone_number" type="text">
+                <div id="phone_number_label">번호
                 </div>
-            </div>
-            <button>back</button>
-            <button type="submit">sign-up</button>
-        </form>
+                <input id="phone_number" name="phone_number" type="text">
 
-        <script src="/public/js/main.js"></script>
+                    소속<input id="affiliation" name="affiliation" type="text">
+                <button type="submit">submit</button>
+            </div>
+        </form>
+        <button id="back">back</button>
+
+        <script src="/public/js/sign_up.js"></script>
     </body>
 
 </html>

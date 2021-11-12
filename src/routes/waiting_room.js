@@ -3,6 +3,12 @@ const User = require('../models/users');
 const router = express.Router();
 
 router.get('/', function(req, res){
+    if(!req.session.userInfo){
+        res.send('잘못된 접근입니다.');
+        return;
+    }
+
+
     // 세션에 저장해둔 id를 이용하여 db에서 유저 type을 확인
     User.findOne({'id':req.session.userInfo['id']})
         .exec((err, user)=>{
@@ -20,6 +26,7 @@ router.get('/', function(req, res){
                 return res.json(err);
             }
         });
+    
 });
 
 module.exports = router;
