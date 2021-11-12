@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Z-Class</title>
+        <link rel="stylesheet" href="/public/css/main.css">
+        <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
+    </head>
+
+    <body>
+        <h1>Z-Class 회원가입</h1>
+        <form action="/sign-up" method="post">
+            <p>해당하는 것을 선택해주세요</p>
+            <input type="radio" id="radio_student" name="job" value="student">
+            <label for="radio_student">student</label>
+            <input type="Radio" id="radio_teacher" name="job" value="teacher">
+            <label for="radio_teacher">teacher</label>
+            <div>
+                id<input id="id" name="id" type="text">
+                pw<input id="password" name="password" type="password">
+                이름<input id="name" name="name" type="text">
+                <div>
+                    부모님 번호<input id="parent_phone_number" name="parent_phone_number" type="text">
+                </div>
+                <div>
+                    번호<input id="phone_number" name="phone_number" type="text">
+                </div>
+            </div>
+            <button>back</button>
+            <button type="submit">sign-up</button>
+        </form>
+
+        <script src="/public/js/main.js"></script>
+    </body>
+
+</html>

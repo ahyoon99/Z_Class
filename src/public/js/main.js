@@ -1,9 +1,5 @@
-const btnSignUp = document.querySelector("#btnSignUp");
-btnSignUp.addEventListener("click", SignUp);
-
-
-
-function SignUp(event){
+const btn_sign_up = document.querySelector('#btn_sign_up');
+btn_sign_up.addEventListener('click', (event)=>{
     event.preventDefault();
-    window.location.href = 'pre_sign_up';
-}
+    window.location.href = '/user/sign_up';
+})
