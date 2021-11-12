@@ -77,8 +77,9 @@ router.post('/user/sign_up', function (req, res) {
 // logout 버튼 누를 시 해당 주소로 이동, session을 삭제하고 메인 페이지로 redirect시킴
 router.get('/user/logout', function(req,res){
     if(req.session)
-        req.session.destroy();
-    res.redirect('../');
+        req.session.destroy((err)=>{
+            res.redirect('../');
+        });
 })
 
 module.exports = router;
