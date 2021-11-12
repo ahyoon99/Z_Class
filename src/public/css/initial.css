@@ -1,3 +1,9 @@
+:root{
+    --border-color: #148F77;
+    --text-title-color: #0E6251;
+    --background-color: #D1F2EB;
+}
+
 * {
     font-family: '맑은 고딕';
     box-sizing: border-box;
@@ -5,5 +11,8 @@
 
 body {
     margin: 0;
-    background-color: #D1F2EB;
+    background-color: var(--background-color);
+}
+.invisible{
+    display:none;
 }
