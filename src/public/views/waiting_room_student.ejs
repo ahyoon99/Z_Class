@@ -4,15 +4,29 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Z-Class</title>
-        <link rel="stylesheet" href="/public/css/main.css">
+        <title>Z-Class 대기실</title>
+        <link rel="stylesheet" href="/public/css/waiting_room.css">
         <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
     </head>
 
     <body>
-        학생 페이지
-        <button id="btn_logout">Logout</button>
+        <div id="container">
+            <div id="top_container">
+                <span>Z-Class에 오신 것을 환영합니다 !</span>
+                <a ref=""><%=user_name%></a>
+                <button id="btn_logout">로그아웃</button>
+            </div>
+
+            <div id="main_container_student">
+                <div id="course_container">
+                    <ol id="course_list">
+
+                    </ol>
+                </div>
+                <button>수업 입장</button>
+            </div>
+        </div>
 
 
         <script src="/public/js/waiting_room.js"></script>

@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Z-Class</title>
+        <title>Z-Class에 오신 것을 환영합니다</title>
         <link rel="stylesheet" href="/public/css/main.css">
         <link rel="stylesheet" href="/public/css/initial.css">
         <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
@@ -14,12 +14,15 @@
     <body>
         <div id="container">
             <div id="main_container">
-                <form action="/sign-in" method="post">
-                    <input id="id" name="id" type="text">
-                    <input id="password" name="password" type="password">
-                    <button type="submit">sign-in</button>
-                    <button id="btn_sign_up">sign-up</button>
+                <h1>로그인</h1>
+                <form id="form_login"action="/user/sign_in" method="post">
+                    <input id="input_id" name="id" type="text" placeholder="아이디" required>
+                    <input id="input_password" name="password" type="password" placeholder="비밀번호" required>
+                    <button id="btn_sign_in" type="submit">로그인</button>
                 </form>
+                <a id="href_sign_up" href="/user/sign_up">회원가입</a>
+                <a id="href_find_id"href="/user/find_id">아이디 찾기</a>
+                <a id="hreffind_password"href="/user/find_password">비밀번호 찾기</a>
             </div>
         </div>
         <div class="move_title" id ="title1">Z-Class</div>

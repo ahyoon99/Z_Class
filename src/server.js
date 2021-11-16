@@ -14,7 +14,7 @@ const wsServer = socketIO(httpServer);
 httpServer.listen(3000);
 
 
-app.engine("html", require("ejs").renderFile);
+app.engine("html", ejs.renderFile);
 app.set("views", __dirname + "/public/views");
 app.set("view engine", "ejs");
 
@@ -27,11 +27,11 @@ app.use(express.json());
 // ############  mongoDB 연동  ############
 const mongoose = require('mongoose');
 const database = mongoose.connection;
-const database_address = 'mongodb+srv://ahyoon:0412@cluster0.gbv0x.mongodb.net/Z-Class?retryWrites=true&w=majority';
+const DATABASE_ADDRESS = 'mongodb+srv://ahyoon:0412@cluster0.gbv0x.mongodb.net/Z-Class?retryWrites=true&w=majority';
 
 // mongo DB와 주소를 이용해서 연결함
 mongoose
-    .connect(database_address)
+    .connect(DATABASE_ADDRESS)
     .then(()=>{
         console.log("#####  db connected  #####");
     })
@@ -41,18 +41,23 @@ mongoose
 // ############  session 설정  ############
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-
-app.use(session({
+const sessionMiddleware = session({
     secret: "MxIDI8WWNrl8mu8VvWJzk718vwR9bt",   // 암호화 하는 seed
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({                  // 세션 정보를 mongo DB에 저장
-        mongoUrl: database_address,
+        mongoUrl: DATABASE_ADDRESS,
         ttl: 24 * 60 * 60,                     // 세션 정보 db에 2주간 유지
         collectionName: "sessions",                 // db의 'session' collection에 저장
         autoRemove: 'native'
     })
-}));
+});
+app.use(sessionMiddleware);
+
+// socket에서도 session 정보를 읽도록 함
+wsServer.use((socket, next)=>{
+    sessionMiddleware(socket.request, {}, next);
+});
 
 
 // ############  router  #############
@@ -97,6 +102,8 @@ const pcConfig = {
 
 wsServer.on("connection", (socket) => {
     // 초기화
+    const socketSession = socket.request.session;       // socket에서 세션 사용, socketSession.userInfo['id'] 시 유저 아이디 얻음
+
     userStreams[socket.id] = new webRTC.MediaStream();
     socket.sendPCs = [];
     socket.join("Class");

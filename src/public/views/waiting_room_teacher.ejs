@@ -10,9 +10,24 @@
         <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
     </head>
 
-    <body>
-        선생님 페이지
-        <button id="btn_logout">Logout</button>
+    <div id="container">
+        <div id="top_container">
+            <span>Z-Class에 오신 것을 환영합니다 !</span>
+            <a><%=user_name%></a>
+            <button id="btn_logout">로그아웃</button>
+        </div>
+
+        <div id="main_container_teacher">
+            <div id="course_container">
+                <ol id="course_list">
+                    
+                </ol>
+            </div>
+            <button id="btn_modify_course">강의 수정</button>
+            <button id="btn_enter_course">강의 입장</button>
+            <button id="btn_make_course">새 강의 개설</button>
+        </div>
+    </div>
 
 
         <script src="/public/js/waiting_room.js"></script>

@@ -1,4 +1,5 @@
 const express = require('express');
+const User = require('../models/users');
 const router = express.Router();
 
 router.get('/', function(req, res){
@@ -9,10 +10,10 @@ router.get('/', function(req, res){
                 return res.json(err);
             if(user){                       // 학생읜 경우와 선생님인 경우를 구별하여 각각에 해당하는 페이지 render
                 if(user.type==='student'){
-                    res.render('class_student');
+                    res.render('class_student.html');
                 }
                 else if(user.type==='teacher'){
-                    res.render('class_teacher');
+                    res.render('class_teacher.html');
                 }
             }
             else{

@@ -15,24 +15,24 @@
         <h1>Z-Class 회원가입</h1>
         <form action="/user/sign_up" method="post">
             <p>해당하는 것을 선택해주세요</p>
-            <input type="radio" id="radio_student" name="job" value="student">
-            <label for="radio_student">student</label>
+            <input type="radio" id="radio_student" name="job" value="student" required="required">
+            <label for="radio_student">학생</label>
             <input type="Radio" id="radio_teacher" name="job" value="teacher">
-            <label for="radio_teacher">teacher</label>
+            <label for="radio_teacher">선생님</label>
             <div id="input_container" class="invisible">
-                아이디<input id="id" name="id" type="text">
-                비밀번호<input id="password" name="password" type="password">
-                비밀번호 확인<input id="password_repeat" name="password_repeat" type="password">
-                이름<input id="name" name="name" type="text">
+                아이디<input id="id" name="id" type="text" required>
+                비밀번호<input id="password" name="password" type="password" required>
+                비밀번호 확인<input id="password_repeat" name="password_repeat" type="password" required>
+                이름<input id="name" name="name" type="text" required>
                 <div id="student_container">
                 학년
                 <input id="grade" name="grade" type="text">
                 </div>
                 <div id="phone_number_label">번호
                 </div>
-                <input id="phone_number" name="phone_number" type="text">
+                <input id="phone_number" name="phone_number" type="text" required>
 
-                    소속<input id="affiliation" name="affiliation" type="text">
+                    소속<input id="affiliation" name="affiliation" type="text" required>
                 <button type="submit">submit</button>
             </div>
         </form>

@@ -8,7 +8,9 @@ const usersSchema = new mongoose.Schema({
     grade: {type: Number, min:1, max:6},
     phone_number: {type: String, require: true},
     affiliation: {type: String, require: true},
+    courses: [{type:mongoose.Schema.Types.ObjectId, ref:'courses'}]
 },{versionKey:false});
+
 
 usersSchema.statics.signUp = function(userInfo){
     const user = new this(userInfo);
