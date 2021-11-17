@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Z-Class 강의 수정</title>
+        <link rel="stylesheet" href="/public/css/initial.css">
+        <link rel="stylesheet" href="/public/css/waiting_room.css">
+        <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
+    </head>
+
+    <body>
+
+        <form action="/waiting_room/make_course" method="post">
+            <input type="text" name="title" placeholder="강의명" required="required">
+            <button type="button" id="btn_add_course">강의 시간 추가</button>
+            <button type="button" id="btn_remove_course">강의 시간 삭제</button>
+            <!-- 수업 요일 & 시작 시간이 담김, 추가 / 삭제가 이 안에서 이루어짐 -->
+            <div class="class_container">
+                <!-- 수업 요일 -->
+                <div id="day1_container">
+                    <div class="day_container">
+                        <input type="radio" name="day1" value="Son." required="required">
+                        <label for="Son.">일요일</label>
+                        <input type="radio" name="day1" value="Mon.">
+                        <label for="Mon.">월요일</label>
+                        <input type="radio" name="day1" value="Tue.">
+                        <label for="Tue.">화요일</label>
+                        <input type="radio" name="day1" value="Wed.">
+                        <label for="Wed.">수요일</label>
+                        <input type="radio" name="day1" value="Thu.">
+                        <label for="Thu.">목요일</label>
+                        <input type="radio" name="day1" value="Fri.">
+                        <label for="Fri.">금요일</label>
+                        <input type="radio" name="day1" value="Sat.">
+                        <label for="Sat.">토요일</label>
+                    </div>
+                    <!-- 수업 시작 시간 -->
+                    <div class="time_container">
+                        수업 시작 시간<input type="time" name="time1" required="required">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 선생님과 같은 소속인 학생들의 checkbox가 담김, 강의를 수강하는 학생들을 체크-->
+            <div id="students_container">
+                <!-- 학생들의 checkbox를 ejs로 생성 -->
+                <% for (let i=0; i < students.length; i++ ){ %>
+                    <input type="checkbox" name="student" value="<%=students[i]._id%>">
+                    <label for="<%=students[i].id%>"><%=students[i].name%>,
+                        <%=students[i].grade%>학년</label>
+                <% } %>
+            </div>
+            <button id="btn_submit">생성</button>
+        </form>
+        <button id="btn_back">취소</button>
+
+        <script src="/public/js/make_course.js"></script>
+    </body>
+
+</html>

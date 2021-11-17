@@ -21,7 +21,10 @@
             <div id="main_container_student">
                 <div id="course_container">
                     <ol id="course_list">
-
+                        <% for (let i=0; i < user_courses.length; i++ ){ %>
+                            <li><%=user_courses[i].title%></li>
+                               
+                        <% } %>
                     </ol>
                 </div>
                 <button>수업 입장</button>

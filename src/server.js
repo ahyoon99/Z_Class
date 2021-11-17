@@ -70,6 +70,10 @@ app.use('/', mainRouter);
 const waiting_roomRouter = require('./routes/waiting_room');
 app.use('/waiting_room', waiting_roomRouter);
 
+// # 강의 관련 페이지 # 
+const courseRouter = require('./routes/course');
+app.use('/course', courseRouter);
+
 // # 강의 화면 #            같은 강의에 속한 학생과 선생님이 화상 수업을 하는 페이지
 const classRouter = require('./routes/class');
 app.use('/class', classRouter);

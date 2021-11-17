@@ -18,13 +18,20 @@
         </div>
 
         <div id="main_container_teacher">
+            <form action="/course/modify" method="post">
             <div id="course_container">
-                <ol id="course_list">
+                <div id="course_list">
                     
-                </ol>
+                    <% for (let i=0; i < user_courses.length; i++ ){ %>
+                        <label><input type="radio" name="course_objectId" value="<%=user_courses[i]._id%>" id="<%=user_courses[i]._id%>" required="required">
+                        <%=user_courses[i].title%></label>
+                           
+                    <% } %>
+                </div>
             </div>
             <button id="btn_modify_course">강의 수정</button>
             <button id="btn_enter_course">강의 입장</button>
+            </form>
             <button id="btn_make_course">새 강의 개설</button>
         </div>
     </div>

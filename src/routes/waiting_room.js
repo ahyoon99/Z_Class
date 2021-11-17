@@ -4,29 +4,22 @@ const Course = require('../models/courses');
 const router = express.Router();
 
 //  ##########  /waiting_room 주소로 접속 시
-router.get('/', function(req, res){
+router.get('/', async (req, res) =>{
     if(!req.session.userInfo){
         return res.send('잘못된 접근입니다.');
     }
 
-    // 세션에 저장해둔 id를 이용하여 db에서 유저 type을 확인
-    User.findOne({'id':req.session.userInfo['id']})
-        .exec((err, user)=>{
-            if(err)
-                return res.json(err);
-            if(user){                       // 학생읜 경우와 선생님인 경우를 구별하여 각각에 해당하는 페이지 render
-                if(user.type==='student'){
-                    res.render('waiting_room_student',{user_name: req.session.userInfo['name']});
-                }
-                else if(user.type==='teacher'){
-                    res.render('waiting_room_teacher',{user_name: req.session.userInfo['name']});
-                }
-            }
-            else{
-                return res.json(err);
-            }
-        });
-    
+    let courses;
+
+
+    if(req.session.userInfo['type']==='student'){
+        courses = await Course.findCourses('student', req.session.userInfo['object_id']);
+        res.render('waiting_room_student',{user_name: req.session.userInfo['name'], user_courses: courses});
+    }
+    else if(req.session.userInfo['type']==='teacher'){
+        courses = await Course.findCourses('teacher', req.session.userInfo['object_id']);
+        res.render('waiting_room_teacher',{user_name: req.session.userInfo['name'], user_courses: courses});
+    }
 });
 
 //  ##########  /waiting_room/make_course 주소로 접속 시
@@ -72,6 +65,5 @@ router.post('/make_course', function (req, res) {
     })
     .catch(err=>res.json(err));
 });
-
 
 module.exports = router;

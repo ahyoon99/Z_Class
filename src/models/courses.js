@@ -13,13 +13,24 @@ const coursesSchema = new mongoose.Schema({
 //  인수로 강의명 (String), 시간 (Object{day, time})
 //          선생님 objectId, 학생들의 ObjectId의 배열
 coursesSchema.statics.createCourse = function(_title, _times, _teacher_id, _students){
+    const student_ids = [];
+    _students.forEach(_student => {
+        student_ids.push(mongoose.Types.ObjectId(_student));
+    });
     const new_course = new this({
         title:_title,
         time: _times,
         teacher: _teacher_id,
-        students: _students
+        students: student_ids
     });
     return new_course.save();
+}
+
+coursesSchema.statics.findCourses = async function(_user_type, _objectId){
+    if(_user_type==='student')
+        return this.find({'students':_objectId});
+    else if(_user_type==='teacher')
+        return this.find({'teacher':_objectId});
 }
 
 module.exports = mongoose.model('courses', coursesSchema);
