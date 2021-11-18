@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/users');
+const Course = require('../models/courses');
 const router = express.Router();
 
 
@@ -12,15 +13,58 @@ router.post('/modify', function (req, res) {
 });
 
 
-router.get('/modify', function (req, res){
+router.get('/modify', async function (req, res){
     if (!req.session.userInfo) 
         return res.send('잘못된 접근입니다.');
 
+    // 선택한 course의 objectId를 이용하여 course의 정보 가져옴
     const course_objectId = req.query.course_objectId;
+    const course = await Course.findOne({'_id':course_objectId});
+    // 선생님과 같은 소속인 학생들의 배열
+    const students = await User.findSameAffiliation(req.session.userInfo['affiliation'], req.session.userInfo['type']);
 
-    // ++++++  objectId로 course 찾아서 정보 받아다가 web으로 넘겨주고 ejs에서 받아서 상태 보여주고 수정 기능 추가해야함
+    // 코스의 선생님 objectId와 자신의 objectId가 다를 경우 권한 없음
+    if(course.teacher.toString() !== req.session.userInfo['objectId'])
+        return res.send('잘못된 접근입니다.');
 
+    
+    res.render('modify_course',{course_info: course, students_info: students});
+});
 
-    res.render('modify_course');
+router.post('/modify_course', async function (req, res){
+    
+    const course_objectId = req.body.course_objectId;
+    
+    const input_title = req.body.title;
+    const input_day_n_time = [{
+            day: req.body.day1,
+            time: req.body.time1
+        }];
+
+    //  강의 시간 추가되었을 경우에 추가적으로 저장
+    if (req.body.day2) 
+        input_day_n_time.push({day: req.body.day2, time: req.body.time2});
+    if (req.body.day3) 
+        input_day_n_time.push({day: req.body.day3, time: req.body.time3});
+    if (req.body.day4) 
+        input_day_n_time.push({day: req.body.day4, time: req.body.time4});
+    if (req.body.day5) 
+        input_day_n_time.push({day: req.body.day5, time: req.body.time5});
+    const input_students = req.body.student;
+
+    const course_data = {title:input_title, time: input_day_n_time, teacher: req.session.userInfo['objectId'], students:input_students};
+    // object_id로 외래키 참조
+    await Course.modifyCourse(course_objectId, course_data);
+    
+    res.send('수정 완료');
+});
+
+router.post('/delete_course', async function (req, res){
+
+    const course_objectId = req.body.course_objectId;
+
+    await Course.deleteCourse(course_objectId);
+    
+    res.send('삭제 완료');
 });
 module.exports = router;

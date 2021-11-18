@@ -13,11 +13,11 @@ router.get('/', async (req, res) =>{
 
 
     if(req.session.userInfo['type']==='student'){
-        courses = await Course.findCourses('student', req.session.userInfo['object_id']);
+        courses = await Course.findCourses('student', req.session.userInfo['objectId']);
         res.render('waiting_room_student',{user_name: req.session.userInfo['name'], user_courses: courses});
     }
     else if(req.session.userInfo['type']==='teacher'){
-        courses = await Course.findCourses('teacher', req.session.userInfo['object_id']);
+        courses = await Course.findCourses('teacher', req.session.userInfo['objectId']);
         res.render('waiting_room_teacher',{user_name: req.session.userInfo['name'], user_courses: courses});
     }
 });
@@ -59,7 +59,7 @@ router.post('/make_course', function (req, res) {
     const input_students = req.body.student;
 
     // object_id로 외래키 참조
-    Course.createCourse(input_title, input_day_n_time, req.session.userInfo['object_id'], input_students)
+    Course.createCourse(input_title, input_day_n_time, req.session.userInfo['objectId'], input_students)
     .then(newCourse=>{
         res.send('강의 생성 완료');
     })

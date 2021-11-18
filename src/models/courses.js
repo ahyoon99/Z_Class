@@ -33,4 +33,22 @@ coursesSchema.statics.findCourses = async function(_user_type, _objectId){
         return this.find({'teacher':_objectId});
 }
 
+coursesSchema.statics.modifyCourse = async function(_objectId, _data){
+    const course = await this.findOne({'_id':_objectId});
+    course.title = _data.title;
+    course.time = _data.time;
+    course.teacher = _data.teacher;
+
+    const student_ids = [];
+    _data.students.forEach(_student => {
+        student_ids.push(mongoose.Types.ObjectId(_student));
+    });
+    course.students = student_ids;
+
+    return course.save();
+}
+
+coursesSchema.statics.deleteCourse = async function(_objectId){
+    return this.deleteOne({'_id':_objectId});
+}
 module.exports = mongoose.model('courses', coursesSchema);

@@ -19,4 +19,11 @@ usersSchema.statics.signUp = function(userInfo){
     return user.save();
 }
 
+usersSchema.statics.findSameAffiliation = function(_affiliation, _type){
+    if(_type==='teacher')
+        return this.find({'affiliation':_affiliation, 'type':'student'});
+    else if(_type==='student')
+        return this.find({'affiliation':_affiliation,'type':'teacher'})
+}
+
 module.exports = mongoose.model('users', usersSchema);
