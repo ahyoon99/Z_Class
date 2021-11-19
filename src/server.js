@@ -17,6 +17,7 @@ httpServer.listen(3000);
 app.engine("html", ejs.renderFile);
 app.set("views", __dirname + "/public/views");
 app.set("view engine", "ejs");
+app.set('socketIO', wsServer);
 
 
 app.use("/public", express.static(__dirname + "/public"));
@@ -93,7 +94,7 @@ app.get("/flask", async (req, res) => {
 
 //  ######## socket.io 관련 부분  #########
 
-let sockets = []; // 연결된 socket들을 저장하는 배열
+let sockets = {}; // 연결된 socket들을 저장하는 배열
 let userStreams = {}; // sendPC로부터 받아온 stream을 저장
 
 const pcConfig = {
@@ -104,23 +105,25 @@ const pcConfig = {
     ]
 };
 
-wsServer.on("connection", (socket) => {
-    // 초기화
-    const socketSession = socket.request.session;       // socket에서 세션 사용, socketSession.userInfo['id'] 시 유저 아이디 얻음
-
-    userStreams[socket.id] = new webRTC.MediaStream();
-    socket.sendPCs = [];
-    socket.join("Class");
+wsServer.on('connection', (socket) => {
+    const socketSession = socket.request.session;
 
     socket.on("signUp_getPic", (_data, _i) => {
         console.log("data 받음");
         fs.writeFile(`data/face_pic/pic${_i}.png`, _data, (_err) => {});
     });
 
+    socket.on('first_join', () => {
+        socket.join(socketSession.course_objectId);
+        if(!sockets[socketSession.course_objectId])
+            sockets[socketSession.course_objectId] = [];
+        userStreams[socket.id] = new webRTC.MediaStream();
+        socket.sendPCs = [];
+    })
+
     // client의 offer 받고 answer 보냄
     socket.on("sendOffer", async (_offer) => {
         try {
-            sockets.push(socket);
             console.log("send offer 받음");
             socket.receivePC = new webRTC.RTCPeerConnection(pcConfig);
             socket.receivePC.onicecandidate = (_data) => {
@@ -147,14 +150,15 @@ wsServer.on("connection", (socket) => {
                 userStreams[socket.id].addTrack(_data.track);
                 // 데이터 넣는 것을 완료한 뒤에 기존 접속자에게 새로운 접속자의 mediastream을 받을 연결 생성
                 socket
-                    .to("Class")
+                    .to(socketSession.course_objectId)
                     .emit("newUserJoined", socket.id);
                 // 기존 접속자들의 영상 얻기
-                sockets
-                    .filter((_socket) => _socket.id !== socket.id)
-                    .forEach((_socket) => {
-                        socket.emit("addOldUser", _socket.id);
+                sockets[socketSession.course_objectId]
+                .filter((_socket) => _socket.id !== socket.id)    
+                .forEach((_socket) => {
+                        socket.emit("addOldUser", _socket.id, _socket.request.session.userInfo['type']);
                     });
+                sockets[socketSession.course_objectId].push(socket);
             };
 
             await socket
@@ -173,6 +177,7 @@ wsServer.on("connection", (socket) => {
         }
     });
 
+    
     socket.on("sendIce", (_candidate) => {
         console.log("send ice candidate 받음");
         socket
@@ -221,7 +226,6 @@ wsServer.on("connection", (socket) => {
             console.log(e);
         }
     });
-
     socket.on("receiveIce", (_candidate, _id) => {
         console.log("receive ice candidate 추가");
         const temp = socket
@@ -233,16 +237,31 @@ wsServer.on("connection", (socket) => {
     });
 
     socket.on("disconnecting", () => {
-        sockets = sockets.filter((_socket) => _socket.id !== socket.id);
+        sockets[socketSession.course_objectId] = sockets[socketSession.course_objectId].filter((_socket) => _socket.id !== socket.id);
         socket
-            .to("Class")
+            .to(socketSession.course_objectId)
             .emit("userExit", socket.id);
     });
 
     socket.on("sendChat", (_msg, _id) => {
         console.log("메시지 받음");
         socket
-            .to("Class")
+            .to(socketSession.course_objectId)
             .emit("receiveChat", _msg, _id);
-    })
+    });
 });
+
+/*
+wsServer.on("connection", (socket) => {
+    // 초기화
+    const socketSession = socket.request.session;       // socket에서 세션 사용, socketSession.userInfo['id'] 시 유저 아이디 얻음
+
+    userStreams[socket.id] = new webRTC.MediaStream();
+    socket.sendPCs = [];
+    socket.join("Class");
+
+
+
+
+
+*/

@@ -22,10 +22,13 @@ if(document.querySelector("#container_teacher"))
 
 // 시작 전 사용자의 미디어를 받아오고
 // 서버에 미디어를 송신하기 위한 rtcpeerconnection 생성
+
+
 InitializeToStart();
 
 async function InitializeToStart() {
     try {
+        socket.emit('first_join');
         // await 이유 : offer 생성 전 stream 먼저 받아둬야함
         await GetMyStream(); 
         CreateSendOffer();
@@ -159,22 +162,22 @@ socket.on("sendIce", (_candidate) => {
 socket.on("newUserJoined", (_id) => {
     if (!myReceivePCs[_id]) {
         console.log("#####  새 유저 입장");
-        CreateReceiveOffer(_id);
+        CreateReceiveOffer(_id, 'student');
     }
 });
 
-socket.on("addOldUser", (_id) => {
+socket.on("addOldUser", (_id, _type) => {
     if (!myReceivePCs[_id]) {
         console.log(`#####  기존 유저 추가: ${_id}`);
-        CreateReceiveOffer(_id);
+        CreateReceiveOffer(_id, _type);
     }
 });
 
 // 다른 client들의 stream을 받기 위한 연결
 
-async function CreateReceiveOffer(_id) {
+async function CreateReceiveOffer(_id, _type) {
     try {
-        await MakeReceiveConnection(_id);
+        await MakeReceiveConnection(_id, _type);
         console.log("@@@@@  receive offer 생성");
         const offer = await myReceivePCs[_id].pc.createOffer({
             offerToReceiveVideo: true, offerToReceiveAudio: true
@@ -185,7 +188,7 @@ async function CreateReceiveOffer(_id) {
         console.log(e);
     }
 }
-function MakeReceiveConnection(_id) {
+function MakeReceiveConnection(_id, _type) {
     myReceivePCs[_id] = {
         pc: new RTCPeerConnection(pcConfig),
         stream: new MediaStream()
@@ -202,7 +205,10 @@ function MakeReceiveConnection(_id) {
         myReceivePCs[_id].stream.addTrack(_data.track);
     };
 
-    makeMediaContainer(_id, myReceivePCs[_id].stream, "상대 이름");
+    if(_type==='student')
+        makeMediaContainer(_id, myReceivePCs[_id].stream, "상대 이름");
+    else if(_type==='teacher')
+        teacherMedia.srcObject = myReceivePCs[_id].stream
     console.log("#####  다른 사용자 VIDEO 생성");
 }
 

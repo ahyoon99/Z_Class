@@ -18,7 +18,7 @@
         </div>
 
         <div id="main_container_teacher">
-            <form action="/course/modify" method="post">
+            <form method="post">
             <div id="course_container">
                 <div id="course_list">
                     
@@ -29,8 +29,8 @@
                     <% } %>
                 </div>
             </div>
-            <button id="btn_modify_course">강의 수정</button>
-            <button id="btn_enter_course">강의 입장</button>
+            <button id="btn_modify_course" formaction="/course/modify">강의 수정</button>
+            <button id="btn_enter_course" formaction="/class">강의 입장</button>
             </form>
             <button id="btn_make_course">새 강의 개설</button>
         </div>

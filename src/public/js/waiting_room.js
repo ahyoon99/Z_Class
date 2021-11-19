@@ -8,5 +8,5 @@ btn_logout.addEventListener('click',(event)=>{
 const btn_make_course = document.querySelector("#btn_make_course");
 btn_make_course.addEventListener('click', (event)=>{
     event.preventDefault();
-    window.location.href = '/waiting_room/make_course';
+    window.location.href = '/course/make_course';
 });
