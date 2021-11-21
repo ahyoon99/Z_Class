@@ -14,19 +14,31 @@
     <body>
         <div id="container">
             <div id="main_container">
-                <h1>로그인</h1>
-                <form id="form_login"action="/user/sign_in" method="post">
-                    <input id="input_id" name="id" type="text" placeholder="아이디" required>
-                    <input id="input_password" name="password" type="password" placeholder="비밀번호" required>
+                <div id="title">Z-Class</div>
+                <form id="form_login" action="/user/sign_in" method="post">
+                    <input
+                        id="input_id"
+                        name="id"
+                        type="text"
+                        placeholder="아이디"
+                        required="required">
+                    <input
+                        id="input_password"
+                        name="password"
+                        type="password"
+                        placeholder="비밀번호"
+                        required="required">
                     <button id="btn_sign_in" type="submit">로그인</button>
                 </form>
-                <a id="href_sign_up" href="/user/sign_up">회원가입</a>
-                <a id="href_find_id"href="/user/find_id">아이디 찾기</a>
-                <a id="hreffind_password"href="/user/find_password">비밀번호 찾기</a>
+                <div id="href_container">
+                    <a id="href_sign_up" href="/user/sign_up">회원가입</a>
+                    <a id="href_find_id" href="/user/find_id">아이디 찾기</a>
+                    <a id="href_find_password" href="/user/find_password">비밀번호 찾기</a>
+                </div>
             </div>
+            <div class="move_title" id="title1">Z-Class</div>
         </div>
-        <div class="move_title" id ="title1">Z-Class</div>
+
         <script src="/public/js/main.js"></script>
     </body>
-
 </html>

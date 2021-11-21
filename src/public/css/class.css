@@ -295,6 +295,10 @@ body{
     margin: 0.3rem;
     clear: both;
 }
+#chat_content_teacher {
+    color: #73C6B6;
+    float: left;
+}
 #chat_name_other {
     color: #73C6B6;
     float: left;
@@ -312,6 +316,10 @@ body{
     clear: both;
 }
 #chat_content_other {
+    background-color: #A2D9CE;
+    float: left;
+}
+#chat_content_teacher {
     background-color: #A2D9CE;
     float: left;
 }

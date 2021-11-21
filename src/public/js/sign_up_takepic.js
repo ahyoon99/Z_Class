@@ -55,7 +55,7 @@ function GetPic(event) {
   setTimeout(() => {
     clearInterval(intervalId);
     btnGetPic.disabled = false; // 캡쳐 버튼 활성화
-  }, 2500);
+  }, 20000);
 }
 
 function sendPicToServer() {

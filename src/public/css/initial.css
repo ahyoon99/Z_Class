@@ -1,7 +1,12 @@
 :root{
-    --border-color: #148F77;
+    --border-color: #1C2833;
     --text-title-color: #0E6251;
-    --background-color: #D1F2EB;
+    --primary-color-1: #E8F8F5;
+    --primary-color-2: #D1F2EB;
+    --primary-color-3: #A3E4D7;
+    --primary-color-4: #76D7C4;
+    --primary-color-9: #76D7C4;
+    --background-color: linear-gradient(180deg, #D1F2EB 0%, #76D7C4 100%);
 }
 
 * {
@@ -11,7 +16,11 @@
 
 body {
     margin: 0;
-    background-color: var(--background-color);
+}
+
+#container{ 
+    background: var(--background-color);
+    z-index: -100;
 }
 
 .invisible{

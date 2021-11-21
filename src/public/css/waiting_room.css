@@ -1,0 +1,55 @@
+#top_container{
+    position:fixed;
+    top:0;
+    width:100%;
+    height:2rem;
+    background-color: rgba(0,0,0,0.25);
+    display:flex;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+#top_container span{
+    flex-basis: 75%;
+}
+
+#user_btn_container{
+    flex-basis: 25%;
+}
+#main_container{
+}
+
+form{
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#course_container{
+    width:100%;
+    flex-basis: 80%;
+}
+#course_list{
+    
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height:100%;
+}
+#btn_enter_course{
+    flex-basis:10%;
+    width:100%;
+}
+#sub_btn_container{
+
+    flex-basis:10%;
+    display:flex;
+}
+
+#btn_modify_course{
+    flex:1;
+}
+#btn_make_course{
+    flex:1;
+}

@@ -83,5 +83,9 @@ router.get('/user/logout', function(req,res){
         });
 })
 
+router.get('/user/take_pic', function(req,res){
+    res.render('sign_up_takepic.html');
+})
+
 module.exports = router;
 

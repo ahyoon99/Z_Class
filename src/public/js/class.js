@@ -21,7 +21,7 @@ if(document.querySelector("#container_teacher"))
     isTeacher=true;
 
 // 시작 전 사용자의 미디어를 받아오고
-// 서버에 미디어를 송신하기 위한 rtcpeerconnection 생성
+// 서버에 미디어를 송신하기 위한 rtcPeerConnection 생성
 
 
 InitializeToStart();
@@ -91,7 +91,7 @@ function makeMediaContainer(_id, _stream, _name){
     nameElement.className="studentName";
     nameElement.innerText= _name;
     if(_id==="me")
-        nameElement.innerText+=" (나)";
+        nameElement.innerText = "나";
     
     // 영상과 이름 담을 공간
     const mediaContainer = document.createElement('div');
@@ -124,7 +124,7 @@ async function makeSendConnection() {
     mySendPC = new RTCPeerConnection(pcConfig);
 
     // sdp 결정 후 자신의 ice candidate 확보될 경우 이벤트 발생 ice(Interactive Connectivity
-    // Esablishment) peer간 ice candidate를 서로 교환하며 최적의 경로를 찾음 가능한 모든 candidate를 모두 전송
+    // Establishment) peer간 ice candidate를 서로 교환하며 최적의 경로를 찾음 가능한 모든 candidate를 모두 전송
     // _data.candidate가 null인 경우도 있으므로 null이 아닌 것만 보내줘야함 서로의 ice candidate를
     // addIceCandidate 함수를 사용해 등록해주면 됨
     mySendPC.onicecandidate = (_data) => {
@@ -159,25 +159,25 @@ socket.on("sendIce", (_candidate) => {
 
 // ################ 다른 사용자가 접속 시 or 기존에 접속한 사용자 확인
 
-socket.on("newUserJoined", (_id) => {
+socket.on("newUserJoined", (_id, _name) => {
     if (!myReceivePCs[_id]) {
         console.log("#####  새 유저 입장");
-        CreateReceiveOffer(_id, 'student');
+        CreateReceiveOffer(_id, 'student', _name);
     }
 });
 
-socket.on("addOldUser", (_id, _type) => {
+socket.on("addOldUser", (_id, _type, _name) => {
     if (!myReceivePCs[_id]) {
         console.log(`#####  기존 유저 추가: ${_id}`);
-        CreateReceiveOffer(_id, _type);
+        CreateReceiveOffer(_id, _type, _name);
     }
 });
 
 // 다른 client들의 stream을 받기 위한 연결
 
-async function CreateReceiveOffer(_id, _type) {
+async function CreateReceiveOffer(_id, _type, _name) {
     try {
-        await MakeReceiveConnection(_id, _type);
+        await MakeReceiveConnection(_id, _type, _name);
         console.log("@@@@@  receive offer 생성");
         const offer = await myReceivePCs[_id].pc.createOffer({
             offerToReceiveVideo: true, offerToReceiveAudio: true
@@ -188,7 +188,7 @@ async function CreateReceiveOffer(_id, _type) {
         console.log(e);
     }
 }
-function MakeReceiveConnection(_id, _type) {
+function MakeReceiveConnection(_id, _type, _name) {
     myReceivePCs[_id] = {
         pc: new RTCPeerConnection(pcConfig),
         stream: new MediaStream()
@@ -206,7 +206,7 @@ function MakeReceiveConnection(_id, _type) {
     };
 
     if(_type==='student')
-        makeMediaContainer(_id, myReceivePCs[_id].stream, "상대 이름");
+        makeMediaContainer(_id, myReceivePCs[_id].stream, _name);
     else if(_type==='teacher')
         teacherMedia.srcObject = myReceivePCs[_id].stream
     console.log("#####  다른 사용자 VIDEO 생성");
@@ -271,10 +271,10 @@ function EnterMessage(event) {
             return;
         
         // socket.id 는 사용자 명으로 바꾸면 됨
-        socket.emit("sendChat", msg, socket.id);
+        socket.emit("sendChat", msg);
 
         // 내가 보낸 메시지를 내 채팅창에 띄움
-        makeMessage(msg, socket.id, true);
+        makeMessage(msg, '나', 'me');
 
         // 메시지 보냈으므로 스크롤 최신화
         messageBox.scrollTo(0, messageBox.scrollHeight);
@@ -285,12 +285,12 @@ function EnterMessage(event) {
 const messageBox = document.querySelector("#messageBox");
 
 // 채팅 메시지를 서버로부터 받은 경우
-socket.on("receiveChat", (_msg, _id) => {
+socket.on("receiveChat", (_msg, _name, _type) => {
 
-    makeMessage(_msg,_id, false);
+    makeMessage(_msg, _name, _type);
 
     let canScroll = false;
-    if (Math.abs(messageBox.scrollTop - (messageBox.scrollHeight - messageBox.clientHeight)) <= 1) {
+    if (Math.abs(messageBox.scrollTop - (messageBox.scrollHeight - messageBox.clientHeight)) <= 5) {
         canScroll = true;
     }
     if (canScroll) {
@@ -299,26 +299,27 @@ socket.on("receiveChat", (_msg, _id) => {
 
 });
 
-function makeMessage(_msg, _id, _isMe){
+function makeMessage(_msg, _name, _type){
     const msg_box = document.createElement('div');
     const msg_name = document.createElement('span');
     const msg_content = document.createElement('div');
-    if (lastChattedName !== _id) 
+    if (lastChattedName !== _name) 
         msg_box.appendChild(msg_name);
     
-    if(_isMe){
+    if(_type==='me'){
         msg_name.id = "chat_name_me";
         msg_content.id = "chat_content_me";
+    }else if(_type ==='teacher'){
+        msg_name.id = "chat_name_student";
+        msg_content.id = "chat_name_student";
     }
     else{
         msg_name.id = "chat_name_other";
         msg_content.id = "chat_content_other";
     }
-
-    msg_name.innerText = _id;
-    lastChattedName = _id;
+    msg_name.innerText = _name;
+    lastChattedName = _name;
     msg_content.innerText = _msg;
-
 
     msg_name.classList.add("chat_name");
     msg_content.classList.add("chat_content");
@@ -375,3 +376,12 @@ btnExit.addEventListener("click", (event)=>{
 
 
 //  #################################################
+
+socket.on('classClosed', ()=>{
+    window.alert('수업이 종료되었습니다 !!!');
+    socket.emit('runFunction',2000,GoBack);
+});
+
+function GoBack(){
+    window.location.href = '/waiting_room';
+}

@@ -110,7 +110,7 @@ wsServer.on('connection', (socket) => {
 
     socket.on("signUp_getPic", (_data, _i) => {
         console.log("data 받음");
-        fs.writeFile(`data/face_pic/pic${_i}.png`, _data, (_err) => {});
+        fs.writeFile(`data/face_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
     });
 
     socket.on('first_join', () => {
@@ -148,15 +148,15 @@ wsServer.on('connection', (socket) => {
         */
                 //stream에 track 추가
                 userStreams[socket.id].addTrack(_data.track);
-                // 데이터 넣는 것을 완료한 뒤에 기존 접속자에게 새로운 접속자의 mediastream을 받을 연결 생성
+                // 데이터 넣는 것을 완료한 뒤에 기존 접속자에게 새로운 접속자의 media  stream을 받을 연결 생성
                 socket
                     .to(socketSession.course_objectId)
-                    .emit("newUserJoined", socket.id);
+                    .emit("newUserJoined", socket.id, socketSession.userInfo['name']);
                 // 기존 접속자들의 영상 얻기
                 sockets[socketSession.course_objectId]
                 .filter((_socket) => _socket.id !== socket.id)    
                 .forEach((_socket) => {
-                        socket.emit("addOldUser", _socket.id, _socket.request.session.userInfo['type']);
+                        socket.emit("addOldUser", _socket.id, _socket.request.session.userInfo['type'], _socket.request.session.userInfo['name']);
                     });
                 sockets[socketSession.course_objectId].push(socket);
             };
@@ -237,31 +237,29 @@ wsServer.on('connection', (socket) => {
     });
 
     socket.on("disconnecting", () => {
+        if(sockets[socketSession.course_objectId]){
         sockets[socketSession.course_objectId] = sockets[socketSession.course_objectId].filter((_socket) => _socket.id !== socket.id);
         socket
             .to(socketSession.course_objectId)
             .emit("userExit", socket.id);
+        }
+        
+        // 선생님 퇴장 시 방 폭파
+        if(socketSession.userInfo['type']==='teacher'){
+            socket
+            .to(socketSession.course_objectId)
+            .emit("classClosed");
+        }
+        socket.leave(socketSession.course_objectId);
     });
 
-    socket.on("sendChat", (_msg, _id) => {
-        console.log("메시지 받음");
+    socket.on("sendChat", (_msg) => {
         socket
             .to(socketSession.course_objectId)
-            .emit("receiveChat", _msg, _id);
+            .emit("receiveChat", _msg, socketSession.userInfo.name, socketSession.userInfo['type']);
     });
+
+    socket.on('runFunction', (_time, _func)=>{
+        _func();
+    })
 });
-
-/*
-wsServer.on("connection", (socket) => {
-    // 초기화
-    const socketSession = socket.request.session;       // socket에서 세션 사용, socketSession.userInfo['id'] 시 유저 아이디 얻음
-
-    userStreams[socket.id] = new webRTC.MediaStream();
-    socket.sendPCs = [];
-    socket.join("Class");
-
-
-
-
-
-*/

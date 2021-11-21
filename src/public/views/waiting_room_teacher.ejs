@@ -5,19 +5,23 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Z-Class</title>
-        <link rel="stylesheet" href="/public/css/main.css">
+        <link rel="stylesheet" href="/public/css/initial.css">
+        <link rel="stylesheet" href="/public/css/menu.css">
+        <link rel="stylesheet" href="/public/css/waiting_room.css">
         <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
     </head>
 
     <div id="container">
         <div id="top_container">
-            <span>Z-Class에 오신 것을 환영합니다 !</span>
-            <a><%=user_name%></a>
+            <span><%=user_name%>님! Z-Class에 오신 것을 환영합니다 !</span>
+            <div id="user_btn_container">
+            <button id="btn_modify_user_info">정보수정</button>
             <button id="btn_logout">로그아웃</button>
         </div>
+        </div>
 
-        <div id="main_container_teacher">
+        <div id="main_container">
             <form method="post">
             <div id="course_container">
                 <div id="course_list">
@@ -29,10 +33,12 @@
                     <% } %>
                 </div>
             </div>
-            <button id="btn_modify_course" formaction="/course/modify">강의 수정</button>
             <button id="btn_enter_course" formaction="/class">강의 입장</button>
+            <div id="sub_btn_container">
+            <button id="btn_modify_course" formaction="/course/modify">강의 수정</button>
+            <button type="button" id="btn_make_course">새 강의 개설</button>
+            </div>
             </form>
-            <button id="btn_make_course">새 강의 개설</button>
         </div>
     </div>
 
