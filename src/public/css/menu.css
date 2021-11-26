@@ -1,4 +1,4 @@
-/*  ##########  메인 페이지의 로그인 화면  ##########  */
+/*  ##########   ##########  */
 #container{
     position: fixed;
     top:0;
@@ -14,12 +14,48 @@
     flex-basis: 300px;
     height:400px;
 
-    border: 0.2rem solid var(--border-color);
+    border: 0.2rem solid rgba(0,0,0,0);
     border-radius: 5px;
     padding:1rem;
 
-    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.8) 100%);
+    background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 100%);
 
     display:flex;
     flex-direction: column;
+
+}
+#msg_container{
+    flex:9;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+#msg_wrapper{
+    
+    color:white;
+    font-size: 1.5rem;
+    text-align: center;
+}
+#btn_return{
+    flex: 1;
+    
+    height:3rem;
+    border-radius: 5px;
+
+    background: linear-gradient(315deg, #2874A6 33%,#76D7C4 100%);
+    color:white;
+
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+#btn_return:hover{
+    background: linear-gradient(315deg, #76D7C4 0%, #2874A6 100%);    
+}
+#btn_return:active{
+    background: #2874A6;
+
 }

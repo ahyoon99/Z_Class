@@ -6,38 +6,59 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Z-Class</title>
         <link rel="stylesheet" href="/public/css/initial.css">
+        <link rel="stylesheet" href="/public/css/menu.css">
         <link rel="stylesheet" href="/public/css/main.css">
         <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
     </head>
 
     <body>
-        <h1>Z-Class 회원가입</h1>
-        <form action="/user/sign_up" method="post">
-            <p>해당하는 것을 선택해주세요</p>
-            <input type="radio" id="radio_student" name="job" value="student" required="required">
-            <label for="radio_student">학생</label>
-            <input type="Radio" id="radio_teacher" name="job" value="teacher">
-            <label for="radio_teacher">선생님</label>
-            <div id="input_container" class="invisible">
-                아이디<input id="id" name="id" type="text" required>
-                비밀번호<input id="password" name="password" type="password" required>
-                비밀번호 확인<input id="password_repeat" name="password_repeat" type="password" required>
-                이름<input id="name" name="name" type="text" required>
-                <div id="student_container">
-                학년
-                <input id="grade" name="grade" type="text">
-                </div>
-                <div id="phone_number_label">번호
-                </div>
-                <input id="phone_number" name="phone_number" type="text" required>
+        <div id="container">
+            <div id="main_container">
+                <form id="form_sign_up" action="/user/sign_up" method="post">
+                    <div>해당하는 것을 선택해주세요</div>
+                    <input
+                        type="radio"
+                        id="radio_student"
+                        name="job"
+                        value="student"
+                        required="required">
+                    <label for="radio_student">학생</label>
+                    <input type="Radio" id="radio_teacher" name="job" value="teacher">
+                    <label for="radio_teacher">선생님</label>
+                    <div id="sign_up_input_container" class="invisible">
+                        <div id="sign_up_input_wrapper">
+                            <input id="id" name="id" type="text" required="required" placeholder="아이디">
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                required="required"
+                                placeholder="비밀번호">
+                            <input id="name" name="name" type="text" required="required" placeholder="이름">
+                            <div id="student_container">
+                                <input id="grade" name="grade" type="text" placeholder="학년">
+                            </div>
+                            <input id="phone_number" name="phone_number" type="text" required="required">
 
-                    소속<input id="affiliation" name="affiliation" type="text" required>
-                <button type="submit">submit</button>
+                            <input
+                                id="affiliation"
+                                name="affiliation"
+                                type="text"
+                                required="required"
+                                placeholder="소속">
+
+
+                        </div>
+                    </div>
+                    <div id="btn_sign_up_container">
+                        <button type="button" id="btn_back" onclick="location.href='/';">돌아가기</button>
+                        <button type="submit">회원가입</button>
+                    </div>
+                </form>
             </div>
-        </form>
-        <button id="back">back</button>
 
+        </div>
         <script src="/public/js/sign_up.js"></script>
     </body>
 

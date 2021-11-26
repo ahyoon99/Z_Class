@@ -8,7 +8,7 @@ router.get('/', function(req, res){
         res.redirect('/waiting_room');
     }
     else{
-        res.render('main', {test :"not Logined"})       // 로그인이 되어있지 않은 경우 로그인 페이지 출력
+        res.render('main')       // 로그인이 되어있지 않은 경우 로그인 페이지 출력
     }
 });
 
@@ -29,7 +29,7 @@ router.post('/user/sign_in', function(req, res){
             })
         }
         else{                                                   // db와 id, password가 일치하지 않는 경우
-            res.send('아이디가 존재하지 않거나 비밀번호가 맞지 않습니다.');
+            res.render('return', {msg:"아이디가 존재하지 않거나 비밀번호가 맞지 않습니다."});
         }
     });
 });
@@ -52,7 +52,7 @@ router.post('/user/sign_up', function (req, res) {
         .findOne({'id': input_id})
         .then((result) => {
             if (result) {
-                res.send("user exists");
+                res.render('return', {msg:"이미 존재하는 아이디입니다 !"});
             } else {
                 User
                     .signUp({
@@ -65,7 +65,7 @@ router.post('/user/sign_up', function (req, res) {
                         affiliation: input_affiliation
                     })
                     .then(newUser => {
-                        res.send('user created');
+                        res.render('return', {msg:"회원가입이 완료되었습니다 !"});
                     })
                     .catch(err => res.send(err));
             }

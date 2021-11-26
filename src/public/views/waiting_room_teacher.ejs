@@ -16,34 +16,38 @@
         <div id="top_container">
             <span><%=user_name%>님! Z-Class에 오신 것을 환영합니다 !</span>
             <div id="user_btn_container">
-            <button id="btn_modify_user_info">정보수정</button>
-            <button id="btn_logout">로그아웃</button>
-        </div>
+                <button id="btn_modify_user_info">정보수정</button>
+                <button id="btn_logout"  onclick="location.href='/user/logout';">로그아웃</button>
+            </div>
         </div>
 
         <div id="main_container">
             <form method="post">
-            <div id="course_container">
-                <div id="course_list">
-                    
-                    <% for (let i=0; i < user_courses.length; i++ ){ %>
-                        <label><input type="radio" name="course_objectId" value="<%=user_courses[i]._id%>" id="<%=user_courses[i]._id%>" required="required">
-                        <%=user_courses[i].title%></label>
-                           
-                    <% } %>
+                <div id="course_container">
+                    <div id="course_list">
+
+                        <% for (let i=0; i < user_courses.length; i++ ){ %>
+                            <input
+                                type="radio"
+                                name="course_objectId"
+                                value="<%=user_courses[i]._id%>"
+                                id="<%=user_courses[i]._id%>"
+                                required="required">
+                            <label for="<%=user_courses[i]._id%>"><%=user_courses[i].title%></label>
+
+                        <% } %>
+                    </div>
                 </div>
-            </div>
-            <button id="btn_enter_course" formaction="/class">강의 입장</button>
-            <div id="sub_btn_container">
-            <button id="btn_modify_course" formaction="/course/modify">강의 수정</button>
-            <button type="button" id="btn_make_course">새 강의 개설</button>
-            </div>
+                <button id="btn_enter_course" formaction="/class">강의 입장</button>
+                <div id="sub_btn_container">
+                    <button id="btn_modify_course" formaction="/course/modify">강의 수정</button>
+                    <button type="button" id="btn_make_course"  onclick="location.href='/course/make_course';">강의 추가</button>
+                </div>
             </form>
         </div>
     </div>
 
-
-        <script src="/public/js/waiting_room.js"></script>
-    </body>
+    <script src="/public/js/waiting_room.js"></script>
+</body>
 
 </html>

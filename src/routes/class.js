@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/', function (req, res) {
     if (!req.session.userInfo) 
-        return res.send('잘못된 접근입니다.');
+        return res.render('return', {msg:"잘못된 접근입니다 !"});
 
     // 세션에 저장해둔 사용자 정보의 type을 확인해 해당하는 페이지로 이동
     if (req.session.userInfo['type'] === 'student') {

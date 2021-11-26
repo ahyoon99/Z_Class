@@ -5,6 +5,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Z-Class 대기실</title>
+        <link rel="stylesheet" href="/public/css/initial.css">
+        <link rel="stylesheet" href="/public/css/menu.css">
         <link rel="stylesheet" href="/public/css/waiting_room.css">
         <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
@@ -13,27 +15,33 @@
     <body>
         <div id="container">
             <div id="top_container">
-                <span>Z-Class에 오신 것을 환영합니다 !</span>
-                <a ref=""><%=user_name%></a>
-                <button id="btn_logout">로그아웃</button>
+                <span><%=user_name%>님! Z-Class에 오신 것을 환영합니다 !</span>
+                <div id="user_btn_container">
+                    <button id="btn_modify_user_info">정보수정</button>
+                    <button id="btn_logout"  onclick="location.href='/user/logout';">로그아웃</button>
+                </div>
             </div>
 
-            <div id="main_container_student">
+            <div id="main_container">
                 <form method="post">
-                <div id="course_container">
-                    <div id="course_list">
-                    <% for (let i=0; i < user_courses.length; i++ ){ %>
-                        <label><input type="radio" name="course_objectId" value="<%=user_courses[i]._id%>" id="<%=user_courses[i]._id%>" required="required">
-                        <%=user_courses[i].title%></label>
-                           
-                    <% } %>
-                </div>
-                </div>
-                <button id="btn_enter_course" formaction="/class">수업 입장</button>
-            </form>
+                    <div id="course_container_student">
+                        <div id="course_list">
+                            <% for (let i=0; i < user_courses.length; i++ ){ %>
+                                <input
+                                    type="radio"
+                                    name="course_objectId"
+                                    value="<%=user_courses[i]._id%>"
+                                    id="<%=user_courses[i]._id%>"
+                                    required="required">
+                                    <label for="<%=user_courses[i]._id%>"><%=user_courses[i].title%></label>
+
+                            <% } %>
+                        </div>
+                    </div>
+                    <button id="btn_enter_course" formaction="/class">수업 참가</button>
+                </form>
             </div>
         </div>
-
 
         <script src="/public/js/waiting_room.js"></script>
     </body>

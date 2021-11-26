@@ -12,9 +12,9 @@ btn_remove_course.addEventListener('click', (event)=>{
 
 
 //  강의 시간표 개수, 최소 1개, 최대 5개
-let class_num = 1;
 const class_container = document.querySelector('.class_container');
 
+let class_num = class_container.childElementCount;
 
 //  강의 시간표 추가
 function AddCourse(){
@@ -37,23 +37,18 @@ function AddCourse(){
     div_time_container.className = 'time_container';
 
     div_day_container.innerHTML =
-    '<input type="radio" name="day'+class_num+'" value="Son." required="required">'+
-    '<label for="Son.">일요일</label>'+
-    '<input type="radio" name="day'+class_num+'" value="Mon.">'+
-    '<label for="Mon.">월요일</label>'+
-    '<input type="radio" name="day'+class_num+'" value="Tue.">'+
-    '<label for="Tue.">화요일</label>'+
-    '<input type="radio" name="day'+class_num+'" value="Wed.">'+
-    '<label for="Wed.">수요일</label>'+
-    '<input type="radio" name="day'+class_num+'" value="Thu.">'+
-    '<label for="Thu.">목요일</label>'+
-    '<input type="radio" name="day'+class_num+'" value="Fri.">'+
-    '<label for="Fri.">금요일</label>'+
-    '<input type="radio" name="day'+class_num+'" value="Sat.">'+
-    '<label for="Sat.">토요일</label>';
+    '<label for="day'+class_num+'">수업 요일</label>' +
+    '<select name="day'+class_num+'">'+
+    '<option value="Son.">일요일</option>'+
+    '<option value="Mon.">월요일</option>'+
+    '<option value="Tue.">화요일</option>'+
+    '<option value="Wed.">수요일</option>'+
+    '<option value="Thu.">목요일</option>'+
+    '<option value="Fri.">금요일</option>'+
+    '<option value="Sat".">토요일</option>';
 
     div_time_container.innerHTML =
-    '수업 시작 시간<input type="time" name="time'+class_num+'" required="required">';
+    '시작 시간<input type="time" name="time'+class_num+'" required="required">';
 
     div_container.id = 'day'+class_num+'_container';
     div_container.appendChild(div_day_container);

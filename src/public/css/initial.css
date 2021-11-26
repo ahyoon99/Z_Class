@@ -1,5 +1,5 @@
 :root{
-    --border-color: #1C2833;
+    --border-color: #0E6251;
     --text-title-color: #0E6251;
     --primary-color-1: #E8F8F5;
     --primary-color-2: #D1F2EB;
@@ -16,13 +16,25 @@
 
 body {
     margin: 0;
+    position:fixed;
+    width:100%;
+    height: 100%;
 }
 
 #container{ 
     background: var(--background-color);
     z-index: -100;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
 }
 
 .invisible{
-    display:none;
+    visibility:hidden;
+}
+
+.none_display{
+    display: none;
 }

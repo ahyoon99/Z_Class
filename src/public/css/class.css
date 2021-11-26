@@ -1,20 +1,3 @@
-:root{
-    --border-color: #80CBC4;
-}
-
-*{
-    font-family: '맑은 고딕';
-    box-sizing: border-box;
-}
-
-body{
-    margin:0;
-    position:fixed;
-    width:100%;
-    height: 100%;
-    background-color: #E8F8F5;
-}
-
 /*  ###########  전체 큰 틀 ########### */
 
 /*  == 선생님  */
@@ -295,8 +278,8 @@ body{
     margin: 0.3rem;
     clear: both;
 }
-#chat_content_teacher {
-    color: #73C6B6;
+#chat_name_teacher {
+    color: #968228;
     float: left;
 }
 #chat_name_other {
@@ -320,7 +303,7 @@ body{
     float: left;
 }
 #chat_content_teacher {
-    background-color: #A2D9CE;
+    background-color: #c2a649;
     float: left;
 }
 #chat_content_me {

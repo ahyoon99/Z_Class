@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Z-Class 강의 생성</title>
         <link rel="stylesheet" href="/public/css/initial.css">
-        <link rel="stylesheet" href="/public/css/waiting_room.css">
         <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
     </head>
@@ -15,31 +14,27 @@
 
         <form action="/course/make_course" method="post">
             <input type="text" name="title" placeholder="강의명" required="required">
-            <button type="button" id="btn_add_course">강의 시간 추가</button>
-            <button type="button" id="btn_remove_course">강의 시간 삭제</button>
+            <button type="button" id="btn_add_course">시간 추가</button>
+            <button type="button" id="btn_remove_course">시간 삭제</button>
             <!-- 수업 요일 & 시작 시간이 담김, 추가 / 삭제가 이 안에서 이루어짐 -->
             <div class="class_container">
                 <!-- 수업 요일 -->
                 <div id="day1_container">
                     <div class="day_container">
-                        <input type="radio" name="day1" value="Son." required="required">
-                        <label for="Son.">일요일</label>
-                        <input type="radio" name="day1" value="Mon.">
-                        <label for="Mon.">월요일</label>
-                        <input type="radio" name="day1" value="Tue.">
-                        <label for="Tue.">화요일</label>
-                        <input type="radio" name="day1" value="Wed.">
-                        <label for="Wed.">수요일</label>
-                        <input type="radio" name="day1" value="Thu.">
-                        <label for="Thu.">목요일</label>
-                        <input type="radio" name="day1" value="Fri.">
-                        <label for="Fri.">금요일</label>
-                        <input type="radio" name="day1" value="Sat.">
-                        <label for="Sat.">토요일</label>
+                        <label for="day1">수업 요일</label>
+                        <select name="day1">
+                            <option value="Son.">일요일</option>
+                            <option value="Mon.">월요일</option>
+                            <option value="Tue.">화요일</option>
+                            <option value="Wed.">수요일</option>
+                            <option value="Thu.">목요일</option>
+                            <option value="Fri.">금요일</option>
+                            <option value="Sat.">토요일</option>
+                        </select>
                     </div>
                     <!-- 수업 시작 시간 -->
                     <div class="time_container">
-                        수업 시작 시간<input type="time" name="time1" required="required">
+                        시작 시간<input type="time" name="time1" required="required">
                     </div>
                 </div>
             </div>
@@ -48,14 +43,14 @@
             <div id="students_container">
                 <!-- 학생들의 checkbox를 ejs로 생성 -->
                 <% for (let i=0; i < students.length; i++ ){ %>
-                    <input type="checkbox" name="student" value="<%=students[i]._id%>">
+                    <input type="checkbox" name="students" value="<%=students[i]._id%>">
                     <label for="<%=students[i].id%>"><%=students[i].name%>,
                         <%=students[i].grade%>학년</label>
                 <% } %>
             </div>
-            <button id="btn_submit">생성</button>
+            <button type="button" id="btn_back" onclick="location.href='/';">취소</button>
+            <button type="submit" id="btn_submit">생성</button>
         </form>
-        <button id="btn_back">취소</button>
 
         <script src="/public/js/make_course.js"></script>
     </body>

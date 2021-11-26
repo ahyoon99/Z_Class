@@ -6,7 +6,7 @@ const router = express.Router();
 //  ##########  /waiting_room 주소로 접속 시
 router.get('/', async (req, res) =>{
     if(!req.session.userInfo){
-        return res.send('잘못된 접근입니다.');
+        return res.render('return', {msg:"잘못된 접근입니다 !"});
     }
 
     let courses;

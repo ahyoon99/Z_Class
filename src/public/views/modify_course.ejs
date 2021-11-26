@@ -26,29 +26,26 @@
             <div class="class_container">
                 <!-- 수업 요일 -->
                 <% for(let i=0; i<course_info.time.length; i++) {%>
-                    <div id="day<%=i%>_container">
+                    <div id="day<%=i+1%>_container">
 
                         <div class="day_container">
 
-                            <input type="radio" name="day<%=i%>" value="Son." required="required" <%=(course_info.time[i].day==='Son.')? "checked" : ""%>>
-                            <label for="Son.">일요일</label>
-                            <input type="radio" name="day<%=i%>" value="Mon." <%=(course_info.time[i].day==='Mon.')? "checked" : ""%>>
-                            <label for="Mon.">월요일</label>
-                            <input type="radio" name="day<%=i%>" value="Tue." <%=(course_info.time[i].day==='Tue.')? "checked" : ""%>>
-                            <label for="Tue.">화요일</label>
-                            <input type="radio" name="day<%=i%>" value="Wed." <%=(course_info.time[i].day==='Wed.')? "checked" : ""%>>
-                            <label for="Wed.">수요일</label>
-                            <input type="radio" name="day<%=i%>" value="Thu." <%=(course_info.time[i].day==='Thu.')? "checked" : ""%>>
-                            <label for="Thu.">목요일</label>
-                            <input type="radio" name="day<%=i%>" value="Fri." <%=(course_info.time[i].day==='Fri.')? "checked" : ""%>>
-                            <label for="Fri.">금요일</label>
-                            <input type="radio" name="day<%=i%>" value="Sat." <%=(course_info.time[i].day==='Sat.')? "checked" : ""%>>
-                            <label for="Sat.">토요일</label>
+                            <label for="day<%=i+1%>">수업 요일</label>
+                            <select name="day<%=i+1%>">
+                                <option value="Son." <%=(course_info.time[i].day==='Son.')? "selected='selected'" : ""%>>일요일</option>
+                                <option value="Mon." <%=(course_info.time[i].day==='Mon.')? "selected='selected'" : ""%>>월요일</option>
+                                <option value="Tue." <%=(course_info.time[i].day==='Tue.')? "selected='selected'" : ""%>>화요일</option>
+                                <option value="Wed." <%=(course_info.time[i].day==='Wed.')? "selected='selected'" : ""%>>수요일</option>
+                                <option value="Thu." <%=(course_info.time[i].day==='Thu.')? "selected='selected'" : ""%>>목요일</option>
+                                <option value="Fri." <%=(course_info.time[i].day==='Fri.')? "selected='selected'" : ""%>>금요일</option>
+                                <option value="Sat." <%=(course_info.time[i].day==='Sat.')? "selected='selected'" : ""%>>토요일</option>
+                            </select>
+                            <input type="radio" name="day<%=i+1%>" value="Son." required="required" >
                         </div>
 
                     <!-- 수업 시작 시간 -->
                     <div class="time_container">
-                        수업 시작 시간<input type="time" name="time<%=i%>" required="required" value="<%=course_info.time[i].time%>">
+                        수업 시작 시간<input type="time" name="time<%=i+1%>" required="required" value="<%=course_info.time[i].time%>">
                     </div>
                 </div>
                 <% } %>
@@ -67,7 +64,7 @@
             <button id="btn_submit" formaction="/course/delete_course">삭제</button>
             <button id="btn_submit" formaction="/course/modify_course">수정</button>
         </form>
-        <button id="btn_back">취소</button>
+        <button id="btn_back" onclick="location.href='/';">취소</button>
 
         <script src="/public/js/make_course.js"></script>
     </body>

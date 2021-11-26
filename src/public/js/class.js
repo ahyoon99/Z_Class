@@ -310,8 +310,8 @@ function makeMessage(_msg, _name, _type){
         msg_name.id = "chat_name_me";
         msg_content.id = "chat_content_me";
     }else if(_type ==='teacher'){
-        msg_name.id = "chat_name_student";
-        msg_content.id = "chat_name_student";
+        msg_name.id = "chat_name_teacher";
+        msg_content.id = "chat_content_teacher";
     }
     else{
         msg_name.id = "chat_name_other";
