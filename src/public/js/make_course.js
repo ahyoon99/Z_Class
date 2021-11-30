@@ -16,6 +16,12 @@ const class_container = document.querySelector('.class_container');
 
 let class_num = class_container.childElementCount;
 
+if(class_num!==1){
+    btn_remove_course.disabled=false;
+}
+else if(class_num!==5)
+    btn_add_course.disabled=false;
+
 //  강의 시간표 추가
 function AddCourse(){
     if(class_num ===5){

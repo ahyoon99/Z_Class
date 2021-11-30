@@ -5,6 +5,7 @@ import webRTC from "wrtc";
 import fs from "fs";
 import axios from "axios";
 import ejs from "ejs";
+import Attendance from "./models/attendances";
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.set('socketIO', wsServer);
 
 
 app.use("/public", express.static(__dirname + "/public"));
-app.use(express.urlencoded({extended:true}));       // 수정 - 최신 express에는 body-parser가 이미 포함
+app.use(express.urlencoded({extended:true}));               // 수정 - 최신 express에는 body-parser가 이미 포함
 app.use(express.json());
 
 
@@ -43,12 +44,12 @@ mongoose
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const sessionMiddleware = session({
-    secret: "MxIDI8WWNrl8mu8VvWJzk718vwR9bt",   // 암호화 하는 seed
+    secret: "MxIDI8WWNrl8mu8VvWJzk718vwR9bt",       // 암호화 하는 seed
     resave: false,
     saveUninitialized: true,
-    store: MongoStore.create({                  // 세션 정보를 mongo DB에 저장
+    store: MongoStore.create({                      // 세션 정보를 mongo DB에 저장
         mongoUrl: DATABASE_ADDRESS,
-        ttl: 24 * 60 * 60,                     // 세션 정보 db에 2주간 유지
+        ttl: 24 * 60 * 60,                          // 세션 정보 db에 2주간 유지
         collectionName: "sessions",                 // db의 'session' collection에 저장
         autoRemove: 'native'
     })
@@ -108,11 +109,13 @@ const pcConfig = {
 wsServer.on('connection', (socket) => {
     const socketSession = socket.request.session;
 
+    //  ###########  회원 가입 시 사진 촬영 데이터 받음  ##############
     socket.on("signUp_getPic", (_data, _i) => {
         console.log("data 받음");
         fs.writeFile(`data/face_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
     });
 
+    //  ###########  화상 수업 class 페이지 첫 접속 시 초기화
     socket.on('first_join', () => {
         socket.join(socketSession.course_objectId);
         if(!sockets[socketSession.course_objectId])
@@ -262,4 +265,12 @@ wsServer.on('connection', (socket) => {
     socket.on('runFunction', (_time, _func)=>{
         _func();
     })
+
+
+
+    //  ###########  출석 체크  ###########
+    socket.on('checkAttendeacne', ()=>{
+        Attendacne.checkAttendance(socket.session.course_objectId, ['619d39a43ac80abb19358254']);
+    });
+    
 });
