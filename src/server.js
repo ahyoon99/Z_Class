@@ -268,9 +268,12 @@ wsServer.on('connection', (socket) => {
 
 
 
-    //  ###########  출석 체크  ###########
-    socket.on('checkAttendeacne', ()=>{
-        Attendacne.checkAttendance(socket.session.course_objectId, ['619d39a43ac80abb19358254']);
+    // ###########  출석 체크  ###########
+    // # 출석 체크 기능
+    //  얼굴 인식 모듈과 연결하여 진행해야 함
+    //  출석 처리할 학생들의 배열을 두번째 인자로 넣음
+    socket.on('checkAttendance', async ()=>{
+        await Attendance.checkAttendance(socketSession.course_objectId, ['619d39a43ac80abb19358254']);
     });
     
 });

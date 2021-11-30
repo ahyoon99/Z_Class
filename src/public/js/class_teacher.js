@@ -5,5 +5,6 @@
 const btn_check_attendance = document.querySelector('#btn_check_attendance');
 btn_check_attendance.addEventListener('click', (event)=>{
     event.preventDefault();
+    console.log("출석체크");
     socket.emit('checkAttendance');
 });

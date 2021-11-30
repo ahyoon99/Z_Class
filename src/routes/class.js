@@ -15,6 +15,7 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res){
     const course_objectId = req.body.course_objectId;
+    console.log(course_objectId);
     req.session.course_objectId = course_objectId;
     
     if (req.session.userInfo['type'] === 'student') {

@@ -6,6 +6,7 @@ const coursesSchema = new mongoose.Schema({
     time: [{ type: Object, required: true }],
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
     students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
+    isFirst: {type: Boolean, required: true}
 },{ versionKey:false });
 
 
@@ -24,11 +25,11 @@ coursesSchema.statics.createCourse = function (_title, _times, _teacher_id, _stu
     let new_course;
     if (_students) 
         new_course = new this(
-            {title: _title, time: _times, teacher: _teacher_id, students: student_ids}
+            {title: _title, time: _times, teacher: _teacher_id, students: student_ids, isFirst:true}
         );
     else 
         new_course = new this(
-            {title: _title, time: _times, teacher: _teacher_id}
+            {title: _title, time: _times, teacher: _teacher_id, isFirst:true}
         );
     return new_course.save();
 }
