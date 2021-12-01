@@ -37,10 +37,7 @@
                                     <% for(let j=0; j< user_courses[i].time.length;j++){ %>
                                         data-day<%=j%>="<%=user_courses[i].time[j].day%>"
                                         data-time<%=j%>="<%=user_courses[i].time[j].time%>"
-                                    <% } %>
-                                    
-                                    
-                                    >
+                                    <% } %>>
                                     <label for="<%=user_courses[i]._id%>" id="label_<%=user_courses[i]._id%>"><%=user_courses[i].title%></label>
 
                             <% } %>

@@ -14,9 +14,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res){
-    const course_objectId = req.body.course_objectId;
-    console.log(course_objectId);
-    req.session.course_objectId = course_objectId;
+    req.session.course_objectId = req.body.course_objectId;
     
     if (req.session.userInfo['type'] === 'student') {
         res.redirect('/class/init');
@@ -25,7 +23,8 @@ router.post('/', function (req, res){
     }
 });
 
-// 수업 페이지 입장 전 중간 페이지
+// #####  수업 페이지 입장 전 중간 페이지   #####
+// 출석 인증 수행
 router.get('/init', function(req,res){
     if (!req.session.userInfo) 
         return res.render('return', {msg:"잘못된 접근입니다 !"});

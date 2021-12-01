@@ -37,7 +37,7 @@ attendance_schema.statics.checkAttendance = async function (_course_id, _student
     const date = now.getDate().toString().padStart(2, '0');
     const today = year + month + date;
 
-    // 처음 출석체크일 경우 출석부 생성, 아닐 경우 출석부
+    // 처음 출석체크일 경우 출석부 생성, 아닐 경우 출석부 불러와서 출석정보 추가
     let attendance;
     let date_map;
     if (course_info.isFirst) {
