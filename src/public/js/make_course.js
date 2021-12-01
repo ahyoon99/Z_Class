@@ -45,7 +45,7 @@ function AddCourse(){
     div_day_container.innerHTML =
     '<label for="day'+class_num+'">수업 요일</label>' +
     '<select name="day'+class_num+'">'+
-    '<option value="Son.">일요일</option>'+
+    '<option value="Sun.">일요일</option>'+
     '<option value="Mon.">월요일</option>'+
     '<option value="Tue.">화요일</option>'+
     '<option value="Wed.">수요일</option>'+

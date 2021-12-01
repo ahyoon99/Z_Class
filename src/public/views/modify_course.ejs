@@ -32,7 +32,7 @@
 
                             <label for="day<%=i+1%>">수업 요일</label>
                             <select name="day<%=i+1%>">
-                                <option value="Son." <%=(course_info.time[i].day==='Son.')? "selected='selected'" : ""%>>일요일</option>
+                                <option value="Son." <%=(course_info.time[i].day==='Sun.')? "selected='selected'" : ""%>>일요일</option>
                                 <option value="Mon." <%=(course_info.time[i].day==='Mon.')? "selected='selected'" : ""%>>월요일</option>
                                 <option value="Tue." <%=(course_info.time[i].day==='Tue.')? "selected='selected'" : ""%>>화요일</option>
                                 <option value="Wed." <%=(course_info.time[i].day==='Wed.')? "selected='selected'" : ""%>>수요일</option>

@@ -23,7 +23,7 @@
             </div>
 
             <div id="main_container">
-                <form method="post">
+                <form id="form_course" method="post" action="/class">
                     <div id="course_container_student">
                         <div id="course_list">
                             <% for (let i=0; i < user_courses.length; i++ ){ %>
@@ -32,18 +32,25 @@
                                     name="course_objectId"
                                     value="<%=user_courses[i]._id%>"
                                     id="<%=user_courses[i]._id%>"
-                                    required="required">
-                                    <label for="<%=user_courses[i]._id%>"><%=user_courses[i].title%></label>
+                                    class="course"
+                                    required="required"
+                                    <% for(let j=0; j< user_courses[i].time.length;j++){ %>
+                                        data-day<%=j%>="<%=user_courses[i].time[j].day%>"
+                                        data-time<%=j%>="<%=user_courses[i].time[j].time%>"
+                                    <% } %>
+                                    
+                                    
+                                    >
+                                    <label for="<%=user_courses[i]._id%>" id="label_<%=user_courses[i]._id%>"><%=user_courses[i].title%></label>
 
                             <% } %>
                         </div>
                     </div>
-                    <button id="btn_enter_course" formaction="/class">수업 참가</button>
+                    <button type="button" id="btn_enter_course">수업 참가</button>
                 </form>
             </div>
         </div>
-
-        <script src="/public/js/waiting_room.js"></script>
+        <script src="/public/js/waiting_room_student.js"></script>
     </body>
 
 </html>

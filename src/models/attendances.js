@@ -16,7 +16,7 @@ const attendance_schema = new mongoose.Schema({
 // 해당 코스의 _id와 현재 출석처리할 학생들의 _id를 받아 db에 등록
 attendance_schema.statics.checkAttendance = async function (_course_id, _student_ids) {
     const course_info = await Course.findOne({'_id': _course_id});
-    if (!course_info) // 학생 정보 없을 시 출석체크 진행 종료
+    if (!course_info.students) // 학생 정보 없을 시 출석체크 진행 종료
         return;
     
     // 밑에서 forEach 사용하기 위해 배열 아닌경우 배열로 만들어줌
