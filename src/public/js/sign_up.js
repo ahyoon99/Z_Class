@@ -1,4 +1,5 @@
-const student_input_container = document.querySelector('#student_input');
+const socket = io();
+
 const input_container = document.querySelector('#sign_up_input_container');
 const student_container = document.querySelector('#student_container');
 const input_phone_number = document.querySelector("#phone_number");
@@ -30,15 +31,35 @@ function jobChanged(_job){
 
 // #####  아이디 양식 작성 후   #####
 let step = 0;
+let is_available_id=false;
+const input_id = document.querySelector('#input_id');
+input_id.addEventListener('change',()=>is_id_changed=false);
+
+const btn_check_duplicated = document.querySelector('#btn_check_duplicated');
+btn_check_duplicated.addEventListener('click',()=>{
+    if(!form_sign_up.id.value)
+        return alert('아이디를 입력해 주세요 !');
+    socket.emit('checkAvailableId',form_sign_up.id.value);
+    console.log('보냄');
+});
+socket.on('checkAvailableId', (_bool)=>{
+    if(_bool)
+        alert('사용 가능한 아이디입니다 !');
+    else
+        alert('이미 존재하는 아이디입니다 !');
+    is_id_changed=_bool;
+    
+});
 
 const btn_next = document.querySelector('#btn_next');
 const video_container = document.querySelector('#video_container');
 btn_next.addEventListener('click', (event)=>{
+    if(!is_id_changed)
+        return alert('아이디 중복확인을 해주세요 !');
+
     if(step===0){
     // input 검증
     const form_sign_up = document.querySelector('#form_sign_up');
-    console.log(form_sign_up.id.value);
-    console.log(form_sign_up.password);
     if(!form_sign_up.job.value||!form_sign_up.id.value||!form_sign_up.password.value||!form_sign_up.name.value||!form_sign_up.phone_number.value||!form_sign_up.affiliation.value)
         return alert('입력되지 않은 항목이 존재합니다 !');
     if(form_sign_up.job.value==='student'&&!form_sign_up.grade.value)
@@ -88,7 +109,6 @@ navigator.mediaDevices.getUserMedia({video:true,audio:false})
 
 // # 사진 촬영 #
 let i=0;
-const socket = io();
 function GetPicture(){
     i=0;
     btn_next.disabled = true;

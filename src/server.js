@@ -5,6 +5,7 @@ import webRTC from "wrtc";
 import fs from "fs";
 import axios from "axios";
 import ejs from "ejs";
+import User from "./models/users";
 import Attendance from "./models/attendances";
 
 const app = express();
@@ -272,6 +273,11 @@ wsServer.on('connection', (socket) => {
     })
 
 
+    socket.on('checkAvailableId', async (_id)=>{
+        const user = await User.findOne({'id':_id});
+        user ? socket.emit('checkAvailableId', false) : socket.emit('checkAvailableId', true);
+
+    })
 
     // ###########  출석 체크  ###########
     // # 출석 체크 기능
