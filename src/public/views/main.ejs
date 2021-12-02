@@ -13,22 +13,16 @@
     </head>
 
     <body>
+        <div id="background_container">
+            <div id="background_1" class="background_base"></div>
+            <div id="background_2" class="background_base"></div>
+        </div>
         <div id="container">
             <div id="main_container">
                 <div id="title">Z-Class</div>
                 <form id="form_login" action="/user/sign_in" method="post">
-                    <input
-                        id="input_id"
-                        name="id"
-                        type="text"
-                        placeholder="아이디"
-                        required="required">
-                    <input
-                        id="input_password"
-                        name="password"
-                        type="password"
-                        placeholder="비밀번호"
-                        required="required">
+                    <input id="input_id" name="id" type="text" placeholder="아이디" required="required">
+                    <input id="input_password" name="password" type="password" placeholder="비밀번호" required="required">
                     <button id="btn_sign_in" type="submit">로그인</button>
                 </form>
                 <div id="href_container">
@@ -37,9 +31,7 @@
                     <a id="href_find_password" href="/user/find_password">비밀번호 찾기</a>
                 </div>
             </div>
-            <div class="move_title" id="title1">Z-Class</div>
         </div>
-
         <script src="/public/js/main.js"></script>
     </body>
 </html>

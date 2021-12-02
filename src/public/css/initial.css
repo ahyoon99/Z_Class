@@ -22,7 +22,6 @@ body {
 }
 
 #container{ 
-    background: var(--background-color);
     z-index: -100;
     position: fixed;
     top:0;
@@ -37,4 +36,49 @@ body {
 
 .none_display{
     display: none;
+}
+
+#background_container{
+    width:100%;
+    height:100%;
+    
+    overflow:hidden;
+    position:relative;
+    background-color: #1B2631 ;  
+    z-index: -1000;
+}
+.background_base{
+    position:fixed;
+    filter:blur(5vw);
+    opacity: 0.7;
+}
+
+@keyframes ani_bg1{
+    100%{
+        transform:rotate(1turn) translate(25vw);
+    }
+}
+
+@keyframes ani_bg2{
+    100%{
+        transform:rotate(-1turn) translate(-25vw);
+    }
+}
+#background_1{
+    left:-40vw;
+    top:-40vw;
+    width:140vw;
+    height:140vw;
+    background-color: #0E6251;
+    border-radius: 50%;
+    animation: ani_bg1 20s linear alternate infinite;
+}
+#background_2{
+    right:-40vw;
+    bottom:-40vw;
+    width:140vw;
+    height:140vw;
+    background-color: #154360;
+    border-radius: 50%;
+    animation: ani_bg2 20s linear alternate infinite;
 }

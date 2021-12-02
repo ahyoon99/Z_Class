@@ -57,17 +57,17 @@ form{
     color:white;
 
 }#course_list::-webkit-scrollbar-track{
-    background-color: #A3E4D7;
+    background-color: rgba(21,67,96,0.3);;
     border-radius:5px;
 }
 #course_list::-webkit-scrollbar-thumb{
-    background-color: #148F77;
+    background-color: rgba(21,67,96,0.9);
     background-clip: padding-box;
     border: 0.2rem solid transparent;
     border-radius:8px;
 }
 #course_list::-webkit-scrollbar{
-    background-color: #A3E4D7;
+    background-color: #1F618D;
     width:0.75rem;
     border-radius:5px;
 }

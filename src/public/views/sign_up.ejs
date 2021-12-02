@@ -13,6 +13,10 @@
     </head>
 
     <body>
+        <div id="background_container">
+            <div id="background_1" class="background_base"></div>
+            <div id="background_2" class="background_base"></div>
+        </div>
         <div id="container">
             <div id="main_container">
                 <form id="form_sign_up" action="/user/sign_up" method="post">
@@ -23,9 +27,9 @@
                     <label for="radio_teacher">선생님</label>
                     <div id="sign_up_input_container" class="invisible">
                         <div id="sign_up_input_wrapper">
-                            <div>
+                            <div id="id_container">
                                 <input id="input_id" name="id" type="text" required="required" placeholder="아이디">
-                                <button id="btn_check_duplicated">중복 확인</button>
+                                <button id="btn_check_duplicated" type="button">중복 확인</button>
                             </div>
                             <input id="password" name="password" type="password" required="required" placeholder="비밀번호">
                             <input id="name" name="name" type="text" required="required" placeholder="이름">
@@ -38,8 +42,8 @@
                     </div>
                 </form>
                 <div id="video_container" class="none_display">
-                    출석 인증을 위한 사진 촬영
                     <video id="vid_self">사용자의 미디어를 불러오는 중입니다.</video>
+                    <span>카메라를 응시한 체로 확인을 눌러주세요 !</span>
                     <canvas class="none_display"></canvas>
                 </div>
                 <div id="btn_sign_up_container">

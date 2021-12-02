@@ -11,8 +11,9 @@
     justify-content: center;
 }
 #main_container{
-    flex-basis: 300px;
-    height:400px;
+    flex-basis: 50vw;
+    max-width: 510px;
+    height:50%;
 
     border: 0.2rem solid rgba(0,0,0,0);
     border-radius: 5px;
