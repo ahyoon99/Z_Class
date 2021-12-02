@@ -71,7 +71,7 @@ body {
     height:140vw;
     background-color: #0E6251;
     border-radius: 50%;
-    animation: ani_bg1 20s linear alternate infinite;
+    animation: ani_bg1 10s linear alternate infinite;
 }
 #background_2{
     right:-40vw;
@@ -80,5 +80,5 @@ body {
     height:140vw;
     background-color: #154360;
     border-radius: 50%;
-    animation: ani_bg2 20s linear alternate infinite;
+    animation: ani_bg2 10s linear alternate infinite;
 }
