@@ -3,7 +3,7 @@ python/__pycache__
 python/env
 python/env/
 *.pyc
-python/face_recognization/
+python/face_recognition/
 python/facenet_keras.h5
 python/sa-faces-train_dataset1.npz
 python/sa-faces-train-embeddings1.npz

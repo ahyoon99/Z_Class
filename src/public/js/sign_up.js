@@ -40,7 +40,6 @@ btn_check_duplicated.addEventListener('click',()=>{
     if(!form_sign_up.id.value)
         return alert('아이디를 입력해 주세요 !');
     socket.emit('checkAvailableId',form_sign_up.id.value);
-    console.log('보냄');
 });
 socket.on('checkAvailableId', (_bool)=>{
     if(_bool)
@@ -116,7 +115,8 @@ function GetPicture(){
       // 100ms마다 함수 수행하고 id를 이용해 반복 수행 정지시킴
   const intervalId = setInterval(sendPicToServer, 100);
   setTimeout(() => {
-    clearInterval(intervalId);
+    clearInterval(intervalId);    
+    socket.emit('send_finish');
     form_sign_up.submit();
   }, 5000);
 }

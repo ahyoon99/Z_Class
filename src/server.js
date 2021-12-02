@@ -118,6 +118,9 @@ wsServer.on('connection', (socket) => {
         fs.writeFile(dir+`/img${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
     });
 
+    socket.on("send_finish",async ()=>{
+        const response = await axios.post("http://127.0.0.1:5000/face_train");
+    });
 
     //  ###########  화상 수업 class 페이지 첫 접속 시 초기화
     socket.on('first_join', () => {

@@ -1,6 +1,6 @@
 const courses = document.querySelectorAll('.course');
 const now = new Date();
-const day_string = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri', 'Sat'];
+const day_string = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
 const now_day = now.getDay();
 const now_hour = now.getHours();
 const now_minute = now.getMinutes();
@@ -22,6 +22,8 @@ courses.forEach(course=>{
         }
         i++;
     }
+    
+    console.log(course_times);
     let is_same_day = false;
     course_times.forEach(course_time=>{
         if(now_day===course_time.day){
@@ -32,7 +34,6 @@ courses.forEach(course=>{
             return;         // continue와 같음
         
     });
-
     // 같은 요일일 경우에만 출력도되록 함           +++ 날짜 바뀌는 시간대일 경우??? (빠른 개발을 위해 패스)
     if(!is_same_day){
     const course_label = document.querySelector('#label_'+course.id);
