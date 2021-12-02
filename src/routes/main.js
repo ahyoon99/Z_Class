@@ -65,7 +65,8 @@ router.post('/user/sign_up', function (req, res) {
                         affiliation: input_affiliation
                     })
                     .then(newUser => {
-                        res.render('return', {msg:"회원가입이 완료되었습니다 !"});
+                        //res.render('return', {msg:"회원가입이 완료되었습니다 !"});
+                        res.redirect('/sign_up_takepic');
                     })
                     .catch(err => res.send(err));
             }
@@ -83,8 +84,8 @@ router.get('/user/logout', function(req,res){
         });
 })
 
-router.get('/user/take_pic', function(req,res){
-    res.render('sign_up_takepic.html');
+router.get('/sign_up_takepic', function(req,res){
+    res.render('sign_up_takepic');
 })
 
 module.exports = router;

@@ -84,14 +84,13 @@ app.use('/class', classRouter);
 
 // $$$$$$$$$$$$$$$ 얼굴 인식 모듈 추가 시 사용 예정
 // /flask 주소로 접속 시 5000번 port의 경로로 접속해서 response 받음
-app.get("/flask", async (req, res) => {
-    const response = await axios.get("http://127.0.0.1:5000/flask");
-    console.log(response.data);
+// app.get("/flask", async (req, res) => {
+//     const response = await axios.get("http://127.0.0.1:5000/flask");
+//     console.log(response.data);
 
-    // response.data 값을 client에게 보내줌
-    res.send(response.data);
-});
-
+//     // response.data 값을 client에게 보내줌
+//     res.send(response.data);
+// });
 
 //  ######## socket.io 관련 부분  #########
 
@@ -110,9 +109,19 @@ wsServer.on('connection', (socket) => {
     const socketSession = socket.request.session;
 
     //  ###########  회원 가입 시 사진 촬영 데이터 받음  ##############
-    socket.on("signUp_getPic", (_data, _i) => {
-        console.log("data 받음");
-        fs.writeFile(`data/face_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+    socket.on("signUp_getPic", async (_data, _i) => {
+        console.log("data 받음1");
+        fs.writeFile(`python/data/face_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+    });
+    //  ###########  회원 가입 전, yolo test 사진 촬영 데이터 받음  ##############
+    socket.on("signUp_getYOLOPic", async (_data, _i) => {
+        console.log("data 받음2");
+        fs.writeFile(`python/data/face_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+        
+        const response = await axios.post("http://127.0.0.1:5000/yolo");
+        console.log(response.data);
+        socket.emit('yolo_result', response.data);
+        //return response.data;
     });
 
     //  ###########  화상 수업 class 페이지 첫 접속 시 초기화

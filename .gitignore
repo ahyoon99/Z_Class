@@ -3,3 +3,6 @@ python/__pycache__
 python/env
 python/env/
 *.pyc
+python/haarcascades
+python/model
+python/data/face_pic

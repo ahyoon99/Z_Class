@@ -1,8 +1,10 @@
 const socket = io();
 
 const btn_enter_class = document.querySelector("#btn_enter_class");
+const btn_test_YOLO = document.querySelector("#btn_test_YOLO");
 
 btn_enter_class.addEventListener("click", GetPic);
+btn_test_YOLO.addEventListener("click", GetYOLO);
 
 // 캡쳐할 사진의 width, height
 // width를 정해주면 client의 video의 비율을 이용해 height 계산됨
@@ -32,7 +34,8 @@ function Init() {
     .then((stream) => {
       video.srcObject = stream;
       video.play();
-      btnGetPic.disabled = false;
+      btn_enter_class.disabled = true;
+      btn_test_YOLO.disabled = false;
     })
     .catch((e) => {
       console.log(e);
@@ -47,9 +50,17 @@ let i;  // 캡쳐된 파일 넘버링을 위해 사용
 function GetPic(event) {
   event.preventDefault();
   i = 0;
-  btn_enter_class.disabled = true; // 캡쳐 버튼 비활성화
+  //btn_enter_class.disabled = true; // 캡쳐 버튼 비활성화
 
   sendPicToServer();
+}
+
+function GetYOLO(event) {
+  event.preventDefault();
+  i = 0;
+  //btn_test_YOLO.disabled = true; // 캡쳐 버튼 비활성화
+
+  sendYOLOPicToServer();
 }
 
 function sendPicToServer() {
@@ -66,6 +77,44 @@ function sendPicToServer() {
   const file = dataURLtoBlob(data);
   socket.emit("signUp_getPic", file, i);
 }
+
+function sendYOLOPicToServer() {
+  i++;
+  const context = canvas.getContext("2d");
+  canvas.width = width;
+  canvas.height = height;
+  context.drawImage(video, 0, 0, width, height);
+
+  // canvas의 image를 dataURL로 변환
+  // dataURL로부터 img의 src로 사용 가능
+  // dataURL로부터 blob을 만들어 이를 서버로 전송
+  var data = canvas.toDataURL("image/png");
+  const file = dataURLtoBlob(data);
+  socket.emit("signUp_getYOLOPic", file, i);
+}
+
+socket.on('yolo_result', function (result){
+  if(result=='0'){ // 0이면 아무것도 검출 안됨, 
+    btn_test_YOLO.disabled = true; // 캡쳐 버튼 비활성화 
+    btn_enter_class.disabled = false;  // 캡쳐 버튼 활성화
+    alert('출석체크 준비 완료!');
+  }
+  else if(result=='1'){    // 1이면 모자만 검출됨, 
+    btn_test_YOLO.disabled = false; // 캡쳐 버튼 활성화 
+    btn_enter_class.disabled = true;  // 캡쳐 버튼 비활성화
+    alert('모자를 벗어주세요.');
+  }
+  else if(result=='2'){    // 2이면 마스크만 검출됨,
+    btn_test_YOLO.disabled = false; // 캡쳐 버튼 활성화 
+    btn_enter_class.disabled = true;  // 캡쳐 버튼 비활성화
+    alert('마스크를 벗어주세요.');
+  }
+  else if(result=='3'){    // 3이면 모자와 마스크 모두 검출됨
+    btn_test_YOLO.disabled = false; // 캡쳐 버튼 활성화 
+    btn_enter_class.disabled = true;  // 캡쳐 버튼 비활성화
+    alert('모자와 마스크를 벗어주세요.');
+  }
+});
 
 function dataURLtoBlob(dataURL) {
   // convert base64/URLEncoded data component to raw binary data held in a string
