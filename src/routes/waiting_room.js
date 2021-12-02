@@ -3,7 +3,8 @@ const User = require('../models/users');
 const Course = require('../models/courses');
 const router = express.Router();
 
-//  ##########  /waiting_room 주소로 접속 시
+// ##########  /waiting_room 주소로 접속 시  ##############
+// 회원 타입에 따라 대기실에 입장
 router.get('/', async (req, res) =>{
     if(!req.session.userInfo){
         return res.render('return', {msg:"잘못된 접근입니다 !"});

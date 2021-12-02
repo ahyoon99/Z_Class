@@ -22,7 +22,6 @@ courses.forEach(course=>{
         }
         i++;
     }
-    나
     let is_same_day = false;
     course_times.forEach(course_time=>{
         if(now_day===course_time.day){

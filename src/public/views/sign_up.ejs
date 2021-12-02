@@ -17,49 +17,38 @@
             <div id="main_container">
                 <form id="form_sign_up" action="/user/sign_up" method="post">
                     <div>해당하는 것을 선택해주세요</div>
-                    <input
-                        type="radio"
-                        id="radio_student"
-                        name="job"
-                        value="student"
-                        required="required">
+                    <input type="radio" id="radio_student" name="job" value="student" required="required">
                     <label for="radio_student">학생</label>
                     <input type="Radio" id="radio_teacher" name="job" value="teacher">
                     <label for="radio_teacher">선생님</label>
                     <div id="sign_up_input_container" class="invisible">
                         <div id="sign_up_input_wrapper">
-                            <input id="id" name="id" type="text" required="required" placeholder="아이디">
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                required="required"
-                                placeholder="비밀번호">
+                            <div>
+                                <input id="input_id" name="id" type="text" required="required" placeholder="아이디">
+                                <button id="btn_check_duplicated">중복 확인</button>
+                            </div>
+                            <input id="password" name="password" type="password" required="required" placeholder="비밀번호">
                             <input id="name" name="name" type="text" required="required" placeholder="이름">
                             <div id="student_container">
                                 <input id="grade" name="grade" type="text" placeholder="학년">
                             </div>
                             <input id="phone_number" name="phone_number" type="text" required="required">
-
-                            <input
-                                id="affiliation"
-                                name="affiliation"
-                                type="text"
-                                required="required"
-                                placeholder="소속">
-
-
+                            <input id="affiliation" name="affiliation" type="text" required="required" placeholder="소속">
                         </div>
                     </div>
-                    <div id="btn_sign_up_container">
-                        <button type="button" id="btn_back" onclick="location.href='/';">돌아가기</button>
-                        <button type="submit">회원가입</button>
-                    </div>
                 </form>
+                <div id="video_container" class="none_display">
+                    출석 인증을 위한 사진 촬영
+                    <video id="vid_self">사용자의 미디어를 불러오는 중입니다.</video>
+                    <canvas class="none_display"></canvas>
+                </div>
+                <div id="btn_sign_up_container">
+                    <button type="button" id="btn_back" onclick="location.href='/';">돌아가기</button>
+                    <button type="button" id="btn_next">확인</button>
+                </div>
             </div>
-
         </div>
+        <script src="/socket.io/socket.io.js"></script>
         <script src="/public/js/sign_up.js"></script>
     </body>
-
 </html>

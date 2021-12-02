@@ -110,10 +110,13 @@ wsServer.on('connection', (socket) => {
     const socketSession = socket.request.session;
 
     //  ###########  회원 가입 시 사진 촬영 데이터 받음  ##############
-    socket.on("signUp_getPic", (_data, _i) => {
-        console.log("data 받음");
-        fs.writeFile(`data/face_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+    socket.on("signUp_getPicture", (_data, _id,_i) => {
+        const dir = `python/face_recognition/train/${_id}`;
+        if(!fs.existsSync(dir))
+            fs.mkdirSync(dir, {recursive:true});
+        fs.writeFile(dir+`/img${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
     });
+
 
     //  ###########  화상 수업 class 페이지 첫 접속 시 초기화
     socket.on('first_join', () => {
@@ -240,6 +243,8 @@ wsServer.on('connection', (socket) => {
     });
 
     socket.on("disconnecting", () => {
+        if(!socketSession.userInfo)
+            return;
         if(sockets[socketSession.course_objectId]){
         sockets[socketSession.course_objectId] = sockets[socketSession.course_objectId].filter((_socket) => _socket.id !== socket.id);
         socket

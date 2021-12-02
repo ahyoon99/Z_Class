@@ -25,7 +25,6 @@
             <form method="post">
                 <div id="course_container">
                     <div id="course_list">
-
                         <% for (let i=0; i < user_courses.length; i++ ){ %>
                             <input
                                 type="radio"
@@ -34,7 +33,6 @@
                                 id="<%=user_courses[i]._id%>"
                                 required="required">
                             <label for="<%=user_courses[i]._id%>"><%=user_courses[i].title%></label>
-
                         <% } %>
                     </div>
                 </div>

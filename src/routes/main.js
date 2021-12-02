@@ -18,10 +18,10 @@ router.post('/user/sign_in', function(req, res){
     const input_id = req.body.id;
     const input_password = req.body.password;
 
-    User.findOne({'id':input_id, "password":input_password})    // id값, password값이 모두 일치하는 것을 찾음
+    // id값, password값이 모두 일치하는 user를 찾음
+    User.findOne({'id':input_id, "password":input_password})    
         .exec((err, user)=>{
-        if(err)
-            return res.json(err);
+
         if(user){                                               // db와 id, password가 일치하는 경우
             req.session.userInfo = {objectId:user._id, id:input_id, name:user.name, type: user.type, affiliation: user.affiliation};     // session 정보에 userInfo 객체 넣어줌, 이를 통해서 유저의 id와 로그인 여부 확인
             req.session.save(()=>{                                      // 위 내용을 session에 저장시키고 나서 페이지 이동, 안할 시 db 서버와의 딜레이로 문제 발생

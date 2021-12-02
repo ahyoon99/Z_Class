@@ -3,3 +3,4 @@ python/__pycache__
 python/env
 python/env/
 *.pyc
+python/face_recognization
