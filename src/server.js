@@ -86,10 +86,7 @@ app.use('/class', classRouter);
 // /flask 주소로 접속 시 5000번 port의 경로로 접속해서 response 받음
 app.get("/flask", async (req, res) => {
     const response = await axios.get("http://127.0.0.1:5000/flask");
-    console.log(response.data);
-
-    // response.data 값을 client에게 보내줌
-    res.send(response.data);
+   
 });
 
 
@@ -110,13 +107,30 @@ wsServer.on('connection', (socket) => {
     const socketSession = socket.request.session;
 
     //  ###########  회원 가입 시 사진 촬영 데이터 받음  ##############
-    socket.on("signUp_getPicture", (_data, _id,_i) => {
-        const dir = `python/face_recognition/train/${_id}`;
+    socket.on("signUp_getPicture", async (_data, _id,_i) => {
+        const dir = `python//image/train/${_id}`;
+        if(!fs.existsSync(dir))
+            fs.mkdirSync(dir, {recursive:true});
+        fs.writeFile(dir+`/img${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+
+    });
+    socket.on("signIn_getPic",async(_data,_id,_i)=>{
+        const dir=`python//image/test/${_id}`;
         if(!fs.existsSync(dir))
             fs.mkdirSync(dir, {recursive:true});
         fs.writeFile(dir+`/img${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
     });
 
+ 
+    //모델 train 
+    socket.on("send_finish",async ()=>{
+        const response = await axios.post("http://127.0.0.1:5000/face_train");
+    });
+
+    socket.on("face_detect",async()=>{
+        const response = await axios.post("http://127.0.0.1:5000/face_test");
+        console.log(response.data);
+    });
 
     //  ###########  화상 수업 class 페이지 첫 접속 시 초기화
     socket.on('first_join', () => {
@@ -278,6 +292,7 @@ wsServer.on('connection', (socket) => {
     //  얼굴 인식 모듈과 연결하여 진행해야 함
     //  출석 처리할 학생들의 배열을 두번째 인자로 넣음
     socket.on('checkAttendance', async ()=>{
+
         await Attendance.checkAttendance(socketSession.course_objectId, ['619d39a43ac80abb19358254']);
     });
     

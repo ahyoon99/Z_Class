@@ -1,6 +1,6 @@
 const courses = document.querySelectorAll('.course');
 const now = new Date();
-const day_string = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri', 'Sat'];
+const day_string = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
 const now_day = now.getDay();
 const now_hour = now.getHours();
 const now_minute = now.getMinutes();

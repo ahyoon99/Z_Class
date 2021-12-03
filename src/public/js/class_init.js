@@ -1,7 +1,7 @@
 const socket = io();
 
 const btn_enter_class = document.querySelector("#btn_enter_class");
-
+const btn_face_test = document.querySelector("#btn_face_test");
 btn_enter_class.addEventListener("click", GetPic);
 
 // 캡쳐할 사진의 width, height
@@ -50,6 +50,7 @@ function GetPic(event) {
   btn_enter_class.disabled = true; // 캡쳐 버튼 비활성화
 
   sendPicToServer();
+  socket.emit("face_detect");
 }
 
 function sendPicToServer() {
@@ -64,7 +65,7 @@ function sendPicToServer() {
   // dataURL로부터 blob을 만들어 이를 서버로 전송
   var data = canvas.toDataURL("image/png");
   const file = dataURLtoBlob(data);
-  socket.emit("signUp_getPic", file, i);
+  socket.emit("signIn_getPic", file, i);
 }
 
 function dataURLtoBlob(dataURL) {

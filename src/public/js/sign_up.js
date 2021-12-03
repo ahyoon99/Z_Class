@@ -97,8 +97,10 @@ function GetPicture(){
   const intervalId = setInterval(sendPicToServer, 100);
   setTimeout(() => {
     clearInterval(intervalId);
+    socket.emit('send_finish')
     form_sign_up.submit();
   }, 5000);
+ 
 }
 
 function sendPicToServer() {
