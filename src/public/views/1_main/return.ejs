@@ -4,9 +4,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Z-Class 강의화면</title>
+        <title>Z-Class에 오신 것을 환영합니다</title>
         <link rel="stylesheet" href="/public/css/initial.css">
-
+        <link rel="stylesheet" href="/public/css/menu.css">
+        <link rel="stylesheet" href="/public/css/main.css">
         <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
     </head>
@@ -17,14 +18,11 @@
             <div id="background_2" class="background_base"></div>
         </div>
         <div id="container">
-            <video id="vid_self">화면 미리보기 영역</video>
-            <div>비디오 설정 영역</div>
-            <div>오디오 설정 역역</div>
-            <canvas class="invisible"></canvas>
-            <button id="btn_enter_class">입장하기</button>
+            <div id="msg_container" class="main_container">
+                <%=msg%>
+                <button id="btn_return" onclick="location.href='/';">돌아가기</button>
+            </div>
         </div>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="/public/js/class_init.js"></script>
+    </div>
     </body>
-
 </html>

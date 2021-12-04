@@ -7,7 +7,7 @@ const router = express.Router();
 //  ##########  /course/make_course 주소로 접속 시
 router.get('/make_course', function (req, res) {
     if (!req.session.userInfo) 
-        return res.render('return', {msg:"잘못된 접근입니다 !"});
+        return res.render('1_main/return', {msg:"잘못된 접근입니다 !"});
     
     User.find({             //  
             'type': 'student', 'affiliation': req.session.userInfo['affiliation']})
@@ -15,7 +15,7 @@ router.get('/make_course', function (req, res) {
             if (err) 
                 return res.json(err);
             else {
-                res.render('make_course', {students: users});
+                res.render('2_waiting_room/make_course', {students: users});
             }
         });
 });
@@ -42,7 +42,7 @@ router.post('/make_course', function (req, res) {
     // object_id로 외래키 참조
     Course.createCourse(input_title, input_day_n_time, req.session.userInfo['objectId'], input_students)
     .then(newCourse=>{
-        res.render('return', {msg:"강의 생성이 완료되었습니다 !"});
+        res.render('1_main/return', {msg:"강의 생성이 완료되었습니다 !"});
     })
     .catch(err=>res.json(err));
 });
@@ -50,7 +50,7 @@ router.post('/make_course', function (req, res) {
 //  ##########  /waiting_room/modify_course
 router.post('/modify', function (req, res) {
     if (!req.session.userInfo) 
-        return res.render('return', {msg:"잘못된 접근입니다 !"});
+        return res.render('1_main/return', {msg:"잘못된 접근입니다 !"});
 
     res.redirect('/course/modify?course_objectId='+req.body.course_objectId);
 });
@@ -58,7 +58,7 @@ router.post('/modify', function (req, res) {
 
 router.get('/modify', async function (req, res){
     if (!req.session.userInfo) 
-        return res.render('return', {msg:"잘못된 접근입니다 !"});
+        return res.render('1_main/return', {msg:"잘못된 접근입니다 !"});
 
     // 선택한 course의 objectId를 이용하여 course의 정보 가져옴
     const course_objectId = req.query.course_objectId;
@@ -68,10 +68,10 @@ router.get('/modify', async function (req, res){
 
     // 코스의 선생님 objectId와 자신의 objectId가 다를 경우 권한 없음
     if(course.teacher.toString() !== req.session.userInfo['objectId'])
-        return res.render('return', {msg:"잘못된 접근입니다 !"});
+        return res.render('1_main/return', {msg:"잘못된 접근입니다 !"});
 
     
-    res.render('modify_course',{course_info: course, students_info: students});
+    res.render('2_waiting_room/modify_course',{course_info: course, students_info: students});
 });
 
 router.post('/modify_course', async function (req, res){
@@ -99,7 +99,7 @@ router.post('/modify_course', async function (req, res){
     // object_id로 외래키 참조
     await Course.modifyCourse(course_objectId, course_data);
     
-    res.render('return', {msg:"수정이 완료되었습니다 !"});
+    res.render('1_main/return', {msg:"수정이 완료되었습니다 !"});
 });
 
 router.post('/delete_course', async function (req, res){
@@ -108,6 +108,6 @@ router.post('/delete_course', async function (req, res){
 
     await Course.deleteCourse(course_objectId);
     
-    res.render('return', {msg:"삭제가 완료되었습니다 !"});
+    res.render('1_main/return', {msg:"삭제가 완료되었습니다 !"});
 });
 module.exports = router;

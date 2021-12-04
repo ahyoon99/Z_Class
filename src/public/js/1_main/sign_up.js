@@ -180,32 +180,6 @@ socket.on('signUp_checkReady', (_result)=>{
     }, 5000);
 });
 
-
-
-// # 사진 촬영 #
-let i=0;
-function GetPicture(){
-    i=0;
-    btn_next.disabled = true;
-
-      // 100ms마다 함수 수행하고 id를 이용해 반복 수행 정지시킴
-  const intervalId = setInterval(sendPicToServer, 100);
-  setTimeout(() => {
-    clearInterval(intervalId);    
-    socket.emit('send_finish');
-    form_sign_up.submit();
-  }, 5000);
-}
-
-function sendPicToServer() {
-    context.drawImage(vid_self, 0, 0, vid_width, vid_height);
-
-    // canvas의 image를 dataURL로 변환 dataURL로부터 img의 src로 사용 가능 dataURL로부터 blob을 만들어 이를
-    // 서버로 전송
-    const data = canvas.toDataURL("image/png");
-    const file = dataURLtoBlob(data);
-    socket.emit("signUp_getPicture", file, form_sign_up.id.value, i);
-}
 function dataURLtoBlob(dataURL) {
     // convert base64/URLEncoded data component to raw binary data held in a string
     let byteString;

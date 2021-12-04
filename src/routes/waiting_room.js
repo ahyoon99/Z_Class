@@ -7,18 +7,18 @@ const router = express.Router();
 // 회원 타입에 따라 대기실에 입장
 router.get('/', async (req, res) =>{
     if(!req.session.userInfo){
-        return res.render('return', {msg:"잘못된 접근입니다 !"});
+        return res.render('1_main/return', {msg:"잘못된 접근입니다 !"});
     }
 
     let courses;
 
     if(req.session.userInfo['type']==='student'){
         courses = await Course.findCourses('student', req.session.userInfo['objectId']);
-        res.render('waiting_room_student',{user_name: req.session.userInfo['name'], user_courses: courses});
+        res.render('2_waiting_room/waiting_room_student',{user_name: req.session.userInfo['name'], user_courses: courses});
     }
     else if(req.session.userInfo['type']==='teacher'){
         courses = await Course.findCourses('teacher', req.session.userInfo['objectId']);
-        res.render('waiting_room_teacher',{user_name: req.session.userInfo['name'], user_courses: courses});
+        res.render('2_waiting_room/waiting_room_teacher',{user_name: req.session.userInfo['name'], user_courses: courses});
     }
 });
 

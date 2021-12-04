@@ -27,7 +27,24 @@
     width:540px;
     height:660px;
 }
+/* 각종 메시지 + 돌아가기 페이지 */
+#msg_container{
+    font-size: 1.5rem;
+    text-align: center;
+    padding:1.5rem;
+}
 
+#msg_container button{
+    width:15rem;
+    margin-top: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* 대기실 페이지 */
+#waiting_room_container{
+    width:540px;
+    height:660px;
+}
 /* 메뉴 이름 */
 h1{
     font-size: 3rem;
@@ -92,40 +109,3 @@ button:disabled:hover{
     background:#555;
 }
 
-
-
-#msg_container{
-    flex:9;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-}
-#msg_wrapper{
-    
-    color:white;
-    font-size: 1.5rem;
-    text-align: center;
-}
-#btn_return{
-    flex: 1;
-    
-    height:3rem;
-    border-radius: 5px;
-
-    background: linear-gradient(315deg, #2874A6 33%,#76D7C4 100%);
-    color:white;
-
-    text-align: center;
-    font-size: 1.25rem;
-    font-weight: bold;
-    outline: none;
-    border: none;
-    cursor: pointer;
-}
-#btn_return:hover{
-    background: linear-gradient(315deg, #76D7C4 0%, #2874A6 100%);    
-}
-#btn_return:active{
-    background: #2874A6;
-
-}

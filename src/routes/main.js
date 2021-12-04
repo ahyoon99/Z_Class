@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/', function(req, res){
                                                     // 메인 페이지 접속 시 세션 정보를 확인하여 로그인 되어있는지 아닌지 확인
     if(req.session.userInfo){                           // 로그인 되어 있는 경우 바로 페이지 이동
-        res.redirect('/waiting_room');
+        res.redirect('2_waiting_room/waiting_room');
     }
     else{
         res.render('1_main/main')       // 로그인이 되어있지 않은 경우 로그인 페이지 출력
@@ -29,7 +29,7 @@ router.post('/user/sign_in', function(req, res){
             })
         }
         else{                                                   // db와 id, password가 일치하지 않는 경우
-            res.render('return', {msg:"아이디가 존재하지 않거나 비밀번호가 맞지 않습니다."});
+            res.render('1_main/return', {msg:"아이디가 존재하지 않거나 비밀번호가 맞지 않습니다."});
         }
     });
 });
@@ -52,10 +52,10 @@ router.post('/user/sign_up', async function (req, res) {
         affiliation: req.body.affiliation
     });
     if(new_user){
-        return res.render('return', {msg: '회원가입을 완료하였습니다 !'});
+        return res.render('1_main/return', {msg: '회원가입을 완료하였습니다 !'});
     }
     else{
-        return res.render('return', {msg:'이미 존재하는 ID입니다 !'})
+        return res.render('1_main/return', {msg:'이미 존재하는 ID입니다 !'})
     }}
     catch(e){console.log(e);}
 });
