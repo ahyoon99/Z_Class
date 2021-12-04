@@ -14,11 +14,19 @@ const usersSchema = new mongoose.Schema({
 
 // #####  회원 가입  #####
 // userInfo 객체를 받아 저장
-usersSchema.statics.signUp = function(userInfo){
-    const user = new this(userInfo);
-    if(user.type==='teacher')
-        user.grade=null;
-    return user.save();
+usersSchema.statics.signUp = async function (user_info) {
+    try {
+        const old_user = await this.exists({'id': user_info.id});
+        if (old_user) 
+            return false;
+        
+        const new_user = new this(user_info);
+        if (new_user.type === 'teacher') 
+        new_user.grade = null;
+        return new_user.save();
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 // #####  같은 소속 회원 찾기  #####

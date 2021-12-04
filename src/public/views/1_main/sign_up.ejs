@@ -19,41 +19,48 @@
         </div>
         <div id="container">
             <div id="sign_up_container" class="main_container">
-                <h1>Z-Class 계정 만들기</h1>
+                <h1>계정 만들기</h1>
+
                 <form id="form_sign_up" action="/user/sign_up" method="post">
-                    <div>해당하는 것을 선택해주세요</div>
-                    <input type="radio" id="radio_student" name="job" value="student" required="required">
-                    <label for="radio_student">학생</label>
-                    <input type="Radio" id="radio_teacher" name="job" value="teacher">
-                    <label for="radio_teacher">선생님</label>
-                    <div id="sign_up_input_container" class="invisible">
-                        <div id="sign_up_input_wrapper">
+                    <div id="job_container">
+                        <span>🔸 해당되는 유형을 눌러주세요 🔸</span><br><br>
+                        <label><input type="radio" id="radio_student" name="job" value="student" required="required">🤷‍♀️</label>
+                    <label><input type="radio" id="radio_teacher" name="job" value="teacher">👨‍🏫</label>
+                    <br><br><span>───────────────</span>
+                    </div>
+                    <div id="sign_up_input_container" class="display_none">
                             <div id="id_container">
-                                <input id="input_id" name="id" type="text" required="required" placeholder="아이디">
+                                <input name="id" type="text" required="required" placeholder="아이디">
                                 <button id="btn_check_duplicated" type="button">중복 확인</button>
                             </div>
-                            <input id="password" name="password" type="password" required="required" placeholder="비밀번호">
-                            <input id="name" name="name" type="text" required="required" placeholder="이름">
-                            <div id="student_container">
-                                <input id="grade" name="grade" type="text" placeholder="학년">
-                            </div>
-                            <input id="phone_number" name="phone_number" type="text" required="required">
-                            <input id="affiliation" name="affiliation" type="text" required="required" placeholder="소속">
+                            <input name="password" type="password" required="required" placeholder="비밀번호">
+                            <input name="name" type="text" required="required" placeholder="이름">
+                            <input name="grade" type="text"  required="required" placeholder="학년">
+                            <input name="phone_number" type="text" required="required">
+                            <input name="affiliation" type="text" required="required" placeholder="소속">
                         </div>
-                    </div>
                 </form>
-                <div id="video_container" class="none_display">
-                    <video id="vid_self">사용자의 미디어를 불러오는 중입니다.</video>
-                    <span>카메라를 응시한 체로 확인을 눌러주세요 !</span>
-                    <canvas class="none_display"></canvas>
+
+                <div id="video_container" class="display_none">
+                    <div id="video_wrapper">
+                        <video id="vid_self">사용자의 미디어를 불러오는 중입니다.</video>
+                        <span>카메라를 응시한 상태로 확인을 눌러주세요 !</span>
+                        <div id="progress">
+                            <div id="progress_text">0%</div>
+                            <div id="progress_bar"></div>
+                        </div>
+                    
+                        <canvas class="display_none"></canvas>
+                    </div>
                 </div>
+
                 <div id="btn_sign_up_container">
                     <button type="button" id="btn_back" onclick="location.href='/';">돌아가기</button>
-                    <button type="button" id="btn_next">확인</button>
+                    <button type="button" id="btn_next" disabled>확인</button>
                 </div>
             </div>
         </div>
         <script src="/socket.io/socket.io.js"></script>
-        <script src="/public/js/sign_up.js"></script>
+        <script src="/public/js/1_main/sign_up.js"></script>
     </body>
 </html>

@@ -1,9 +1,12 @@
 node_modules
 python/__pycache__
 python/env
-python/env/
 *.pyc
+python/data
 python/face_recognition/
 python/facenet_keras.h5
 python/sa-faces-train_dataset1.npz
 python/sa-faces-train-embeddings1.npz
+python/haarcascades
+python/model
+python/data/face_pic

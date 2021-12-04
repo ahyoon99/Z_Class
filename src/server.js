@@ -85,14 +85,15 @@ app.use('/class', classRouter);
 
 // $$$$$$$$$$$$$$$ 얼굴 인식 모듈 추가 시 사용 예정
 // /flask 주소로 접속 시 5000번 port의 경로로 접속해서 response 받음
-app.get("/flask", async (req, res) => {
+
+/*app.get("/flask", async (req, res) => {
     const response = await axios.get("http://127.0.0.1:5000/flask");
     console.log(response.data);
 
     // response.data 값을 client에게 보내줌
     res.send(response.data);
 });
-
+*/
 
 //  ######## socket.io 관련 부분  #########
 
@@ -118,8 +119,23 @@ wsServer.on('connection', (socket) => {
         fs.writeFile(dir+`/img${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
     });
 
-    socket.on("send_finish",async ()=>{
+    socket.on("signUp_finish",async ()=>{
         const response = await axios.post("http://127.0.0.1:5000/face_train");
+    });
+
+    socket.on('signUp_checkReady', async (_data, _id)=>{
+        const dir = 'python/data/face_pic';
+        if(!fs.existsSync(dir))
+            fs.mkdirSync(dir, {recursive:true});
+        fs.writeFile(dir+`/${_id}.png`, _data,(_err) => {if(_err)console.log(_err)});
+        try{
+        const response = await axios.get("http://127.0.0.1:5000/yolo?id="+_id);
+        socket.emit('signUp_checkReady', response.data);
+        }
+        catch(err){
+            console.log(err);
+            socket.emit('signUp_checkReady', -1);
+        }
     });
 
     //  ###########  화상 수업 class 페이지 첫 접속 시 초기화

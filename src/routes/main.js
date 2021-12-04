@@ -40,39 +40,24 @@ router.get('/user/sign_up', function(req,res){
 })
 
 //  회원 가입 페이지에서 form에서 post 방식으로 전송
-router.post('/user/sign_up', function (req, res) {
-    const input_id = req.body.id;
-    const input_password = req.body.password;
-    const input_name = req.body.name;
-    const input_type = req.body.job;
-    const input_grade = req.body.grade;
-    const input_phone_number = req.body.phone_number;
-    const input_affiliation = req.body.affiliation;
-    User
-        .findOne({'id': input_id})
-        .then((result) => {
-            if (result) {
-                res.render('return', {msg:"이미 존재하는 아이디입니다 !"});
-            } else {
-                User
-                    .signUp({
-                        id: input_id,
-                        password: input_password,
-                        name: input_name,
-                        type: input_type,
-                        grade: input_grade,
-                        phone_number: input_phone_number,
-                        affiliation: input_affiliation
-                    })
-                    .then(newUser => {
-                        res.render('return', {msg:"회원가입이 완료되었습니다 !"});
-                    })
-                    .catch(err => res.send(err));
-            }
-        })
-        .catch((err) => {
-            res.send(err)
-        });
+router.post('/user/sign_up', async function (req, res) {
+    try{
+    const new_user = await User.signUp({
+        id: req.body.id,
+        password: req.body.password,
+        name: req.body.name,
+        type: req.body.job,
+        grade: req.body.grade,
+        phone_number: req.body.phone_number,
+        affiliation: req.body.affiliation
+    });
+    if(new_user){
+        return res.render('return', {msg: '회원가입을 완료하였습니다 !'});
+    }
+    else{
+        return res.render('return', {msg:'이미 존재하는 ID입니다 !'})
+    }}
+    catch(e){console.log(e);}
 });
 
 // logout 버튼 누를 시 해당 주소로 이동, session을 삭제하고 메인 페이지로 redirect시킴
