@@ -8,7 +8,7 @@ router.get('/', function(req, res){
         res.redirect('/waiting_room');
     }
     else{
-        res.render('main')       // 로그인이 되어있지 않은 경우 로그인 페이지 출력
+        res.render('1_main/main')       // 로그인이 되어있지 않은 경우 로그인 페이지 출력
     }
 });
 
@@ -36,7 +36,7 @@ router.post('/user/sign_in', function(req, res){
 
 //  회원 가입 페이지
 router.get('/user/sign_up', function(req,res){
-    res.render('sign_up');
+    res.render('1_main/sign_up');
 })
 
 //  회원 가입 페이지에서 form에서 post 방식으로 전송
@@ -81,11 +81,7 @@ router.get('/user/logout', function(req,res){
         req.session.destroy((err)=>{
             res.redirect('../');
         });
-})
-
-router.get('/user/take_pic', function(req,res){
-    res.render('sign_up_takepic.html');
-})
+});
 
 module.exports = router;
 

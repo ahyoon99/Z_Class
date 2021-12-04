@@ -23,7 +23,6 @@ courses.forEach(course=>{
         i++;
     }
     
-    console.log(course_times);
     let is_same_day = false;
     course_times.forEach(course_time=>{
         if(now_day===course_time.day){

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,25 +12,24 @@
     </head>
 
     <body>
-        <div id="background_container">
-            <div id="background_1" class="background_base"></div>
-            <div id="background_2" class="background_base"></div>
-        </div>
         <div id="container">
-            <div id="main_container">
-                <div id="title">Z-Class</div>
+            <div id="sign_in_container" class="main_container">
+                <h1>Z-Class</h1>
                 <form id="form_login" action="/user/sign_in" method="post">
                     <input id="input_id" name="id" type="text" placeholder="아이디" required="required">
                     <input id="input_password" name="password" type="password" placeholder="비밀번호" required="required">
                     <button id="btn_sign_in" type="submit">로그인</button>
                 </form>
                 <div id="href_container">
-                    <a id="href_sign_up" href="/user/sign_up">회원가입</a>
-                    <a id="href_find_id" href="/user/find_id">아이디 찾기</a>
-                    <a id="href_find_password" href="/user/find_password">비밀번호 찾기</a>
+                    <span><a href="/user/sign_up">회원가입</a>이 필요하신가요?</span> <br>
+                    <span><a href="/user/find_id">아이디</a> / <a href="/user/find_password">비밀번호</a>를 잊으셨나요?</span><br>
                 </div>
             </div>
         </div>
-        <script src="/public/js/main.js"></script>
+        <div id="background_container">
+            <div id="background_1" class="background_base"></div>
+            <div id="background_2" class="background_base"></div>
+        </div>
+        <script src="/public/js/1_main/main.js"></script>
     </body>
 </html>
