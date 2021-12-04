@@ -13,6 +13,10 @@
 
     <body>
 
+        <div id="background_container">
+            <div id="background_1" class="background_base"></div>
+            <div id="background_2" class="background_base"></div>
+        </div>
         <form method="post">
             <input
                 type="text"
@@ -40,7 +44,6 @@
                                 <option value="Fri." <%=(course_info.time[i].day==='Fri.')? "selected='selected'" : ""%>>금요일</option>
                                 <option value="Sat." <%=(course_info.time[i].day==='Sat.')? "selected='selected'" : ""%>>토요일</option>
                             </select>
-                            <input type="radio" name="day<%=i+1%>" value="Son." required="required" >
                         </div>
 
                     <!-- 수업 시작 시간 -->

@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/', function(req, res){
                                                     // 메인 페이지 접속 시 세션 정보를 확인하여 로그인 되어있는지 아닌지 확인
     if(req.session.userInfo){                           // 로그인 되어 있는 경우 바로 페이지 이동
-        res.redirect('2_waiting_room/waiting_room');
+        res.redirect('/waiting_room');
     }
     else{
         res.render('1_main/main')       // 로그인이 되어있지 않은 경우 로그인 페이지 출력
