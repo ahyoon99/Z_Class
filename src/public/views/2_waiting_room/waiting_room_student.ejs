@@ -19,25 +19,18 @@
         </div>
         <div id="container">
             <div id="top_container">
-                <span><%=user_name%>님! Z-Class에 오신 것을 환영합니다 !</span>
-                <div id="user_btn_container">
-                    <button id="btn_modify_user_info">정보수정</button>
-                    <button id="btn_logout"  onclick="location.href='/user/logout';">로그아웃</button>
-                </div>
+                <span id="msg_hi"><%=user_name%>님! Z-Class에 오신 것을 환영합니다 ! </span>
+                <button id="btn_modify_user_info">정보수정</button>
+                <button id="btn_logout" class="btn_back"  onclick="location.href='/user/logout';"> 로그아웃</button>
             </div>
 
             <div id="waiting_room_container" class="main_container">
+                <h1>대기실</h1>
                 <form id="form_course" method="post" action="/class">
-                    <div id="course_container_student">
+                    <div id="course_container">
                         <div id="course_list">
                             <% for (let i=0; i < user_courses.length; i++ ){ %>
-                                <input
-                                    type="radio"
-                                    name="course_objectId"
-                                    value="<%=user_courses[i]._id%>"
-                                    id="<%=user_courses[i]._id%>"
-                                    class="course"
-                                    required="required"
+                                <input type="radio" name="course_objectId" value="<%=user_courses[i]._id%>" id="<%=user_courses[i]._id%>" class="course" required="required"
                                     <% for(let j=0; j< user_courses[i].time.length;j++){ %>
                                         data-day<%=j%>="<%=user_courses[i].time[j].day%>"
                                         data-time<%=j%>="<%=user_courses[i].time[j].time%>"
@@ -47,11 +40,12 @@
                             <% } %>
                         </div>
                     </div>
-                    <button type="button" id="btn_enter_course">수업 참가</button>
+                    <button type="button" id="btn_enter_course" class="last_content btn_main">수업 참가</button>
                 </form>
             </div>
         </div>
         <script src="/public/js/2_waiting_room/waiting_room_student.js"></script>
+        <script src="/public/js/2_waiting_room/waiting_room.js"></script>
     </body>
 
 </html>

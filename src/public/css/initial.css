@@ -11,8 +11,9 @@
 
 * {
     font-family: '맑은 고딕';
-    color:white;
+    color: aliceblue;
     box-sizing: border-box;
+    user-select: none;
 }
 
 body {
@@ -36,8 +37,32 @@ body {
     display: none;
 }
 
+.last_content{
+    margin-top: auto;
+}
 
+span{
+    font-size: 1.5rem;
+}
+.sub_title{
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+.small_letter{
+    font-size:1.25rem;
+}
 
+::-webkit-scrollbar{
+    width:0.75rem;
+}
+::-webkit-scrollbar-track{
+    background-color: #154360;
+    border-radius:10px;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #17A589;
+    border-radius:10px;
+}
 /* #####  배경화면  ##### */
 #background_container{
     position:fixed;

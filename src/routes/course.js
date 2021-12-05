@@ -25,18 +25,19 @@ router.post('/make_course', function (req, res) {
     const input_title = req.body.title;
     const input_day_n_time = [{
             day: req.body.day1,
-            time: req.body.time1
+            hour: req.body.hour1,
+            minute: req.body.minute1
         }];
 
     //  강의 시간 추가되었을 경우에 추가적으로 저장
     if (req.body.day2) 
-        input_day_n_time.push({day: req.body.day2, time: req.body.time2});
+        input_day_n_time.push({day: req.body.day2, hour: req.body.hour2, minute: req.body.minute2});
     if (req.body.day3) 
-        input_day_n_time.push({day: req.body.day3, time: req.body.time3});
+        input_day_n_time.push({day: req.body.day3, hour: req.body.hour3, minute: req.body.minute3});
     if (req.body.day4) 
-        input_day_n_time.push({day: req.body.day4, time: req.body.time4});
+        input_day_n_time.push({day: req.body.day4, hour: req.body.hour4, minute: req.body.minute4});
     if (req.body.day5) 
-        input_day_n_time.push({day: req.body.day5, time: req.body.time5});
+        input_day_n_time.push({day: req.body.day5, hour: req.body.hour5, minute: req.body.minute5});
     const input_students = req.body.students;
 
     // object_id로 외래키 참조

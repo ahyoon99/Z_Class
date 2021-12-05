@@ -36,7 +36,7 @@ courses.forEach(course=>{
     // 같은 요일일 경우에만 출력도되록 함           +++ 날짜 바뀌는 시간대일 경우??? (빠른 개발을 위해 패스)
     if(!is_same_day){
     const course_label = document.querySelector('#label_'+course.id);
-    course_label.classList.add('none_display');
+    course_label.classList.add('display_none');
     }
 
 });

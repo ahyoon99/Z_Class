@@ -17,34 +17,41 @@
     flex-direction: column;
 
 }
-/* 로그인 페이지 */
+/* # 로그인 페이지 # */
 #sign_in_container{
     width:360px;
     height:480px;
 }
-/* 회원가입 페이지 */
+/* # 회원가입 페이지 # */
 #sign_up_container{
     width:540px;
     height:660px;
 }
-/* 각종 메시지 + 돌아가기 페이지 */
+/* # 각종 메시지 + 돌아가기 페이지 # */
 #msg_container{
     font-size: 1.5rem;
     text-align: center;
     padding:1.5rem;
 }
-
+/* 돌아가기 버튼 */
 #msg_container button{
     width:15rem;
     margin-top: 2rem;
     margin-left: auto;
     margin-right: auto;
 }
-/* 대기실 페이지 */
+/* # 대기실 페이지 # */
 #waiting_room_container{
     width:540px;
     height:660px;
 }
+/* # 강의 생성/수정 페이지 # */
+#course_info_container{
+    width:600px;
+    height:800px;
+}
+
+
 /* 메뉴 이름 */
 h1{
     font-size: 3rem;
@@ -61,7 +68,7 @@ input[type="text"],input[type="password"]{
     width:100%;
     margin-bottom: 1rem;
     background: rgba(0,0,0,0.5);
-    border-radius: 5px;
+    border-radius: 10px;
     outline: none;
     transition: border 0.25s;
 }
@@ -84,22 +91,32 @@ button{
     outline: none;
     border-radius: 5px;
     background: #17A589;
-    transition: 0.25s;
+    transition: background 0.25s;
 
     padding: 0;
     margin-top:1rem;
 
     font-size: 1.5rem;
     letter-spacing: 0.5rem;
+    text-indent:0.25rem;
     font-weight: bold;
     cursor: pointer;
 }
-
 button:hover{
-    background: #2874A6;
+    background: #1ABC9C;
 }
 button:active{
-    background: #154360;
+    background: #0E6251;
+}
+
+.btn_back{
+    background: #E91E63;
+}
+.btn_back:hover{
+    background: #EC407A;
+}
+.btn_back:active{
+    background: #880E4F;
 }
 
 button:disabled{
@@ -108,4 +125,3 @@ button:disabled{
 button:disabled:hover{
     background:#555;
 }
-

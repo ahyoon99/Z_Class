@@ -6,69 +6,87 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Z-Class 강의 수정</title>
         <link rel="stylesheet" href="/public/css/initial.css">
+        <link rel="stylesheet" href="/public/css/menu.css">
         <link rel="stylesheet" href="/public/css/waiting_room.css">
         <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
     </head>
 
     <body>
-
+        <div id="container">
         <div id="background_container">
             <div id="background_1" class="background_base"></div>
             <div id="background_2" class="background_base"></div>
         </div>
+        <div id="course_info_container" class="main_container">
+            <h1>강의 수정</h1>
         <form method="post">
-            <input
-                type="text"
-                name="title"
-                placeholder="강의명"
-                required="required"
-                value="<%=course_info.title%>">
-            <button type="button" id="btn_add_course" disabled>강의 시간 추가</button>
-            <button type="button" id="btn_remove_course" disabled>강의 시간 삭제</button>
-            <!-- 수업 요일 & 시작 시간이 담김, 추가 / 삭제가 이 안에서 이루어짐 -->
-            <div class="class_container">
+            <input type="text" name="title" placeholder="강의명" required="required" value="<%=course_info.title%>">
+             <!-- 수업 요일 & 시작 시간이 담김, 추가 / 삭제가 이 안에서 이루어짐 -->
+            <div class="class_container">            
+                <div class="option_title">
+                    <span class="sub_title">⏰ <b>수업 시간</b> ⏰</span>
+                    <button type="button" id="btn_remove_course" disabled>➖</button>
+                    <button type="button" id="btn_add_course">➕</button>
+                </div>
                 <!-- 수업 요일 -->
                 <% for(let i=0; i<course_info.time.length; i++) {%>
-                    <div id="day<%=i+1%>_container">
-
-                        <div class="day_container">
-
-                            <label for="day<%=i+1%>">수업 요일</label>
-                            <select name="day<%=i+1%>">
-                                <option value="Son." <%=(course_info.time[i].day==='Sun.')? "selected='selected'" : ""%>>일요일</option>
-                                <option value="Mon." <%=(course_info.time[i].day==='Mon.')? "selected='selected'" : ""%>>월요일</option>
-                                <option value="Tue." <%=(course_info.time[i].day==='Tue.')? "selected='selected'" : ""%>>화요일</option>
-                                <option value="Wed." <%=(course_info.time[i].day==='Wed.')? "selected='selected'" : ""%>>수요일</option>
-                                <option value="Thu." <%=(course_info.time[i].day==='Thu.')? "selected='selected'" : ""%>>목요일</option>
-                                <option value="Fri." <%=(course_info.time[i].day==='Fri.')? "selected='selected'" : ""%>>금요일</option>
-                                <option value="Sat." <%=(course_info.time[i].day==='Sat.')? "selected='selected'" : ""%>>토요일</option>
-                            </select>
-                        </div>
-
+                    <div id="day<%=i+1%>_container" class="day_container">
+                        <span>&nbsp;수업 1 - </span>
+                        <select name="day<%=i+1%>" required>
+                            <option value="">요일</option>
+                            <option value="Son." <%=(course_info.time[i].day==='Sun.')? "selected='selected'" : ""%>>일요일</option>
+                            <option value="Mon." <%=(course_info.time[i].day==='Mon.')? "selected='selected'" : ""%>>월요일</option>
+                            <option value="Tue." <%=(course_info.time[i].day==='Tue.')? "selected='selected'" : ""%>>화요일</option>
+                            <option value="Wed." <%=(course_info.time[i].day==='Wed.')? "selected='selected'" : ""%>>수요일</option>
+                            <option value="Thu." <%=(course_info.time[i].day==='Thu.')? "selected='selected'" : ""%>>목요일</option>
+                            <option value="Fri." <%=(course_info.time[i].day==='Fri.')? "selected='selected'" : ""%>>금요일</option>
+                            <option value="Sat." <%=(course_info.time[i].day==='Sat.')? "selected='selected'" : ""%>>토요일</option>
+                        </select>
+                        &nbsp;
                     <!-- 수업 시작 시간 -->
-                    <div class="time_container">
-                        수업 시작 시간<input type="time" name="time<%=i+1%>" required="required" value="<%=course_info.time[i].time%>">
+                        <select name="hour<%=i+1%>" required>
+                            <option value="">시</option>
+                            <% for(let j=9; j<23; j++){ %>
+                            <option value="<%=j%>" <%= (course_info.time[i].hour===j.toString()) ? "selected='selected'" : ''%>><%=j%></option>
+                            <% } %>
+                        </select>
+                        <span>&nbsp;:&nbsp;</span>
+                        <select name="minute<%=i+1%>" required>
+                            <option value="">분</option>
+                            <% for(let j=0; j<12; j++){ %>
+                            <option value="<%=5*j%>" <%=(course_info.time[i].minute===(5*j).toString())?"selected='selected'":''%>><%=5*j%></option>
+                            <% } %>
+                        </select>
                     </div>
-                </div>
                 <% } %>
             </div>
 
             <!-- 선생님과 같은 소속인 학생들의 checkbox가 담김, 강의를 수강하는 학생들을 체크-->
             <div id="students_container">
-                <!-- 학생들의 checkbox를 ejs로 생성 -->
-                <% for (let i=0; i < students_info.length; i++ ){ %>
-                    <input type="checkbox" name="student" value="<%=students_info[i]._id%>" <%=(course_info.students.includes(students_info[i]._id))?"checked":"" %>>
-                    <label for="<%=students_info[i].id%>"><%=students_info[i].name%>,
-                        <%=students_info[i].grade%>학년</label>
-                <% } %>
+                <span class="sub_title">🙋‍♀️ <b>학생 목록</b> 🙋‍♂️</span>
+                <div id="students_list_wrapper">
+                    <div id="students_list">
+                    <!-- 학생들의 checkbox를 ejs로 생성 -->
+                        <% for (let i=0; i < students_info.length; i++ ){ %>
+                        <label><input type="checkbox" name="students" value="<%=students_info[i]._id%>" <%=(course_info.students.includes(students_info[i]._id))?"checked":"" %>>
+                        <%=students_info[i].name%>, <%=students_info[i].grade%>학년</label>
+                        <% } %>
+                    </div>
+                </div>
             </div>
+            
+            
             <input type="hidden" name="course_objectId" value="<%=course_info._id%>">
-            <button id="btn_submit" formaction="/course/delete_course">삭제</button>
-            <button id="btn_submit" formaction="/course/modify_course">수정</button>
-        </form>
-        <button id="btn_back" onclick="location.href='/';">취소</button>
 
+            <button type="submit" class="btn_main last_content" formaction="/course/modify_course">수정</button>
+            <div class="sub_btn_container ">
+                <button type="button" class="btn_back" onclick="location.href='/';">취소</button>
+                <button type="submit" class="btn_warning" formaction="/course/delete_course">삭제</button>
+            </div>
+        </form>
+        </div>
+    </div>
         <script src="/public/js/2_waiting_room/make_course.js"></script>
     </body>
 

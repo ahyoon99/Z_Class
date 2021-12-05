@@ -1,31 +1,26 @@
-/*  #####################  최상단의 사용자 관련 공간  ################  */
+/* ##### 최상단 레이아웃 ( 사용자 정보 ) ##### */
 #top_container{
     position:fixed;
     top:0;
     width:100%;
-    height:2rem;
-    background-color: rgba(0,0,0,0.25);
+    height:4rem;
+    background-color: rgba(0,0,0,0.3);
     display:flex;
     align-items: center;
     padding: 0.5rem;
 }
 
 #top_container span{
-    flex: 8;
-}
-
-#user_btn_container{
-    flex: 2;
-    display: flex;
-}
-
-#btn_modify_user_info{
-    flex: 1;
-}
-#btn_logout{
+    font-size: 1.5rem;
     flex:1;
 }
+#top_container button{
+    width:10rem;
+    margin-top: 0;
+    margin-left: 1rem;
+}
 
+/* ##### 메인 레이아웃 ##### */
 form{
     width:100%;
     height:100%;
@@ -35,7 +30,8 @@ form{
 
 #course_container{
     width:100%;
-    flex-basis: 70%;
+    flex:1;
+    margin-bottom: 1rem;
     position:relative;
 }
 #course_container_student{
@@ -43,8 +39,9 @@ form{
     flex-basis: 85%;
     position:relative;
 }
+/* # 강의 목록 # */
 #course_list{
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: rgba(0,0,0,0.25);
 
     position:absolute;
@@ -54,85 +51,107 @@ form{
     overflow-x:hidden;
     height:100%;
     width:100%;
-    color:white;
 
-}#course_list::-webkit-scrollbar-track{
-    background-color: rgba(21,67,96,0.3);;
-    border-radius:5px;
-}
-#course_list::-webkit-scrollbar-thumb{
-    background-color: rgba(21,67,96,0.9);
-    background-clip: padding-box;
-    border: 0.2rem solid transparent;
-    border-radius:8px;
-}
-#course_list::-webkit-scrollbar{
-    background-color: #1F618D;
-    width:0.75rem;
-    border-radius:5px;
 }
 input[type="radio"]{
     display: none;
 }
 input[type="radio"]:checked+label{
-    background-color: rgba(0,0,0,0.25);
+    background-color: rgba(255,255,255,0.25);
 }
 label{
     font-size: 1.5rem;
     padding-left: 0.5rem;
 }
-
-#btn_enter_course{
-    flex-basis:15%;
-    width:100%;
-    margin-top: 0.5rem;
-    border-radius: 5px;
-
-    background: linear-gradient(315deg, #9B59B6 33%,#F5B7B1 100%);
-    color:white;
-
-    text-align: center;
-    font-size: 1.25rem;
-    font-weight: bold;
-    outline: none;
-    border: none;
-    cursor: pointer;
+/* # 하단의 버튼 # */
+.btn_main{
+    background: #2980B9;
+    transition: 0.25s;
 }
-#sub_btn_container{
-
-    flex-basis:15%;
+.btn_main:hover{
+    background: #5499C7;
+}
+.btn_main:active{
+    background: #1B4F72;
+}
+.btn_warning{
+    background: #F44336;
+    transition: 0.25s;
+}
+.btn_warning:hover{
+    background: #E57373;
+}
+.btn_warning:active{
+    background: #641E16;
+}
+.sub_btn_container{
     display:flex;
 }
-
-#btn_modify_course{
+.sub_btn_container button{
     flex:1;
-    margin-right: 0.5rem;
-    margin-top: 0.5rem;
-
-    border-radius: 5px;
-    background: linear-gradient(315deg, #2874A6 33%,#76D7C4 100%);
-    color:white;
-
-    text-align: center;
-    font-size: 1.25rem;
-    font-weight: bold;
-    outline: none;
-    border: none;
-    cursor: pointer;
 }
-#btn_make_course{
-    flex:1;
-    margin-top: 0.5rem;
+.sub_btn_container button:not(:nth-child(1)){
+    margin-left: 1rem;
+}
 
-    border-radius: 5px;
-    
-    background: linear-gradient(315deg, #2874A6 33%,#76D7C4 100%);
-    color:white;
-
-    text-align: center;
-    font-size: 1.25rem;
-    font-weight: bold;
-    outline: none;
+/* ##### 강의 생성/수정 ##### */
+select{
+    background: rgba(0,0,0,0.5);
+    text-align: right;
+    font-size: 1.5rem;
     border: none;
-    cursor: pointer;
+}
+
+#students_container{
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.4);
+    width:100%;
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    padding:1rem;
+}
+#students_list_wrapper{
+    flex:1;
+    position:relative;
+}
+#students_list{
+    position:absolute;
+    display:flex;
+    align-content: flex-start;
+    overflow-y: scroll;
+    overflow-x:hidden;
+    flex-wrap: wrap;
+    height:100%;
+    width:100%;
+}
+
+#students_list label{
+    flex: 0 0 50%;
+    margin-bottom: 0.5rem;
+}
+#students_list input{
+    transform:scale(1.5);
+}
+
+.class_container{
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.4);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.option_title{
+    display: flex;
+}
+.option_title span{
+    flex:1;
+}
+.option_title button{
+    width:2.5rem;
+    height:2.5rem;
+    margin-top: 0;
+    margin-left: 1rem;
+}
+.day_container{
+    margin-bottom: 0.5rem;
 }
