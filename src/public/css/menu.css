@@ -50,6 +50,11 @@
     width:600px;
     height:800px;
 }
+/* # 학생 강의 입장 페이지 # */
+#class_init_container{
+    width:540px;
+    height:660px;
+}
 
 
 /* 메뉴 이름 */
@@ -124,4 +129,34 @@ button:disabled{
 }
 button:disabled:hover{
     background:#555;
+}
+
+.btn_main{
+    background: #2980B9;
+    transition: 0.25s;
+}
+.btn_main:hover{
+    background: #5499C7;
+}
+.btn_main:active{
+    background: #1B4F72;
+}
+.btn_warning{
+    background: #F44336;
+    transition: 0.25s;
+}
+.btn_warning:hover{
+    background: #E57373;
+}
+.btn_warning:active{
+    background: #641E16;
+}
+.sub_btn_container{
+    display:flex;
+}
+.sub_btn_container button{
+    flex:1;
+}
+.sub_btn_container button:not(:nth-child(1)){
+    margin-left: 1rem;
 }

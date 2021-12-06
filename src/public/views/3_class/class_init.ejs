@@ -6,7 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Z-Class 강의화면</title>
         <link rel="stylesheet" href="/public/css/initial.css">
-
+        <link rel="stylesheet" href="/public/css/menu.css">
+        <link rel="stylesheet" href="/public/css/waiting_room.css">
         <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
     </head>
@@ -17,11 +18,13 @@
             <div id="background_2" class="background_base"></div>
         </div>
         <div id="container">
-            <video id="vid_self">화면 미리보기 영역</video>
-            <div>비디오 설정 영역</div>
-            <div>오디오 설정 역역</div>
-            <canvas class="invisible"></canvas>
-            <button id="btn_enter_class">입장하기</button>
+            <div id="class_init_container" class="main_container">
+                <h1>출석 체크</h1>
+                <video id="vid_self">화면 미리보기 영역</video>
+                <span>화면을 응시하고 입장하기를 눌러주세요 !</span>
+                <canvas class="display_none"></canvas>
+                <button id="btn_enter_class" class="last_content">입장하기</button>
+            </div>
         </div>
         <script src="/socket.io/socket.io.js"></script>
         <script src="/public/js/3_class/class_init.js"></script>

@@ -24,6 +24,8 @@ router.post('/user/sign_in', function(req, res){
 
         if(user){                                               // db와 id, password가 일치하는 경우
             req.session.userInfo = {objectId:user._id, id:input_id, name:user.name, type: user.type, affiliation: user.affiliation};     // session 정보에 userInfo 객체 넣어줌, 이를 통해서 유저의 id와 로그인 여부 확인
+            if(user.type==='teacher')
+                req.session.canEnter = true;
             req.session.save(()=>{                                      // 위 내용을 session에 저장시키고 나서 페이지 이동, 안할 시 db 서버와의 딜레이로 문제 발생
                 return res.redirect('/waiting_room');                   // 로그인에 성공하였으므로 로그인 페이지로 넘어감
             })

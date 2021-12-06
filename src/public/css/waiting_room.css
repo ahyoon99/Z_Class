@@ -34,11 +34,6 @@ form{
     margin-bottom: 1rem;
     position:relative;
 }
-#course_container_student{
-    width:100%;
-    flex-basis: 85%;
-    position:relative;
-}
 /* # 강의 목록 # */
 #course_list{
     border-radius: 10px;
@@ -51,49 +46,18 @@ form{
     overflow-x:hidden;
     height:100%;
     width:100%;
-
+    padding:0.5rem;
+    font-size: 1.5rem;
+}
+.label_time_info{
+    float:right;
 }
 input[type="radio"]{
     display: none;
 }
-input[type="radio"]:checked+label{
+input[type="radio"]:checked + div {
     background-color: rgba(255,255,255,0.25);
 }
-label{
-    font-size: 1.5rem;
-    padding-left: 0.5rem;
-}
-/* # 하단의 버튼 # */
-.btn_main{
-    background: #2980B9;
-    transition: 0.25s;
-}
-.btn_main:hover{
-    background: #5499C7;
-}
-.btn_main:active{
-    background: #1B4F72;
-}
-.btn_warning{
-    background: #F44336;
-    transition: 0.25s;
-}
-.btn_warning:hover{
-    background: #E57373;
-}
-.btn_warning:active{
-    background: #641E16;
-}
-.sub_btn_container{
-    display:flex;
-}
-.sub_btn_container button{
-    flex:1;
-}
-.sub_btn_container button:not(:nth-child(1)){
-    margin-left: 1rem;
-}
-
 /* ##### 강의 생성/수정 ##### */
 select{
     background: rgba(0,0,0,0.5);
@@ -154,4 +118,19 @@ select{
 }
 .day_container{
     margin-bottom: 0.5rem;
+}
+.title_container{
+    position:relative;
+}
+.title_container button{
+    position:absolute;
+    width:4rem;
+    letter-spacing: 0;
+    top:0;
+    right:0;
+    font-size: 1.25rem;
+}
+
+#vid_self{
+    margin-top:auto;
 }

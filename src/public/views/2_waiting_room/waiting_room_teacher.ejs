@@ -24,13 +24,24 @@
         </div>
         
         <div id="waiting_room_container" class="main_container">
-            <h1>대기실</h1>
+            <div class="title_container">
+                <h1>대기실</h1>
+                <button type="button" id="btn_change_list">Today</button>
+            </div>
             <form method="post">
                 <div id="course_container">
                     <div id="course_list">
                         <% for (let i=0; i < user_courses.length; i++ ){ %>
-                            <input type="radio" name="course_objectId" value="<%=user_courses[i]._id%>" id="<%=user_courses[i]._id%>" required="required">
-                            <label for="<%=user_courses[i]._id%>"><%=user_courses[i].title%></label>
+                            <input type="radio" name="course_objectId" value="<%=user_courses[i]._id%>" id="<%=user_courses[i]._id%>" class="course" required="required"
+                            <% for(let j=0; j< user_courses[i].time.length;j++){ %>
+                                data-day<%=j+1%>="<%=user_courses[i].time[j].day%>"
+                                data-hour<%=j+1%>="<%=user_courses[i].time[j].hour%>"
+                                data-minute<%=j+1%>="<%=user_courses[i].time[j].minute%>"
+                            <% } %>>
+                            <div id="label_<%=user_courses[i]._id%>_container">
+                                <label for="<%=user_courses[i]._id%>"id="label_<%=user_courses[i]._id%>"class="label_title display_none"><%=user_courses[i].title%></label>
+                                <label for="<%=user_courses[i]._id%>"id="label_tiem_info_<%=user_courses[i]._id%>" class="label_time_info display_none"><%=user_courses[i].time[0].hour%>:<%=user_courses[i].time[0].minute%></label>
+                            </div>
                         <% } %>
                     </div>
                 </div>

@@ -119,10 +119,10 @@ def train_data():
    print(trainX.shape, trainy.shape)                     #trainX.shape : (580,160,160,3) - 580은 전체 train data의 총 갯수고, 160,160은 사이즈, 3은 RGB임을 나타냄.
                                                                         #trainy.shape : (580,) - 모든 사진 580개에 대한 label이 저장돼 있음.
    # 테스트 데이터셋 불러오기
-   test_path = './face_recognition/image/test/'
-   testX, testy = load_dataset(test_path)
+   # test_path = './image/test/'
+   # testX, testy = load_dataset(test_path)
 
-   print(testX.shape, testy.shape)
+   # print(testX.shape, testy.shape)
 
    # savez_compressed : 여러개의 배열을 1개의 압축된 *.npz 포맷 파일로 저장하기
    #즉, my-faces-dataset3.npz 파일에는 train,test 데이터에 대한 얼굴 추출 결과 배열과, 각 레이블이 저장돼 있음.
@@ -147,18 +147,19 @@ def train_data():
     
 
 #출석 체크 시 실행
-@app.route('/face_test', methods=['POST'])
+@app.route('/face_test', methods=['GET'])
 def test_model():
-
+   user_id = request.args["id"]
+   
    model = load_model("facenet_keras.h5")
    print('모델 불러오기')
 
    # test 데이터셋 불러오기
    # test 데이터를 압축 파일에서 가져오지 말고, 디렉토리에서 가져오기로 바꾸기.
-   train_data = load('sa-faces-train_dataset.npz')
+   train_data = load('sa-faces-train_dataset1.npz')
 
    #test 파일명 쓰기
-   image = Image.open("./face_recognition/image/test/1.jpg")
+   image = Image.open("./data/face_pic/"+user_id+".png");
       # RGB로 변환, 필요시
    image = image.convert('RGB')
       # 이미지를 배열로 변환
@@ -168,8 +169,11 @@ def test_model():
       # 이미지에서 얼굴 감지
    results = detector.detect_faces(pixels)
       # 첫 번째 얼굴에서 경계 상자 추출 : 각 경계 상자- 왼쪽 아래 모서리 위치(x1,y1) 너비(width) 및 높이(height)를 정의
-   x1, y1, width, height = results[0]['box']
-
+   print(results);
+   try:
+      x1, y1, width, height = results[0]['box']
+   except:
+      return 'error'
       # 버그 수정 : 라이브러리가 음의 픽셀 인덱스를 반환하며,좌표값에 절대값을 취하여 버그를 해결함.
    x1, y1 = abs(x1), abs(y1)
    x2, y2 = x1 + width, y1 + height
@@ -187,7 +191,7 @@ def test_model():
 
    # 얼굴 임베딩 불러오기
    # test 데이터 임베딩 값(testX)을 압축파일에서 가져오지 말고, 디렉토리에서 가져오도록 바꾸기. (배열로 그대로 저장.)
-   train_embedding = load('sa-faces-train-embeddings2.npz')
+   train_embedding = load('sa-faces-train-embeddings1.npz')
    trainX, trainy= train_embedding['arr_0'], train_embedding['arr_1']
 
    test_face_array = test_face_array.astype('int32')
@@ -274,7 +278,7 @@ def test_yolo():
     with open("./model/classes.names","r") as f:
         classes = [line.strip() for line in f.readlines()]	# coco.names에 있는 물체의 이름을 classes 리스트에 넣어준다.
     layer_names = net.getLayerNames()   # layer의 이름을 layer_names라는 변수에 넣어준다.
-    output_layers = [layer_names[i-1] for i in net.getUnconnectedOutLayers()]
+    output_layers = [layer_names[i[0]-1] for i in net.getUnconnectedOutLayers()]
     colors = np.random.uniform(0,255, size = (len(classes),3))  # 컬러를 지정해준다.색깔을 랜덤으로 지정해준다.
 
     # Loading image

@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', function (req, res) {
-    if (!req.session.userInfo) 
+    console.log(req.session.canEnter)
+    if (!req.session.userInfo||!req.session.canEnter) 
         return res.render('1_main/return', {msg:"잘못된 접근입니다 !"});
 
     // 세션에 저장해둔 사용자 정보의 type을 확인해 해당하는 페이지로 이동
@@ -13,6 +14,7 @@ router.get('/', function (req, res) {
     }
 });
 
+// # 학생인 경우 출석인증 페이지, 선생님인 경우 바로 입장 #
 router.post('/', function (req, res){
     req.session.course_objectId = req.body.course_objectId;
     
@@ -26,7 +28,7 @@ router.post('/', function (req, res){
 // #####  수업 페이지 입장 전 중간 페이지   #####
 // 출석 인증 수행
 router.get('/init', function(req,res){
-    if (!req.session.userInfo) 
+    if (!req.session.userInfo||!req.session.course_objectId) 
         return res.render('1_main/return', {msg:"잘못된 접근입니다 !"});
 
     res.render('3_class/class_init');

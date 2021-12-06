@@ -113,7 +113,7 @@ wsServer.on('connection', (socket) => {
 
     //  ###########  회원 가입 시 사진 촬영 데이터 받음  ##############
     socket.on("signUp_getPicture", (_data, _id,_i) => {
-        const dir = `python/face_recognition/train/${_id}`;
+        const dir = `python/image/train/${_id}`;
         if(!fs.existsSync(dir))
             fs.mkdirSync(dir, {recursive:true});
         fs.writeFile(dir+`/img${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
@@ -136,6 +136,40 @@ wsServer.on('connection', (socket) => {
             console.log(err);
             socket.emit('signUp_checkReady', -1);
         }
+    });
+
+    // #####  수업 입장 전 출석 체크  #####
+    socket.on('checkAttendance', async(_data)=>{
+        const dir = 'python/data/face_pic';
+        if(!fs.existsSync(dir))
+            fs.mkdirSync(dir, {recursive:true});
+        fs.writeFile(dir+`/${socketSession.userInfo['id']}.png`, _data,(_err) => {if(_err)console.log(_err)});
+        try{
+            const check_response = await axios.get("http://127.0.0.1:5000/yolo?id="+socketSession.userInfo['id']);
+            if(check_response.data===0){
+                const test_response = await axios.get("http://127.0.0.1:5000/face_test?id="+socketSession.userInfo['id']);
+                if(test_response.data === socketSession.userInfo['id']){
+                    socketSession.canEnter = true;
+                    socketSession.save();
+                    console.log(socket.request.session.canEnter);
+                    socket.emit('checkAttendance', 10);
+                }
+                else{
+                    if(test_response.data==='error')
+                        socket.emit('checkAttendance', -100);
+                    else
+                        socket.emit('checkAttendance', -10);
+                }
+            }
+            else{
+                socket.emit('checkAttendance', check_response.data);
+            }
+        }
+        catch(err){
+            console.log(err);
+            socket.emit('checkAttendance', -1);
+        }
+
     });
 
     //  ###########  화상 수업 class 페이지 첫 접속 시 초기화

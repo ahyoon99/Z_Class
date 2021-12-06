@@ -23,7 +23,7 @@ router.get('/make_course', function (req, res) {
 //  ##########  /course/make_course 주소에서 post 방식으로 form 전송
 router.post('/make_course', function (req, res) {
     const input_title = req.body.title;
-    const input_day_n_time = [{
+    let input_day_n_time = [{
             day: req.body.day1,
             hour: req.body.hour1,
             minute: req.body.minute1
@@ -38,6 +38,19 @@ router.post('/make_course', function (req, res) {
         input_day_n_time.push({day: req.body.day4, hour: req.body.hour4, minute: req.body.minute4});
     if (req.body.day5) 
         input_day_n_time.push({day: req.body.day5, hour: req.body.hour5, minute: req.body.minute5});
+
+    input_day_n_time = input_day_n_time.sort((a,b)=>{
+        if(a.day>b.day)
+            return 1;
+        else if(a.day<b.day)
+            return -1;
+        else{
+            if(a.hour>b.hour)
+                return 1;
+            else
+                return -1;
+        }
+    });
     const input_students = req.body.students;
 
     // object_id로 외래키 참조
@@ -80,21 +93,37 @@ router.post('/modify_course', async function (req, res){
     const course_objectId = req.body.course_objectId;
     
     const input_title = req.body.title;
-    const input_day_n_time = [{
+    let input_day_n_time = [{
             day: req.body.day1,
-            time: req.body.time1
+            hour: req.body.hour1,
+            minute: req.body.minute1
         }];
 
     //  강의 시간 추가되었을 경우에 추가적으로 저장
     if (req.body.day2) 
-        input_day_n_time.push({day: req.body.day2, time: req.body.time2});
+        input_day_n_time.push({day: req.body.day2, hour: req.body.hour2, minute: req.body.minute2});
     if (req.body.day3) 
-        input_day_n_time.push({day: req.body.day3, time: req.body.time3});
+        input_day_n_time.push({day: req.body.day3, hour: req.body.hour3, minute: req.body.minute3});
     if (req.body.day4) 
-        input_day_n_time.push({day: req.body.day4, time: req.body.time4});
+        input_day_n_time.push({day: req.body.day4, hour: req.body.hour4, minute: req.body.minute4});
     if (req.body.day5) 
-        input_day_n_time.push({day: req.body.day5, time: req.body.time5});
-    const input_students = req.body.student;
+        input_day_n_time.push({day: req.body.day5, hour: req.body.hour5, minute: req.body.minute5});
+    
+    
+    input_day_n_time = input_day_n_time.sort((a,b)=>{
+        if(a.day>b.day)
+            return 1;
+        else if(a.day<b.day)
+            return -1;
+        else{
+            if(a.hour>b.hour)
+                return 1;
+            else
+                return -1;
+        }
+    });
+    
+    const input_students = req.body.students;
 
     const course_data = {title:input_title, time: input_day_n_time, teacher: req.session.userInfo['objectId'], students:input_students};
     // object_id로 외래키 참조

@@ -10,3 +10,4 @@ python/sa-faces-train-embeddings1.npz
 python/haarcascades
 python/model
 python/data/face_pic
+python/image

@@ -35,13 +35,13 @@
                         <span>&nbsp;수업 1 - </span>
                         <select name="day<%=i+1%>" required>
                             <option value="">요일</option>
-                            <option value="Son." <%=(course_info.time[i].day==='Sun.')? "selected='selected'" : ""%>>일요일</option>
-                            <option value="Mon." <%=(course_info.time[i].day==='Mon.')? "selected='selected'" : ""%>>월요일</option>
-                            <option value="Tue." <%=(course_info.time[i].day==='Tue.')? "selected='selected'" : ""%>>화요일</option>
-                            <option value="Wed." <%=(course_info.time[i].day==='Wed.')? "selected='selected'" : ""%>>수요일</option>
-                            <option value="Thu." <%=(course_info.time[i].day==='Thu.')? "selected='selected'" : ""%>>목요일</option>
-                            <option value="Fri." <%=(course_info.time[i].day==='Fri.')? "selected='selected'" : ""%>>금요일</option>
-                            <option value="Sat." <%=(course_info.time[i].day==='Sat.')? "selected='selected'" : ""%>>토요일</option>
+                            <option value="0" <%=(course_info.time[i].day==='0')? "selected='selected'" : ""%>>일요일</option>
+                            <option value="1" <%=(course_info.time[i].day==='1')? "selected='selected'" : ""%>>월요일</option>
+                            <option value="2" <%=(course_info.time[i].day==='2')? "selected='selected'" : ""%>>화요일</option>
+                            <option value="3" <%=(course_info.time[i].day==='3')? "selected='selected'" : ""%>>수요일</option>
+                            <option value="4" <%=(course_info.time[i].day==='4')? "selected='selected'" : ""%>>목요일</option>
+                            <option value="5" <%=(course_info.time[i].day==='5')? "selected='selected'" : ""%>>금요일</option>
+                            <option value="6" <%=(course_info.time[i].day==='6')? "selected='selected'" : ""%>>토요일</option>
                         </select>
                         &nbsp;
                     <!-- 수업 시작 시간 -->

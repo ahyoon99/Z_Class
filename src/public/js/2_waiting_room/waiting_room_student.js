@@ -1,3 +1,41 @@
+
+
+
+
+
+
+
+
+
+// ########### 삭제 예정, 강의 시간 체크 함수만 참고해서 만들고 삭제  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const courses = document.querySelectorAll('.course');
 const now = new Date();
 const day_string = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
