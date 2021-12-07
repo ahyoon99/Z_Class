@@ -20,7 +20,8 @@ import os
 import numpy as np
 import cv2
 import dlib
-# from flask_mobility import Mobility
+# import pygame 
+# import time
 
 app = Flask(__name__)
 
@@ -28,6 +29,10 @@ app = Flask(__name__)
 # localhost:5000/flask로 접속 시 Flask server 출력됨
 # node js 서버에서 127.0.0.1:5000/flask로 접속
 # python -m flask run 으로 터미널에서 실행 가능
+
+# pygame.mixer.init() # 소리를 낼 수 있게 해준다.
+# pygame.mixer.music.load('audio/fire-truck.wav')   # 소방차 경보음으로 설정해준다.
+
 
 RIGHT_EYE = list(range(36, 42))
 LEFT_EYE = list(range(42, 48))
@@ -528,8 +533,9 @@ def test_yolo():
     #print(result)
     return result
 
-@app.route('/sleep_test', methods=['POST'])
+@app.route('/sleep_test', methods=['GET'])
 def testSleep():
+   user_id = request.args["id"]
    print("sleep app start")
    sleep_result = "0"  # 0이면 졸고 있지 않은 상태
    cnt=0
@@ -539,8 +545,12 @@ def testSleep():
    result = "0"
    for i in range(1,11):
       print("i : "+str(i))
-      image = cv2.imread("./data/sleep_pic/pic"+str(i)+".png")
-      print("./data/sleep_pic/"+str(i)+".png")
+      #image = cv2.imread("./data/sleep_pic/pic"+str(i)+".png")
+      #print("./data/sleep_pic/"+str(i)+".png")
+      image = cv2.imread("./data/sleep_pic/"+user_id+"/pic"+str(i)+".png")
+      print("./data/sleep_pic/"+user_id+"/pic"+str(i)+".png")
+      
+      
       # frame이 있으면 계속 detect하는 함수를 읽어온다.
       sleep_result = detectAndDisplay(image)    # 이번에 읽어온 frame을 가져다준다.
       if sleep_result=="1":
@@ -552,14 +562,16 @@ def testSleep():
    
    return sleep_result
 
-@app.route('/rangeFrame', methods=['POST'])
+@app.route('/rangeFrame', methods=['GET'])
 def rangeFrame_test():
+   user_id = request.args["id"]
+   print("rangeFrame's user_id : "+user_id)
    print("frame test 시작")
    rangeResult = "0"
 
    # dlib에서 학습된 모델이다. 다양한 모델이 있다. model폴더 아래에 넣어두면 된다.
    predictor_file = 'model/shape_predictor_68_face_landmarks.dat'
-   image_file = './data/sleep_pic/pic1.png'
+   image_file = './data/sleep_pic/'+user_id+'/pic1.png'
 
 
    # get_frontal_face_detector는 dlib이 정면 얼굴을 detect할 detector 객체를 만들었다.

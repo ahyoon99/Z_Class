@@ -141,7 +141,13 @@ wsServer.on('connection', (socket) => {
     //  ###########  sleep 사진 촬영 데이터 받음  ##############
     socket.on("getSleepPic", async (_data, _my_id, _i) => {
         console.log("data 받음4");
-        fs.writeFile(`python/data/sleep_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+        const dir = 'python/data/sleep_pic/'+socketSession.userInfo['id'];
+        if(!fs.existsSync(dir))
+            console.log("dir 생성");
+            fs.mkdirSync(dir, {recursive:true});
+        console.log(dir+`/pic${_i}.png` + "생성");
+        fs.writeFile(dir+`/pic${_i}.png`, _data,(_err) => {if(_err)console.log(_err)});  ////!!!
+        //fs.writeFile(`python/data/sleep_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
         // const dir = `python/data/sleep_pic/${_my_id}`;
         // if(!fs.existsSync(dir))
         //     fs.mkdirSync(dir, {recursive:true});
@@ -155,8 +161,8 @@ wsServer.on('connection', (socket) => {
         //console.log("getframe link = "+link);
         //console.log("data 받음3");
         //fs.writeFile(`python/data/face_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
-        // const response = await axios.get("http://127.0.0.1:5000/rangeFrame?name="+socketSession.userInfo['name']);
-        const response = await axios.post("http://127.0.0.1:5000/rangeFrame");
+        const response = await axios.get("http://127.0.0.1:5000/rangeFrame?id="+socketSession.userInfo['id']);
+        //onst response = await axios.post("http://127.0.0.1:5000/rangeFrame");
         console.log(response.data);
         socket.emit('rangeFrame_result', response.data);
         //return response.data;
@@ -168,8 +174,8 @@ wsServer.on('connection', (socket) => {
         //console.log("detectSleep link = "+link);
         //console.log("data 받음4");
         //fs.writeFile(`python/data/sleep_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
-        //const response = await axios.post("http://127.0.0.1:5000/sleep_test?name="+socketSession.userInfo['name']);
-        const response = await axios.post("http://127.0.0.1:5000/sleep_test");
+        const response = await axios.get("http://127.0.0.1:5000/sleep_test?id="+socketSession.userInfo['id']);
+        //const response = await axios.post("http://127.0.0.1:5000/sleep_test");
         console.log(response.data);
         socket.emit('sleep_result', response.data);
         //return response.data;

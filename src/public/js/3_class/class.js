@@ -19,15 +19,13 @@ const pcConfig = {
 let isTeacher = false;
 if(document.querySelector("#container_teacher"))
     isTeacher=true;
-
-const canvas = document.createElement("canvas");
-document.getElementById("canvas").style.display = 'none';
-
-canvas.setAttribute("width",293);
-canvas.setAttribute("height",220);    
-
-// 시작 전 사용자의 미디어를 받아오고
-// 서버에 미디어를 송신하기 위한 rtcPeerConnection 생성
+else{
+    const canvas = document.createElement("canvas");
+    document.getElementById("canvas").style.display = 'none';   // teacher에 추가
+    
+    canvas.setAttribute("width",293);
+    canvas.setAttribute("height",220);   
+}
 
 
 InitializeToStart();
@@ -226,21 +224,24 @@ function MakeReceiveConnection(_id, _type, _name) {
 }
 
 
-//setTimeout(StudentStrangeDetect,10000)
-let timerId = setTimeout(async function tick(){
-    // 사진 찍고 학생 이상 감지 탐지 기능 실행하도록 하는 코드 넣기
+if (isTeacher==false){
+    //setTimeout(StudentStrangeDetect,10000)
+    let timerId = setTimeout(async function tick(){
+        // 사진 찍고 학생 이상 감지 탐지 기능 실행하도록 하는 코드 넣기
 
-    // 1. 사진 10장 찍어주는 코드
-    await getPic();
+        // 1. 사진 10장 찍어주는 코드
+        await getPic();
 
-    // 2. Rangeframe TEST
-    await  getFramePic();
+        // 2. Rangeframe TEST
+        await  getFramePic();
 
-    // 3. Sleep TEST
-    await detectSleep();
+        // 3. Sleep TEST
+        await detectSleep();
 
-    timerId = setTimeout(tick, 10000);
-},10000);
+        timerId = setTimeout(tick, 10000);
+    },10000);
+}
+
 
 async function getPic(){
     // 1. 사진 10장 찍어주는 코드
@@ -252,7 +253,6 @@ async function getPic(){
     
     setTimeout( () => {
         clearInterval(intervalId);
-        //btnCheckMyself.disabled = false; // 캡쳐 버튼 활성화
     }, 1500);
  }
 
@@ -394,8 +394,8 @@ socket.on('rangeFrame_result', function (result){
     }
     else if(result=='0'){ 
         alert('얼굴이 나오도록 화면 각도를 조절해주세요.');
-    }
-  });
+     }
+    });
   
 socket.on('sleep_result', function (result){
     if(result=='0'){ // 0이면 아무것도 검출 안됨, 
@@ -423,7 +423,7 @@ function sendPicToServer() {
     // dataURL로부터 blob을 만들어 이를 서버로 전송
     var data = canvas.toDataURL("image/png");
     const file = dataURLtoBlob(data);
-    console.log("my_name : "+my_name);
+    //console.log("my_name : "+my_name);
     socket.emit("getSleepPic", file, my_name, i);
   }
 
