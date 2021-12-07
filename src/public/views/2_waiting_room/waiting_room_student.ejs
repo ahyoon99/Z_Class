@@ -49,7 +49,20 @@
                     <button type="button" id="btn_enter_course" class="last_content btn_main">수업 참가</button>
                 </form>
             </div>
+        </div>    
+        <div id="alert_container" class="display_none">
+            <div id="alert_wrapper">
+                <span id="span_alert"></span>
+                <button onclick="document.querySelector('#alert_container').classList.add('display_none');">확인</button>
+            </div>
         </div>
+        <div id="alert_container" class="display_none">
+            <div id="alert_wrapper">
+                <span id="span_alert"></span>
+                <button id="btn_alert" onclick="document.querySelector('#alert_container').classList.add('display_none');">확인</button>
+            </div>
+        </div>
+        <script src="/public/js/etc/alert.js"></script>
         <script src="/public/js/2_waiting_room/waiting_room.js"></script>
     </body>
 

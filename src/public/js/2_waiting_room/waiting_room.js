@@ -53,7 +53,7 @@ function ShowTodayCourses(){
         _course.course_infos.forEach((_times)=>{
             if(_times.day===now_day.toString()){
                 contains_today=true;
-                infos += _times.hour+':'+_times.minute+' ';
+                infos += _times.hour.padStart(2,'0')+ ':'+_times.minute.padStart(2,'0')+' ';
             }
         });
         if(contains_today)
@@ -106,7 +106,7 @@ const btn_enter_course = document.querySelector('#btn_enter_course');
 btn_enter_course.addEventListener('click', (event)=>{
     const selected_course = document.querySelector('input[name="course_objectId"]:checked');
     if(!selected_course)
-        return alert('입장할 수업을 선택해주세요 !');
+        return Alert('입장할 수업을 선택해주세요 !');
     
     // @@@ 나머지 기능 완료 후에 시작 10분 전부터 30분 이후까지 구현 예정
 

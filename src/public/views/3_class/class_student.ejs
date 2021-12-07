@@ -19,6 +19,7 @@
         <div id="container">
         <div id="container_student">
             <div id="topContainer">
+                <canvas id="canvas"></canvas>
                 <!-- 학생 화면 영역 -->
                 <div id="studentsMediaWrapper">
                     <div id="studentsMediaContainer"></div>
@@ -40,7 +41,7 @@
                     <!-- 채팅방 영역 -->
                     <div id="chatRoomContainer">
                         <div id="chatRoom">
-                            <div id="chatRoomTitle">Message</div>
+                            <div id="chatRoomTitle">✉</div>
                             <div id="messageBox"></div>
                             <input type="text" id="inputBox" placeholder="Enter Message...">
                         </div>
@@ -49,11 +50,13 @@
                     <div id="optionContainer">
                         <div id="btnCamSwitch" class="btnOptions">Cam OFF</div>
                         <div id="btnMicSwitch" class="btnOptions">Mic ON</div>
-                        <div id="btnExit" class="btnOptions">Exit</div>
+                        <div id="btnExit" class="btnOptions btn_back">Exit</div>
                     </div>
                 </div>
             </div>
         </div>
+        <iframe src="/public/audio/silence.mp3" allow="autoplay" id="audio" style="display:none"></iframe>  
+        <audio id="audio_hey" src="/public/audio/hey.wav"></audio>
         <script src="/socket.io/socket.io.js"></script>
         <script src="/public/js/3_class/class.js"></script>
     </body>

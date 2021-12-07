@@ -18,15 +18,15 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res){
     req.session.course_objectId = req.body.course_objectId;
     req.session.save();
-    res.redirect('/class');
+    //res.redirect('/class');
 
-    /*      테스트 간소화
+    /// * //     테스트 간소화
     if (req.session.userInfo['type'] === 'student') {
         res.redirect('/class/init');
     } else if (req.session.userInfo['type'] === 'teacher') {
         res.redirect('/class');
     }
-    */
+    // */
 });
 
 // #####  수업 페이지 입장 전 중간 페이지   #####
