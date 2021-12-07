@@ -102,9 +102,9 @@ function makeMediaContainer(_id, _stream, _name){
     const nameElement = document.createElement('div');
     nameElement.className="studentName";
     nameElement.innerText= _name;
-    my_name = _name;
     if(_id==="me")
         nameElement.innerText = "나";
+        
         
     // 영상과 이름 담을 공간
     const mediaContainer = document.createElement('div');
@@ -423,7 +423,7 @@ function sendPicToServer() {
     // dataURL로부터 blob을 만들어 이를 서버로 전송
     var data = canvas.toDataURL("image/png");
     const file = dataURLtoBlob(data);
-    //console.log("my_name : "+my_name);
+    console.log("my_name : "+my_name);
     socket.emit("getSleepPic", file, my_name, i);
   }
 

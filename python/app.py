@@ -530,7 +530,6 @@ def test_yolo():
 
 @app.route('/sleep_test', methods=['POST'])
 def testSleep():
-   #user_name = request.args["name"]
    print("sleep app start")
    sleep_result = "0"  # 0이면 졸고 있지 않은 상태
    cnt=0
@@ -540,10 +539,7 @@ def testSleep():
    result = "0"
    for i in range(1,11):
       print("i : "+str(i))
-      #image = cv2.imread("./data/sleep_pic/"+user_name+"/pic"+str(i)+".png")
       image = cv2.imread("./data/sleep_pic/pic"+str(i)+".png")
-      #image = cv2.imread("data/sleep_pic/pic"+str(i)+".png")
-      #print("./data/sleep_pic/"+user_name+"/pic"+str(i)+".png")
       print("./data/sleep_pic/"+str(i)+".png")
       # frame이 있으면 계속 detect하는 함수를 읽어온다.
       sleep_result = detectAndDisplay(image)    # 이번에 읽어온 frame을 가져다준다.
@@ -558,15 +554,11 @@ def testSleep():
 
 @app.route('/rangeFrame', methods=['POST'])
 def rangeFrame_test():
-   # user_name = request.args["name"]
-   # print("user_name : "+user_name)
    print("frame test 시작")
    rangeResult = "0"
 
    # dlib에서 학습된 모델이다. 다양한 모델이 있다. model폴더 아래에 넣어두면 된다.
    predictor_file = 'model/shape_predictor_68_face_landmarks.dat'
-   #image_file = 'image/yoona_frontal_face.png'
-   #image_file = './data/sleep_pic/'+user_name+'.png'
    image_file = './data/sleep_pic/pic1.png'
 
 
