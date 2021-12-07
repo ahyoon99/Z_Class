@@ -72,9 +72,10 @@ async function GetMyStream() {
 }
 // 학생들 화면이 출력될 공간
 const studentsMediaContainer = document.querySelector("#studentsMediaContainer");
+const teacher_media_container = 
 
 // stream을 얻었을 경우 video 생성, 나와 다른 사람 영상 생성에 사용
-function makeMediaContainer(_id, _stream, _name){
+function makeMediaContainer(_id, _stream, _type, _name){
     // stream이 재생될 video
     const videoElement = document.createElement('video');
     videoElement.setAttribute("id", _id);
@@ -82,16 +83,13 @@ function makeMediaContainer(_id, _stream, _name){
     videoElement.setAttribute("autoplay","");
     videoElement.className="studentMedia";
     videoElement.srcObject = _stream;
-    videoElement.addEventListener("contextmenu",(event)=>{
-        event.preventDefault();
-    });
+    if(_id==='me')      // 내 비디오 음소거, 안하면 하울링 일어남
+        videoElement.muted = true;
 
     // 우측 아래 이름 표시
     const nameElement = document.createElement('div');
-    nameElement.className="studentName";
-    nameElement.innerText= _name;
-    if(_id==="me")
-        nameElement.innerText = "나";
+    nameElement.className="name_video_container";
+    (_id==="me") ? nameElement.innerText = "나" : nameElement.innerText= _name;
     
     // 영상과 이름 담을 공간
     const mediaContainer = document.createElement('div');

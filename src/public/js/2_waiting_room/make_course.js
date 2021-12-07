@@ -10,6 +10,8 @@ btn_remove_course.addEventListener('click', (event)=>RemoveCourse());
 
 // 현재 강의 시간표 개수
 let class_num = class_container.childElementCount-1;
+course_info_container.style.setProperty('height','calc(800px + '+2.5*(class_num-1)+'rem)');
+
 
 // 강의 시간표 개수에 따라 초기화 ( 수정 페이지에서 사용 )
 if(class_num!==1){
