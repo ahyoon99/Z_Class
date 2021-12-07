@@ -86,14 +86,14 @@ app.use('/class', classRouter);
 // $$$$$$$$$$$$$$$ 얼굴 인식 모듈 추가 시 사용 예정
 // /flask 주소로 접속 시 5000번 port의 경로로 접속해서 response 받음
 
-/*app.get("/flask", async (req, res) => {
-    const response = await axios.get("http://127.0.0.1:5000/flask");
+app.get("/flask", async (req, res) => {
+    const response = await axios.get("http://127.0.0.1:5000/yolo");
     console.log(response.data);
 
     // response.data 값을 client에게 보내줌
     res.send(response.data);
 });
-*/
+
 
 //  ######## socket.io 관련 부분  #########
 
@@ -136,6 +136,43 @@ wsServer.on('connection', (socket) => {
             console.log(err);
             socket.emit('signUp_checkReady', -1);
         }
+    });
+
+    //  ###########  sleep 사진 촬영 데이터 받음  ##############
+    socket.on("getSleepPic", async (_data, _my_id, _i) => {
+        console.log("data 받음4");
+        fs.writeFile(`python/data/sleep_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+        // const dir = `python/data/sleep_pic/${_my_id}`;
+        // if(!fs.existsSync(dir))
+        //     fs.mkdirSync(dir, {recursive:true});
+        // fs.writeFile(dir+`/img${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+    });
+
+    // http://127.0.0.1:5000/yolo?id="+socketSession.userInfo['id']
+    //  ###########  rangeFrame 사진 촬영 데이터 받음  ##############
+    socket.on("getFramePic", async () => {
+        //link = "http://127.0.0.1:5000/rangeFrame?name="+socketSession.userInfo['name'];
+        //console.log("getframe link = "+link);
+        //console.log("data 받음3");
+        //fs.writeFile(`python/data/face_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+        // const response = await axios.get("http://127.0.0.1:5000/rangeFrame?name="+socketSession.userInfo['name']);
+        const response = await axios.post("http://127.0.0.1:5000/rangeFrame");
+        console.log(response.data);
+        socket.emit('rangeFrame_result', response.data);
+        //return response.data;
+    });
+
+    //  ###########  sleep 사진 데이터로 졸고 있는지 없는지 판단 받음  ##############
+    socket.on("detectSleep", async (_data, _i) => {
+        //link = "http://127.0.0.1:5000/sleep_test?name="+socketSession.userInfo['name'];
+        //console.log("detectSleep link = "+link);
+        //console.log("data 받음4");
+        //fs.writeFile(`python/data/sleep_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+        //const response = await axios.post("http://127.0.0.1:5000/sleep_test?name="+socketSession.userInfo['name']);
+        const response = await axios.post("http://127.0.0.1:5000/sleep_test");
+        console.log(response.data);
+        socket.emit('sleep_result', response.data);
+        //return response.data;
     });
 
     // #####  수업 입장 전 출석 체크  #####

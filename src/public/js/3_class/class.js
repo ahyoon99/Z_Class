@@ -20,6 +20,12 @@ let isTeacher = false;
 if(document.querySelector("#container_teacher"))
     isTeacher=true;
 
+const canvas = document.createElement("canvas");
+document.getElementById("canvas").style.display = 'none';
+
+canvas.setAttribute("width",293);
+canvas.setAttribute("height",220);    
+
 // 시작 전 사용자의 미디어를 받아오고
 // 서버에 미디어를 송신하기 위한 rtcPeerConnection 생성
 
@@ -47,6 +53,10 @@ teacherMedia.addEventListener("contextmenu",(event)=>{
     event.preventDefault();
 });
 
+let me;
+let my_name;
+let i;  // 캡쳐된 패일 넘버링을 위해 사용
+
 async function GetMyStream() {
     try {
         myStream = await navigator.mediaDevices.getUserMedia({
@@ -55,8 +65,10 @@ async function GetMyStream() {
             });
         console.log("@@@@@  내 stream 얻음");
     
-        if(!isTeacher)
+        if(!isTeacher){
             makeMediaContainer("me", myStream, "내 이름");
+            me = document.querySelector("#me");
+        }
         else
             teacherMedia.srcObject = myStream;
         console.log("#####  내 video 생성");
@@ -90,9 +102,10 @@ function makeMediaContainer(_id, _stream, _name){
     const nameElement = document.createElement('div');
     nameElement.className="studentName";
     nameElement.innerText= _name;
+    my_name = _name;
     if(_id==="me")
         nameElement.innerText = "나";
-    
+        
     // 영상과 이름 담을 공간
     const mediaContainer = document.createElement('div');
     mediaContainer.className="studentMediaContainer";
@@ -210,6 +223,47 @@ function MakeReceiveConnection(_id, _type, _name) {
     else if(_type==='teacher')
         teacherMedia.srcObject = myReceivePCs[_id].stream
     console.log("#####  다른 사용자 VIDEO 생성");
+}
+
+
+//setTimeout(StudentStrangeDetect,10000)
+let timerId = setTimeout(async function tick(){
+    // 사진 찍고 학생 이상 감지 탐지 기능 실행하도록 하는 코드 넣기
+
+    // 1. 사진 10장 찍어주는 코드
+    await getPic();
+
+    // 2. Rangeframe TEST
+    await  getFramePic();
+
+    // 3. Sleep TEST
+    await detectSleep();
+
+    timerId = setTimeout(tick, 10000);
+},10000);
+
+async function getPic(){
+    // 1. 사진 10장 찍어주는 코드
+    console.log("GetPic");
+    i = 0;
+
+    // 100ms마다 함수 수행하고 id를 이용해 반복 수행 정지시킴
+    const intervalId = setInterval(sendPicToServer, 100);
+    
+    setTimeout( () => {
+        clearInterval(intervalId);
+        //btnCheckMyself.disabled = false; // 캡쳐 버튼 활성화
+    }, 1500);
+ }
+
+ async function getFramePic(){
+    console.log("Rangeframe TEST");
+    socket.emit("getFramePic");
+}
+
+async function detectSleep(){
+    console.log("Sleep TEST");
+    socket.emit("detectSleep");
 }
 
 socket.on("receiveAnswer", async (_answer, _id) => {
@@ -334,6 +388,60 @@ const btnCamSwitch = document.querySelector("#btnCamSwitch");
 const btnMicSwitch = document.querySelector("#btnMicSwitch");
 const btnExit = document.querySelector("#btnExit");
 
+socket.on('rangeFrame_result', function (result){
+    if(result=='1'){ // 0이면 아무것도 검출 안됨, 
+        alert('얼굴이 잘 나옵니다.');
+    }
+    else if(result=='0'){ 
+        alert('얼굴이 나오도록 화면 각도를 조절해주세요.');
+    }
+  });
+  
+socket.on('sleep_result', function (result){
+    if(result=='0'){ // 0이면 아무것도 검출 안됨, 
+        alert('안졸고 있다.');
+    }
+    else if(result=='1'){ 
+        alert('졸고있습니다.');
+    }   
+    else if(result=='2'){
+        alert('얼굴이 보이지 않습니다.');
+    }
+  });
+
+function sendPicToServer() {
+    console.log("sendPicToServer");
+    i++;
+    const context = canvas.getContext("2d");
+    canvas.width = 293;
+    canvas.height = 220;
+
+    context.drawImage(me, 0, 0, 293, 220);
+  
+    // canvas의 image를 dataURL로 변환
+    // dataURL로부터 img의 src로 사용 가능
+    // dataURL로부터 blob을 만들어 이를 서버로 전송
+    var data = canvas.toDataURL("image/png");
+    const file = dataURLtoBlob(data);
+    //console.log("my_name : "+my_name);
+    socket.emit("getSleepPic", file, my_name, i);
+  }
+
+  function dataURLtoBlob(dataURL) {
+  // convert base64/URLEncoded data component to raw binary data held in a string
+  var byteString;
+  if (dataURL.split(",")[0].indexOf("base64") >= 0)
+    byteString = atob(dataURL.split(",")[1]);
+  else byteString = unescape(dataURL.split(",")[1]);
+  // 마임타입 추출
+  var mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
+  // write the bytes of the string to a typed array
+  var ia = new Uint8Array(byteString.length);
+  for (var i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ia], { type: mimeString });
+}
 
 // cam ON / OFF 버튼
 
