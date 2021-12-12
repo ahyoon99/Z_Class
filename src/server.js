@@ -173,9 +173,7 @@ wsServer.on('connection', (socket) => {
     });
 
     // 경고 메시지 보낼 경우
-
-    
-    setInterval(()=>{socket.emit('systemMessage', 'WWWWWWWWWW')},1000);
+    //socket.emit('systemMessage', 'WWWWWWWWWW');
     socket.on("getSleepPic", async (_data, _i) => {
         console.log("data 받음4");
         const dir = 'python/data/sleep_pic/'+socketSession.userInfo['id'];
@@ -252,12 +250,12 @@ wsServer.on('connection', (socket) => {
                 // 데이터 넣는 것을 완료한 뒤에 기존 접속자에게 새로운 접속자의 media  stream을 받을 연결 생성
                 socket
                     .to(socketSession.course_objectId)
-                    .emit("newUserJoined", socket.id, socketSession.userInfo['name'], socketSession.userInfo['type']);
+                    .emit("newUserJoined", socket.id, socketSession.userInfo);
                 // 기존 접속자들의 영상 얻기
                 sockets[socketSession.course_objectId]
                 .filter((_socket) => _socket.id !== socket.id)    
                 .forEach((_socket) => {
-                        socket.emit("addOldUser", _socket.id, _socket.request.session.userInfo['name'], _socket.request.session.userInfo['type']);
+                        socket.emit("addOldUser", _socket.id, _socket.request.session.userInfo);
                     });
                 sockets[socketSession.course_objectId].push(socket);
             };
@@ -344,7 +342,7 @@ wsServer.on('connection', (socket) => {
         sockets[socketSession.course_objectId] = sockets[socketSession.course_objectId].filter((_socket) => _socket.id !== socket.id);
         socket
             .to(socketSession.course_objectId)
-            .emit("userExit", socket.id);
+            .emit("userExit", socket.id,socketSession.userInfo);
         }
         
         // 선생님 퇴장 시 방 폭파
@@ -377,8 +375,9 @@ wsServer.on('connection', (socket) => {
     // # 출석 체크 기능
     //  얼굴 인식 모듈과 연결하여 진행해야 함
     //  출석 처리할 학생들의 배열을 두번째 인자로 넣음
-    socket.on('checkAttendance', async ()=>{
-        await Attendance.checkAttendance(socketSession.course_objectId, ['619d39a43ac80abb19358254']);
+    socket.on('setAttendance', async (_attendance_infos)=>{
+        console.log(_attendance_infos);
+        await Attendance.checkAttendance(socketSession.course_objectId, _attendance_infos);
     });
     
 });

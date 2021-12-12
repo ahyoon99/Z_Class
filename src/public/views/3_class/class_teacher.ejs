@@ -41,13 +41,32 @@
             <div id="sideContainer">
                 <!-- 강의 정보 영역 -->
                 <div id="classInfoContainer">
+                    <div id="class_info_title" class="menu_title">출석부</div>
+                    <div id="attendance_info_container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>이름</th>
+                                        <th>상태</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for (let i=0; i < course_info.students.length; i++ ){ %>
+                                        <tr>
+                                        <td id="td_name_<%=course_info.students[i]%>"><%=students_info.find(ele=>ele._id.equals(course_info.students[i])).name%></td>
+                                        <td id="td_attendance_<%=course_info.students[i]%>">결석</td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                    </div>
                     <!-- <button id="btn_check_attendance">출석 체크</button> -->
                 </div>
 
                 <!-- 채팅방 영역 -->
                 <div id="chatRoomContainer">
                     <div id="chatRoom">
-                        <div id="chatRoomTitle">✉</div>
+                        <div id="chatRoomTitle" class="menu_title">✉</div>
                         <div id="messageBox"></div>
                         <input type="text" id="inputBox" placeholder="Enter Message...">
                     </div>
@@ -61,9 +80,16 @@
             </div>
         </div>
     </div>
+        <script>
+            let time_infos = '<%-JSON.stringify(course_info.time)%>';
+            time_infos = JSON.parse(time_infos);
+            const student_ids = [];
+            <% for (let i=0; i < course_info.students.length; i++ ){ %>
+                student_ids.push("<%=course_info.students[i]%>");
+            <% } %>
+        </script>
         <script src="/socket.io/socket.io.js"></script>
         <script src="/public/js/3_class/class.js"></script>
         <script src="/public/js/3_class/class_teacher.js"></script>
     </body>
-
 </html>

@@ -176,17 +176,21 @@ socket.on("sendIce", (_candidate) => {
 
 // ################ 다른 사용자가 접속 시 or 기존에 접속한 사용자 확인
 
-socket.on("newUserJoined", (_id, _name, _type) => {
+socket.on("newUserJoined", (_id, _user_info) => {
     if (!myReceivePCs[_id]) {
-        console.log(`#####  새 유저 입장: ${_name}`);
-        CreateReceiveOffer(_id, _name, _type);
+        console.log(`#####  새 유저 입장: ${_user_info.name}`);
+        CreateReceiveOffer(_id, _user_info.name, _user_info.type);
+        if(isTeacher)
+            AddAttendance(_user_info.objectId);
     }
 });
 
-socket.on("addOldUser", (_id, _name, _type) => {
+socket.on("addOldUser", (_id, _user_info) => {
     if (!myReceivePCs[_id]) {
-        console.log(`#####  기존 유저 추가: ${_name}`);
-        CreateReceiveOffer(_id, _name, _type);
+        console.log(`#####  기존 유저 추가: ${_user_info.name}`);
+        CreateReceiveOffer(_id, _user_info.name, _user_info.type);
+        if(isTeacher)
+            AddAttendanceBefore(_user_info.objectId);
     }
 });
 
@@ -225,6 +229,7 @@ function MakeReceiveConnection(_id, _name, _type) {
     makeMediaContainer(_id, myReceivePCs[_id].stream, _name, _type);
     console.log("#####  다른 사용자 VIDEO 생성");
 }
+
 
 if (isTeacher==false){
     //setTimeout(StudentStrangeDetect,10000)
@@ -283,12 +288,13 @@ socket.on("receiveIce", (_candidate, _id) => {
 });
 
 
-socket.on("userExit", (_id) => {
+socket.on("userExit", (_id, _user_info) => {
     delete myReceivePCs[_id];
     if (document.getElementById(_id)) 
         studentsMediaContainer.removeChild(document.getElementById(_id).parentElement);
-    }
-);
+    if(isTeacher)
+        DeleteAttendance(_user_info.objectId);
+});
 
 
 // student 수 많을 시 좌우 스크롤 버튼 기능
@@ -377,7 +383,10 @@ function makeMessage(_msg, _name, _type){
 }
 
 socket.on('systemMessage', _msg=>{
-    
+    SystemMessage(_msg);
+});
+
+function SystemMessage(_msg){
     const msg_box = document.createElement('div');
     const msg_name = document.createElement('span');
     msg_name.id='system_message';
@@ -388,7 +397,7 @@ socket.on('systemMessage', _msg=>{
     const audio_hey = document.querySelector('#audio_hey');
     audio_hey.play();
     messageBox.scrollTo(0, messageBox.scrollHeight);
-});
+}
 // ###############  옵션 관련 기능  ############### 
 
 const btnCamSwitch = document.querySelector("#btnCamSwitch");
@@ -452,22 +461,20 @@ function GoBack(){
 
 socket.on('rangeFrame_result', function (result){
     if(result=='1'){ // 0이면 아무것도 검출 안됨, 
-        alert('얼굴이 잘 나옵니다.');
     }
     else if(result=='0'){ 
-        alert('얼굴이 나오도록 화면 각도를 조절해주세요.');
+        SystemMessage('얼굴이 나오도록 화면 각도를 조절해주세요.');
     }
   });
 
 socket.on('sleep_result', function (result){
     if(result=='0'){ // 0이면 아무것도 검출 안됨, 
-        alert('안졸고 있다.');
     }
     else if(result=='1'){ 
-        alert('졸고있습니다.');
+        SystemMessage('졸고있습니다.');
     }   
     else if(result=='2'){
-        alert('얼굴이 보이지 않습니다.');
+        SystemMessage('얼굴이 보이지 않습니다.');
     }
   });
 

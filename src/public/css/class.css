@@ -236,16 +236,14 @@ video{
     bottom:0;
 }
 
-/* 채팅창 세부 인터페이스 */
-
-#chatRoomTitle {
+.menu_title{
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     text-align: center;
     color: aliceblue;
     background-color: #0008;
     font-size: 2rem;
-    padding-bottom: 0.3rem;
+    padding: 0.25rem;
 
     
     -ms-user-select: none; 
@@ -254,6 +252,10 @@ video{
     -webkit-user-select: none;
     user-select: none;
 }
+#class_info_title{
+    font-weight: bold;
+}
+/* 채팅창 세부 인터페이스 */
 
 #messageBox {
     flex: 1;
@@ -338,6 +340,12 @@ video{
     justify-content: center;
 }
 
+button{
+    background: #17A589;
+    font-weight: bold;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
 .btnOptions{
     flex: 1;
     margin-top:auto;
@@ -349,11 +357,9 @@ video{
     border-radius: 10px;
     height:100%;
 
-    
     background: #17A589;
     font-weight: bold;
     font-size: 1.5rem;
-    font-weight: bold;
     cursor: pointer;
 }
 .btnOptions:not(:last-child){
@@ -374,4 +380,26 @@ video{
 }
 .btn_back:active{
     background: #880E4F;
+}
+
+/* ##### 선생님 페이지 추가 강의 정보 ##### */
+/* # 출석부 # */
+#attendance_info_container{
+    width:100%;
+    height:100%;
+    padding:0.5rem;
+    background: rgba(0,0,0,0.3);
+}
+thead th{
+    border-bottom: 0.2rem solid aliceblue;
+    padding: 0.25rem;
+}
+tbody td{
+    border-bottom: 0.1rem solid aliceblue;
+    padding: 0.25rem;
+}
+table{
+    width:100%;
+    font-size: 1.5rem;
+    text-align: center;
 }
