@@ -122,6 +122,6 @@ btn_enter_course.addEventListener('click', (event)=>{
     })
     form_course.action = '/class';
     // !!!!! 테스트용
-    // can_enter ? form_course.submit() : Alert('수업 시작 10분 전부터 30분 후까지만 입장할 수 있습니다 !');
-    form_course.submit();
+    can_enter ? form_course.submit() : Alert('수업 시작 10분 전부터 30분 후까지만 입장할 수 있습니다 !');
+    // form_course.submit();
 });
