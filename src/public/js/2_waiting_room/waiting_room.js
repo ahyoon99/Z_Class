@@ -8,7 +8,7 @@ setInterval(()=>{
     i = (i+1)%2;
 },500);
 
-// #####
+// #####  초기화 과정  #####
 const courses = document.querySelectorAll('.course');
 const day_string = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -43,7 +43,7 @@ courses.forEach(course=>{
     course_info_map.set(course.id,new_course_info);
 });
 
-// 처음 대기실 들어왔을 경우에는 오늘 수업 보여주도록 함
+// #####  강의 목록  #####
 ShowTodayCourses();
 // # 오늘의 수업 띄우기 #
 function ShowTodayCourses(){
@@ -53,7 +53,7 @@ function ShowTodayCourses(){
         _course.course_infos.forEach((_times)=>{
             if(_times.day===now_day.toString()){
                 contains_today=true;
-                infos += _times.hour+':'+_times.minute+' ';
+                infos += _times.hour.padStart(2,'0')+ ':'+_times.minute.padStart(2,'0')+' ';
             }
         });
         if(contains_today)
@@ -102,13 +102,26 @@ btn_change_list.addEventListener('click',(event)=>{
 });
 
 // #####  강의 입장  #####
+const form_course = document.querySelector('form');
 const btn_enter_course = document.querySelector('#btn_enter_course');
 btn_enter_course.addEventListener('click', (event)=>{
     const selected_course = document.querySelector('input[name="course_objectId"]:checked');
     if(!selected_course)
-        return alert('입장할 수업을 선택해주세요 !');
+        return Alert('입장할 수업을 선택해주세요 !');
     
-    // @@@ 나머지 기능 완료 후에 시작 10분 전부터 30분 이후까지 구현 예정
-
-    form_course.submit();
+    const selected_course_time = course_info_map.get(selected_course.id).course_infos;
+    let can_enter = false;
+    // 선택한 코스의 강의 시작 시간을 모두 체크
+    selected_course_time.forEach((_time)=>{
+        if(_time.day !== now_day.toString())   // 같은 날인지
+            return;                 // continue와 같음
+        const time_difference = (now_hour*60 + now_minute) - (_time.hour*60 + parseInt(_time.minute));
+        
+        if(time_difference>=-10&&time_difference<=30)   // 10분 전 ~ 30분 후 사이인지
+            can_enter=true;
+    })
+    form_course.action = '/class';
+    // !!!!! 테스트용
+    can_enter ? form_course.submit() : Alert('수업 시작 10분 전부터 30분 후까지만 입장할 수 있습니다 !');
+    // form_course.submit();
 });

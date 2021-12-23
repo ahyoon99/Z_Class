@@ -31,6 +31,7 @@ app.use(express.json());
 const mongoose = require('mongoose');
 const database = mongoose.connection;
 const DATABASE_ADDRESS = 'mongodb+srv://ahyoon:0412@cluster0.gbv0x.mongodb.net/Z-Class?retryWrites=true&w=majority';
+//const DATABASE_ADDRESS =  'mongodb://ahyoon:<password>@cluster0-shard-00-00.gbv0x.mongodb.net:27017,cluster0-shard-00-01.gbv0x.mongodb.net:27017,cluster0-shard-00-02.gbv0x.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-1406v9-shard-0&authSource=admin&retryWrites=true&w=majority'
 
 // mongo DB와 주소를 이용해서 연결함
 mongoose
@@ -86,14 +87,14 @@ app.use('/class', classRouter);
 // $$$$$$$$$$$$$$$ 얼굴 인식 모듈 추가 시 사용 예정
 // /flask 주소로 접속 시 5000번 port의 경로로 접속해서 response 받음
 
-app.get("/flask", async (req, res) => {
-    const response = await axios.get("http://127.0.0.1:5000/yolo");
+/*app.get("/flask", async (req, res) => {
+    const response = await axios.get("http://127.0.0.1:5000/flask");
     console.log(response.data);
 
     // response.data 값을 client에게 보내줌
     res.send(response.data);
 });
-
+*/
 
 //  ######## socket.io 관련 부분  #########
 
@@ -138,49 +139,6 @@ wsServer.on('connection', (socket) => {
         }
     });
 
-    //  ###########  sleep 사진 촬영 데이터 받음  ##############
-    socket.on("getSleepPic", async (_data, _my_id, _i) => {
-        console.log("data 받음4");
-        const dir = 'python/data/sleep_pic/'+socketSession.userInfo['id'];
-        if(!fs.existsSync(dir))
-            console.log("dir 생성");
-            fs.mkdirSync(dir, {recursive:true});
-        console.log(dir+`/pic${_i}.png` + "생성");
-        fs.writeFile(dir+`/pic${_i}.png`, _data,(_err) => {if(_err)console.log(_err)});  ////!!!
-        //fs.writeFile(`python/data/sleep_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
-        // const dir = `python/data/sleep_pic/${_my_id}`;
-        // if(!fs.existsSync(dir))
-        //     fs.mkdirSync(dir, {recursive:true});
-        // fs.writeFile(dir+`/img${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
-    });
-
-    // http://127.0.0.1:5000/yolo?id="+socketSession.userInfo['id']
-    //  ###########  rangeFrame 사진 촬영 데이터 받음  ##############
-    socket.on("getFramePic", async () => {
-        //link = "http://127.0.0.1:5000/rangeFrame?name="+socketSession.userInfo['name'];
-        //console.log("getframe link = "+link);
-        //console.log("data 받음3");
-        //fs.writeFile(`python/data/face_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
-        const response = await axios.get("http://127.0.0.1:5000/rangeFrame?id="+socketSession.userInfo['id']);
-        //onst response = await axios.post("http://127.0.0.1:5000/rangeFrame");
-        console.log(response.data);
-        socket.emit('rangeFrame_result', response.data);
-        //return response.data;
-    });
-
-    //  ###########  sleep 사진 데이터로 졸고 있는지 없는지 판단 받음  ##############
-    socket.on("detectSleep", async (_data, _i) => {
-        //link = "http://127.0.0.1:5000/sleep_test?name="+socketSession.userInfo['name'];
-        //console.log("detectSleep link = "+link);
-        //console.log("data 받음4");
-        //fs.writeFile(`python/data/sleep_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
-        const response = await axios.get("http://127.0.0.1:5000/sleep_test?id="+socketSession.userInfo['id']);
-        //const response = await axios.post("http://127.0.0.1:5000/sleep_test");
-        console.log(response.data);
-        socket.emit('sleep_result', response.data);
-        //return response.data;
-    });
-
     // #####  수업 입장 전 출석 체크  #####
     socket.on('checkAttendance', async(_data)=>{
         const dir = 'python/data/face_pic';
@@ -215,6 +173,44 @@ wsServer.on('connection', (socket) => {
 
     });
 
+    // 경고 메시지 보낼 경우
+    //socket.emit('systemMessage', 'WWWWWWWWWW');
+    socket.on("getSleepPic", async (_data, _i) => {
+        console.log("data 받음4");
+        const dir = 'python/data/sleep_pic/'+socketSession.userInfo['id'];
+        if(!fs.existsSync(dir))
+            console.log("dir 생성");
+            fs.mkdirSync(dir, {recursive:true});
+        console.log(dir+`/pic${_i}.png` + "생성");
+        fs.writeFile(dir+`/pic${_i}.png`, _data,(_err) => {if(_err)console.log(_err)});  ////!!!
+        //fs.writeFile(`python/data/sleep_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+    });
+
+    // http://127.0.0.1:5000/yolo?id="+socketSession.userInfo['id']
+    //  ###########  rangeFrame 사진 촬영 데이터 받음  ##############
+    socket.on("getFramePic", async () => {
+        //link = "http://127.0.0.1:5000/rangeFrame?name="+socketSession.userInfo['name'];
+        //console.log("getframe link = "+link);
+        //console.log("data 받음3");
+        //fs.writeFile(`python/data/face_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+        // const response = await axios.get("http://127.0.0.1:5000/rangeFrame?name="+socketSession.userInfo['name']);
+        const response = await axios.get("http://127.0.0.1:5000/rangeFrame?id="+socketSession.userInfo['id']);        console.log(response.data);
+        socket.emit('rangeFrame_result', response.data);
+        //return response.data;
+    });
+
+    //  ###########  sleep 사진 데이터로 졸고 있는지 없는지 판단 받음  ##############
+    socket.on("detectSleep", async (_data, _i) => {
+        //link = "http://127.0.0.1:5000/sleep_test?name="+socketSession.userInfo['name'];
+        //console.log("detectSleep link = "+link);
+        //console.log("data 받음4");
+        //fs.writeFile(`python/data/sleep_pic/pic${_i}.png`, _data, (_err) => {if(_err)console.log(_err)});
+        //const response = await axios.post("http://127.0.0.1:5000/sleep_test?name="+socketSession.userInfo['name']);
+        const response = await axios.get("http://127.0.0.1:5000/sleep_test?id="+socketSession.userInfo['id']);        console.log(response.data);
+        console.log(response.data);
+        socket.emit('sleep_result', response.data);
+        //return response.data;
+    });
     //  ###########  화상 수업 class 페이지 첫 접속 시 초기화
     socket.on('first_join', () => {
         socket.join(socketSession.course_objectId);
@@ -236,6 +232,7 @@ wsServer.on('connection', (socket) => {
                     socket.emit("sendIce", _data.candidate);
                 }
             };
+
             socket.receivePC.ontrack = (_data) => {
                 console.log("### stream 받음");
 
@@ -254,12 +251,12 @@ wsServer.on('connection', (socket) => {
                 // 데이터 넣는 것을 완료한 뒤에 기존 접속자에게 새로운 접속자의 media  stream을 받을 연결 생성
                 socket
                     .to(socketSession.course_objectId)
-                    .emit("newUserJoined", socket.id, socketSession.userInfo['name']);
+                    .emit("newUserJoined", socket.id, socketSession.userInfo);
                 // 기존 접속자들의 영상 얻기
                 sockets[socketSession.course_objectId]
                 .filter((_socket) => _socket.id !== socket.id)    
                 .forEach((_socket) => {
-                        socket.emit("addOldUser", _socket.id, _socket.request.session.userInfo['type'], _socket.request.session.userInfo['name']);
+                        socket.emit("addOldUser", _socket.id, _socket.request.session.userInfo);
                     });
                 sockets[socketSession.course_objectId].push(socket);
             };
@@ -346,7 +343,7 @@ wsServer.on('connection', (socket) => {
         sockets[socketSession.course_objectId] = sockets[socketSession.course_objectId].filter((_socket) => _socket.id !== socket.id);
         socket
             .to(socketSession.course_objectId)
-            .emit("userExit", socket.id);
+            .emit("userExit", socket.id,socketSession.userInfo);
         }
         
         // 선생님 퇴장 시 방 폭파
@@ -379,8 +376,9 @@ wsServer.on('connection', (socket) => {
     // # 출석 체크 기능
     //  얼굴 인식 모듈과 연결하여 진행해야 함
     //  출석 처리할 학생들의 배열을 두번째 인자로 넣음
-    socket.on('checkAttendance', async ()=>{
-        await Attendance.checkAttendance(socketSession.course_objectId, ['619d39a43ac80abb19358254']);
+    socket.on('setAttendance', async (_attendance_infos)=>{
+        console.log(_attendance_infos);
+        await Attendance.checkAttendance(socketSession.course_objectId, _attendance_infos);
     });
     
 });

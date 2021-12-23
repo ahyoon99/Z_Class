@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/users');
 const Course = require('../models/courses');
+const Attendance = require('../models/attendances');
 const router = express.Router();
 
 
@@ -140,4 +141,15 @@ router.post('/delete_course', async function (req, res){
     
     res.render('1_main/return', {msg:"삭제가 완료되었습니다 !"});
 });
+
+router.post('/attendance', async function (req, res){
+    const course_objectId = req.body.course_objectId;
+    const attendance = await Attendance.viewAttendance(course_objectId);
+    const students = await User.findSameAffiliation(req.session.userInfo['affiliation'], req.session.userInfo['type']);
+    res.render('2_waiting_room/attendance', {attendance_info: attendance, students_info: students});
+});
+
+
+
+
 module.exports = router;

@@ -25,7 +25,10 @@ else{
     
     canvas.setAttribute("width",293);
     canvas.setAttribute("height",220);   
-}
+}  
+
+// 시작 전 사용자의 미디어를 받아오고
+// 서버에 미디어를 송신하기 위한 rtcPeerConnection 생성
 
 
 InitializeToStart();
@@ -46,15 +49,6 @@ let myStream;
 let mySendPC;
 let myReceivePCs = {};
 
-const teacherMedia = document.querySelector("#teacherMedia");
-teacherMedia.addEventListener("contextmenu",(event)=>{
-    event.preventDefault();
-});
-
-let me;
-let my_name;
-let i;  // 캡쳐된 패일 넘버링을 위해 사용
-
 async function GetMyStream() {
     try {
         myStream = await navigator.mediaDevices.getUserMedia({
@@ -63,12 +57,10 @@ async function GetMyStream() {
             });
         console.log("@@@@@  내 stream 얻음");
     
-        if(!isTeacher){
-            makeMediaContainer("me", myStream, "내 이름");
-            me = document.querySelector("#me");
-        }
+        if(!isTeacher)
+            makeMediaContainer("me", myStream, "나", "student");
         else
-            teacherMedia.srcObject = myStream;
+            makeMediaContainer("me", myStream, "나", "teacher");
         console.log("#####  내 video 생성");
 
         // constrain을 false로 줄 경우 audio 안가져오므로 true로 받아오고 enable을 꺼줌
@@ -82,36 +74,50 @@ async function GetMyStream() {
 }
 // 학생들 화면이 출력될 공간
 const studentsMediaContainer = document.querySelector("#studentsMediaContainer");
+const teacher_media_container = document.querySelector("#teacher_media_container");
 
+let me;
 // stream을 얻었을 경우 video 생성, 나와 다른 사람 영상 생성에 사용
-function makeMediaContainer(_id, _stream, _name){
+function makeMediaContainer(_id, _stream, _name, _type){
     // stream이 재생될 video
     const videoElement = document.createElement('video');
     videoElement.setAttribute("id", _id);
     videoElement.setAttribute("playsinline","");
     videoElement.setAttribute("autoplay","");
-    videoElement.className="studentMedia";
     videoElement.srcObject = _stream;
-    videoElement.addEventListener("contextmenu",(event)=>{
-        event.preventDefault();
-    });
 
     // 우측 아래 이름 표시
     const nameElement = document.createElement('div');
-    nameElement.className="studentName";
-    nameElement.innerText= _name;
-    if(_id==="me")
-        nameElement.innerText = "나";
-        
-        
+    nameElement.className="name_video_container";
+    
     // 영상과 이름 담을 공간
     const mediaContainer = document.createElement('div');
-    mediaContainer.className="studentMediaContainer";
     mediaContainer.appendChild(nameElement);
     mediaContainer.appendChild(videoElement);
 
     // 만들어진 컨테이너를 넣어줌
-    studentsMediaContainer.appendChild(mediaContainer);
+
+    if(_id==='me'){
+        videoElement.muted = true;
+        nameElement.innerText = "나" 
+        me = videoElement;
+    }
+    else{
+        nameElement.innerText= _name;
+    }
+
+    switch(_type){
+        case 'teacher':
+            mediaContainer.className="teacher_media_container";
+            videoElement.className="teacher_media";
+            teacher_media_container.appendChild(mediaContainer);
+        break;
+        case 'student':
+            mediaContainer.className="studentMediaContainer";
+            videoElement.className="studentMedia";
+            studentsMediaContainer.appendChild(mediaContainer);
+        break;
+    }
 }
 
 
@@ -170,25 +176,29 @@ socket.on("sendIce", (_candidate) => {
 
 // ################ 다른 사용자가 접속 시 or 기존에 접속한 사용자 확인
 
-socket.on("newUserJoined", (_id, _name) => {
+socket.on("newUserJoined", (_id, _user_info) => {
     if (!myReceivePCs[_id]) {
-        console.log("#####  새 유저 입장");
-        CreateReceiveOffer(_id, 'student', _name);
+        console.log(`#####  새 유저 입장: ${_user_info.name}`);
+        CreateReceiveOffer(_id, _user_info.name, _user_info.type);
+        if(isTeacher)
+            AddAttendance(_user_info.objectId);
     }
 });
 
-socket.on("addOldUser", (_id, _type, _name) => {
+socket.on("addOldUser", (_id, _user_info) => {
     if (!myReceivePCs[_id]) {
-        console.log(`#####  기존 유저 추가: ${_id}`);
-        CreateReceiveOffer(_id, _type, _name);
+        console.log(`#####  기존 유저 추가: ${_user_info.name}`);
+        CreateReceiveOffer(_id, _user_info.name, _user_info.type);
+        if(isTeacher)
+            AddAttendanceBefore(_user_info.objectId);
     }
 });
 
 // 다른 client들의 stream을 받기 위한 연결
 
-async function CreateReceiveOffer(_id, _type, _name) {
+async function CreateReceiveOffer(_id, _name, _type) {
     try {
-        await MakeReceiveConnection(_id, _type, _name);
+        await MakeReceiveConnection(_id, _name, _type);
         console.log("@@@@@  receive offer 생성");
         const offer = await myReceivePCs[_id].pc.createOffer({
             offerToReceiveVideo: true, offerToReceiveAudio: true
@@ -199,7 +209,7 @@ async function CreateReceiveOffer(_id, _type, _name) {
         console.log(e);
     }
 }
-function MakeReceiveConnection(_id, _type, _name) {
+function MakeReceiveConnection(_id, _name, _type) {
     myReceivePCs[_id] = {
         pc: new RTCPeerConnection(pcConfig),
         stream: new MediaStream()
@@ -216,32 +226,19 @@ function MakeReceiveConnection(_id, _type, _name) {
         myReceivePCs[_id].stream.addTrack(_data.track);
     };
 
-    if(_type==='student')
-        makeMediaContainer(_id, myReceivePCs[_id].stream, _name);
-    else if(_type==='teacher')
-        teacherMedia.srcObject = myReceivePCs[_id].stream
+    makeMediaContainer(_id, myReceivePCs[_id].stream, _name, _type);
     console.log("#####  다른 사용자 VIDEO 생성");
 }
 
 
 if (isTeacher==false){
-    //setTimeout(StudentStrangeDetect,10000)
     let timerId = setTimeout(async function tick(){
-        // 사진 찍고 학생 이상 감지 탐지 기능 실행하도록 하는 코드 넣기
-
-        // 1. 사진 10장 찍어주는 코드
         await getPic();
-
-        // 2. Rangeframe TEST
         await  getFramePic();
-
-        // 3. Sleep TEST
         await detectSleep();
-
         timerId = setTimeout(tick, 10000);
     },10000);
 }
-
 
 async function getPic(){
     // 1. 사진 10장 찍어주는 코드
@@ -250,7 +247,7 @@ async function getPic(){
 
     // 100ms마다 함수 수행하고 id를 이용해 반복 수행 정지시킴
     const intervalId = setInterval(sendPicToServer, 100);
-    
+
     setTimeout( () => {
         clearInterval(intervalId);
     }, 1500);
@@ -266,6 +263,7 @@ async function detectSleep(){
     socket.emit("detectSleep");
 }
 
+
 socket.on("receiveAnswer", async (_answer, _id) => {
     try {
         console.log("#####  receive answer 수신");
@@ -277,18 +275,17 @@ socket.on("receiveAnswer", async (_answer, _id) => {
 
 socket.on("receiveIce", (_candidate, _id) => {
     console.log("#####  receive candidate 추가");
-    myReceivePCs[_id]
-        .pc
-        .addIceCandidate(_candidate);
+    myReceivePCs[_id].pc.addIceCandidate(_candidate);
 });
 
 
-socket.on("userExit", (_id) => {
+socket.on("userExit", (_id, _user_info) => {
     delete myReceivePCs[_id];
     if (document.getElementById(_id)) 
         studentsMediaContainer.removeChild(document.getElementById(_id).parentElement);
-    }
-);
+    if(isTeacher)
+        DeleteAttendance(_user_info.objectId);
+});
 
 
 // student 수 많을 시 좌우 스크롤 버튼 기능
@@ -343,13 +340,7 @@ socket.on("receiveChat", (_msg, _name, _type) => {
 
     makeMessage(_msg, _name, _type);
 
-    let canScroll = false;
-    if (Math.abs(messageBox.scrollTop - (messageBox.scrollHeight - messageBox.clientHeight)) <= 5) {
-        canScroll = true;
-    }
-    if (canScroll) {
-        messageBox.scrollTo(0, messageBox.scrollHeight);
-    }
+    messageBox.scrollTo(0, messageBox.scrollHeight);
 
 });
 
@@ -382,66 +373,28 @@ function makeMessage(_msg, _name, _type){
     messageBox.appendChild(msg_box);
 }
 
+socket.on('systemMessage', _msg=>{
+    SystemMessage(_msg);
+});
+
+function SystemMessage(_msg){
+    const msg_box = document.createElement('div');
+    const msg_name = document.createElement('span');
+    msg_name.id='system_message';
+    msg_name.innerText = _msg;
+    msg_name.classList.add('chat_name');
+    msg_box.appendChild(msg_name);
+    messageBox.appendChild(msg_box);
+    const audio_hey = document.querySelector('#audio_hey');
+    audio_hey.play();
+    messageBox.scrollTo(0, messageBox.scrollHeight);
+}
 // ###############  옵션 관련 기능  ############### 
 
 const btnCamSwitch = document.querySelector("#btnCamSwitch");
 const btnMicSwitch = document.querySelector("#btnMicSwitch");
 const btnExit = document.querySelector("#btnExit");
 
-socket.on('rangeFrame_result', function (result){
-    if(result=='1'){ // 0이면 아무것도 검출 안됨, 
-        alert('얼굴이 잘 나옵니다.');
-    }
-    else if(result=='0'){ 
-        alert('얼굴이 나오도록 화면 각도를 조절해주세요.');
-     }
-    });
-  
-socket.on('sleep_result', function (result){
-    if(result=='0'){ // 0이면 아무것도 검출 안됨, 
-        alert('안졸고 있다.');
-    }
-    else if(result=='1'){ 
-        alert('졸고있습니다.');
-    }   
-    else if(result=='2'){
-        alert('얼굴이 보이지 않습니다.');
-    }
-  });
-
-function sendPicToServer() {
-    console.log("sendPicToServer");
-    i++;
-    const context = canvas.getContext("2d");
-    canvas.width = 293;
-    canvas.height = 220;
-
-    context.drawImage(me, 0, 0, 293, 220);
-  
-    // canvas의 image를 dataURL로 변환
-    // dataURL로부터 img의 src로 사용 가능
-    // dataURL로부터 blob을 만들어 이를 서버로 전송
-    var data = canvas.toDataURL("image/png");
-    const file = dataURLtoBlob(data);
-    //console.log("my_name : "+my_name);
-    socket.emit("getSleepPic", file, my_name, i);
-  }
-
-  function dataURLtoBlob(dataURL) {
-  // convert base64/URLEncoded data component to raw binary data held in a string
-  var byteString;
-  if (dataURL.split(",")[0].indexOf("base64") >= 0)
-    byteString = atob(dataURL.split(",")[1]);
-  else byteString = unescape(dataURL.split(",")[1]);
-  // 마임타입 추출
-  var mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
-  // write the bytes of the string to a typed array
-  var ia = new Uint8Array(byteString.length);
-  for (var i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-  return new Blob([ia], { type: mimeString });
-}
 
 // cam ON / OFF 버튼
 
@@ -486,10 +439,67 @@ btnExit.addEventListener("click", (event)=>{
 //  #################################################
 
 socket.on('classClosed', ()=>{
+    /*
     window.alert('수업이 종료되었습니다 !!!');
     socket.emit('runFunction',2000,GoBack);
+    */
+    GoBack();
 });
 
 function GoBack(){
     window.location.href = '/waiting_room';
+}
+
+socket.on('rangeFrame_result', function (result){
+    if(result=='1'){ // 1이면 아무것도 검출 안됨, 
+    }
+    else if(result=='0'){ 
+        SystemMessage('얼굴이 나오도록 화면 각도를 조절해주세요.');
+    }
+  });
+
+socket.on('sleep_result', function (result){
+    if(result=='0'){ // 0이면 아무것도 검출 안됨, 
+    }
+    else if(result=='1'){ 
+        SystemMessage('졸고있습니다.');
+    }   
+    else if(result=='2'){
+        SystemMessage('얼굴이 보이지 않습니다.');
+    }
+  });
+
+  let i=0;
+function sendPicToServer() {
+    console.log("sendPicToServer");
+    i++;
+    const context = canvas.getContext("2d");
+    canvas.width = 293;
+    canvas.height = 220;
+
+    context.drawImage(me, 0, 0, 293, 220);
+
+    // canvas의 image를 dataURL로 변환
+    // dataURL로부터 img의 src로 사용 가능
+    // dataURL로부터 blob을 만들어 이를 서버로 전송
+    var data = canvas.toDataURL("image/png");
+    const file = dataURLtoBlob(data);
+    //console.log("my_name : "+my_name);
+    socket.emit("getSleepPic", file, i);
+  }
+
+  function dataURLtoBlob(dataURL) {
+  // convert base64/URLEncoded data component to raw binary data held in a string
+  var byteString;
+  if (dataURL.split(",")[0].indexOf("base64") >= 0)
+    byteString = atob(dataURL.split(",")[1]);
+  else byteString = unescape(dataURL.split(",")[1]);
+  // 마임타입 추출
+  var mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
+  // write the bytes of the string to a typed array
+  var ia = new Uint8Array(byteString.length);
+  for (var i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ia], { type: mimeString });
 }

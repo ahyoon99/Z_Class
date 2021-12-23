@@ -1,5 +1,4 @@
 /*  ###########  전체 큰 틀 ########### */
-
 /*  == 선생님  */
 #container_teacher{
     width:100%;
@@ -30,7 +29,7 @@
 #topContainer{
     grid-area: top;
     
-    margin:0.25rem;
+    margin:1rem;
 
 }
 
@@ -38,14 +37,17 @@
 #mainContainer{
     grid-area: main;
 
-    margin:0.25rem;
+    margin:1rem;
+    margin-top:0;
 }
 
 /*  사이드 부분 ( 옵션, 채팅창 등 기타 요소가 보이는 곳 )  */
 #sideContainer{
     grid-area: side;
 
-    margin:0.25rem;
+    margin:1rem;
+    margin-top:0;
+    margin-left:0;
 }
 
 
@@ -55,8 +57,9 @@
     position:relative;
     width:100%; 
     height:100%;
-    border: 0.15rem solid var(--border-color);
-    border-radius: 5px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 100%);
+
+    border-radius: 10px;
 }
 
 /* 학생 영상이 들어갈 공간 */
@@ -87,18 +90,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0,0,0,0.25);
-    border-radius: 3px;
+    background-color: #666C;
+}
+.btnScrollContainer:nth-child(2){
+    border-radius: 10px 0 0 10px;
+}
+.btnScrollContainer:nth-child(3){
+    border-radius: 0 10px 10px 0;
 }
 
 .btnScrollContainer:active{
-    background-color: rgba(0,0,0,0.5);
+    background-color: #FFF3;
 }
 
 .btnScroll{
     flex:1;
     text-align: center;
-    color:var(--text-title-color);
+    color: aliceblue;
 
     -ms-user-select: none; 
     -moz-user-select: -moz-none;
@@ -120,10 +128,9 @@
 /* 각 학생의 media와 이름을 담음 */
 
 .studentMediaContainer{
-    background-color: #A3E4D7;
-    border: 0.15rem solid var(--border-color);
-    border-radius: 5px;
-    margin:0.25rem;
+    background-color: black;
+    border-radius: 10px;
+    margin:0.5rem;
     position:relative;
 }
 
@@ -131,15 +138,15 @@
     height: 100%;
 }
 
-.studentName{
+.name_video_container{
     position:absolute;
     bottom:0;
     right:0;
-    font-size: 1rem;
+    font-size: 2rem;
     color:white;
     background-color: rgba(0,0,0,0.3);
-    padding-left:0.25rem;
-    padding-right:0.25rem;
+    padding-left:0.5rem;
+    padding-right:0.5rem;
 
     -ms-user-select: none; 
     -moz-user-select: -moz-none;
@@ -148,21 +155,31 @@
     user-select: none;
 }
 
-
+video{
+    border-radius: 10px;
+}
 /*  ###########  선생님 영상 영역 ( main ) ########### */
 
-#teacherMediaContainer{
+#teacher_media_container{
     width:100%;
     height:100%;
+    background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 100%);
+    border-radius: 10px;
+
+    position:relative;
 
 
 }
-#teacherMedia{
+.teacher_media_container{
+    position:relative;
     width:100%;
-    height: 100%;
-    background-color: #A3E4D7;
-    border: 0.15rem solid var(--border-color);
-    border-radius: 5px;
+    height:100%;
+    display:flex;
+}
+.teacher_media{
+    width:100%;
+
+
 }
 
 /*  ###########  기타 옵션 및 채팅창 영역 ( side ) ########### */
@@ -171,36 +188,41 @@
 #container_teacher #sideContainer{
 
     display:grid;
-    grid-template-rows: 85% 15%;
+    grid-template-rows: 92% 8%;
     grid-template-columns: 50% 50%;
     grid-template-areas:
         "class_info chat"
-        "class_info option"
+        "class_info option";
+    margin-left: 0;
+
 }
 
 /*  == 학생  */
 #container_student #sideContainer{
     display:grid;
     grid-template-columns: 100%;
-    grid-template-rows: 85% 15%;
+    grid-template-rows: 92% 8%;
     grid-template-areas:
         "chat"
-        "option"
+        "option";
+
 }
 
 #classInfoContainer{
-    grid-area: class_info;
+    grid-area: class_info;        
+    background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 100%);
+    margin-right: 1rem;
+    border-radius: 10px;
 }
 
 
 
-#chatRoomContainer{
+#chatRoomContainer{        
+    background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 100%);
+
     grid-area: chat;
     
-    background: linear-gradient(180deg, #d1f2eb 0%, #e8f8f5 50%, #FFFFFF 100%);
-
-    border: 0.15rem solid var(--border-color);
-    border-radius: 5px;
+    border-radius: 10px;
 
     position:relative;
 }
@@ -214,18 +236,14 @@
     bottom:0;
 }
 
-/* 채팅창 세부 인터페이스 */
-
-#chatRoomTitle {
-    border-bottom: 0.15rem solid var(--border-color);
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    background: linear-gradient(135deg, #1ABC9C 0%, #76D7C4 66%, #D1F2EB 100%);
+.menu_title{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     text-align: center;
-    color: #0E6251;
-    font-weight: bold;
-    font-size: 1.25rem;
-    padding-bottom: 0.3rem;
+    color: aliceblue;
+    background-color: #0008;
+    font-size: 2rem;
+    padding: 0.25rem;
 
     
     -ms-user-select: none; 
@@ -234,39 +252,30 @@
     -webkit-user-select: none;
     user-select: none;
 }
+#class_info_title{
+    font-weight: bold;
+}
+/* 채팅창 세부 인터페이스 */
 
 #messageBox {
     flex: 1;
     overflow-y: scroll;
     overflow-x:hidden;
 }
-#messageBox::-webkit-scrollbar-track{
-    background-color: #A3E4D7;
-}
-#messageBox::-webkit-scrollbar-thumb{
-    background-color: #148F77;
-    background-clip: padding-box;
-    border: 0.2rem solid transparent;
-    border-radius:8px;
-}
-#messageBox::-webkit-scrollbar{
-    background-color: #A3E4D7;
-    width:0.75rem;
-}
-
 
 #inputBox {
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
     border: none;
-    border-top: 0.15rem solid var(--border-color);
+    border-top: 0.15rem solid #FFF5;
 
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 
-    height: 2.25rem;
-    background-color: #A3E4D7;
-    padding-left: 0.5rem;
-    padding-bottom: 0.25rem;
+    height: 3.5rem;
+    font-size: 1.5rem;
+    background-color: transparent;
+    padding-left: 0.75rem;
+    padding-bottom: 0.5rem;
 }
 
 
@@ -277,17 +286,18 @@
     display: block;
     margin: 0.3rem;
     clear: both;
+    font-size: 2rem;
 }
 #chat_name_teacher {
     color: #968228;
     float: left;
 }
 #chat_name_other {
-    color: #73C6B6;
+    color: #2980B9;
     float: left;
 }
 #chat_name_me {
-    color: #7DCEA0;
+    color: #17A589;
     float: right;
 }
 
@@ -297,58 +307,99 @@
     padding: 0.5rem;
     margin: 0.2rem 0.4rem;
     clear: both;
+    font-size: 1.5rem;
 }
 #chat_content_other {
-    background-color: #A2D9CE;
+    background-color: #2980B9AA;
     float: left;
 }
 #chat_content_teacher {
-    background-color: #c2a649;
+    background-color: #c2a649AA;
     float: left;
 }
 #chat_content_me {
-    background-color: #A9DFBF;
+    background-color: #17A589AA;
     float: right;
+}
+
+#system_message{
+    color:#666;
+    text-align: center;
 }
 
 
 #optionContainer{
     grid-area: option;
-    
-    border: 0.15rem solid var(--border-color);
-    background-color: #76D7C4;
-    border-radius: 5px;
 
-    margin-top:0.25rem;
+    border-radius: 10px;
+
+    margin-top:1rem;
     
     display:flex;
-    align-items: stretch;
+    align-content: center;
+    justify-content: center;
 }
 
+button{
+    background: #17A589;
+    font-weight: bold;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
 .btnOptions{
     flex: 1;
+    margin-top:auto;
+    margin-bottom:auto;
     text-align: center;
-    background: linear-gradient(135deg, #1ABC9C 0%, #76D7C4 50%, #D1F2EB 100%);  
-    display: flex;
+        display: flex;
     justify-content: center;
     align-items: center;
-    border: 0.15rem solid var(--border-color);
-    border-radius: 3px;
+    border-radius: 10px;
+    height:100%;
 
-    
-    color: #0E6251;
+    background: #17A589;
     font-weight: bold;
-
-    -ms-user-select: none; 
-    -moz-user-select: -moz-none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.btnOptions:not(:last-child){
+    margin-right: 1rem;
 }
 .btnOptions:hover{
-    background: linear-gradient(135deg, #1ABC9C 0%, #76D7C4 75%, #D1F2EB 100%);  
-    transition: background-color .5s;    
+    background: #1ABC9C;
 }
 .btnOptions:active{
-    background: #148F77;
+    background: #0E6251;
+}
+
+.btn_back{
+    background: #E91E63;
+}
+.btn_back:hover{
+    background: #EC407A;
+}
+.btn_back:active{
+    background: #880E4F;
+}
+
+/* ##### 선생님 페이지 추가 강의 정보 ##### */
+/* # 출석부 # */
+#attendance_info_container{
+    width:100%;
+    height:100%;
+    padding:0.5rem;
+    background: rgba(0,0,0,0.3);
+}
+thead th{
+    border-bottom: 0.2rem solid aliceblue;
+    padding: 0.25rem;
+}
+tbody td{
+    border-bottom: 0.1rem solid aliceblue;
+    padding: 0.25rem;
+}
+table{
+    width:100%;
+    font-size: 1.5rem;
+    text-align: center;
 }

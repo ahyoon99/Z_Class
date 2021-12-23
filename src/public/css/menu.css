@@ -55,7 +55,11 @@
     width:540px;
     height:660px;
 }
-
+/* # 출석부 페이지 # */
+#attendance_container{
+    width:600px;
+    height:800px;
+}
 
 /* 메뉴 이름 */
 h1{

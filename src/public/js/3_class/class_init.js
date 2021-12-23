@@ -67,30 +67,35 @@ const btn_enter_class = document.querySelector("#btn_enter_class");
 });
 
 
+
 socket.on('checkAttendance', (_result)=>{
     btn_enter_class.disabled = false;
     switch(_result){
         case -1:
-            return alert('에러 발생, 다시 시도해 주세요 !');
+            
+            return Alert('에러 발생, 다시 시도해 주세요 !');
         break;
         case 1:
-            return alert('모자를 벗고 다시 시도해주세요 !');
+            return Alert('모자를 벗고 다시 시도해주세요 !');
         break;
         case 2:
-            return alert('마스크를 벗고 다시 시도해주세요 !');
+            return Alert('마스크를 벗고 다시 시도해주세요 !');
         break;
         case 3:
-            return alert('모자와 마스크를 벗고 다시 시도해주세요 !');
+            return Alert('모자와 마스크를 벗고 다시 시도해주세요 !');
         break;
         case -10:
-            return alert('가입된 정보와 일치하지 않는 사용자로 확인됩니다 !');
+            return Alert('가입된 정보와 일치하지 않는 사용자로 확인됩니다 !');
             break;
          case -100:
-            return alert('얼굴인식에 실패하였습니다 !');
+            return Alert('얼굴인식에 실패하였습니다 !');
             break;
         case 10:
-            alert('출석 체크 완료 !');
-            return window.location.href = '/class';
+            Alert('출석 체크 완료 !');
+            btn_alert.addEventListener('click',(event)=>{
+                event.preventDefault();
+                window.location.href = '/class';
+            });
             break;
     }
 });

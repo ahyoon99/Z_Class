@@ -4,7 +4,6 @@ const btn_back = document.querySelector('#btn_back');
 const btn_next = document.querySelector('#btn_next');
 
 let step = 0;
-
 // #####  회원 가입 과정  ######
 // # 1단계 : 회원 유형 선택 #
 const form_sign_up = document.querySelector('#form_sign_up');
@@ -49,7 +48,7 @@ form_sign_up.id.addEventListener('change',()=>{
 // 중복 체크 버튼 누른 경우 id를 서버로 보내 사용가능여부 판별
 btn_check_duplicated.addEventListener('click',()=>{
     if(!form_sign_up.id.value){
-        return alert('아이디를 입력해 주세요 !');
+        return Alert('아이디를 입력해 주세요 !');
     }
     socket.emit('checkAvailableId',form_sign_up.id.value);
 });
@@ -60,11 +59,11 @@ socket.on('checkAvailableId', (_bool)=>{
     if(is_available_id){
         form_sign_up.id.setCustomValidity('');
         btn_check_duplicated.classList.remove('btn_wrong');
-        alert('사용 가능한 아이디입니다 !');
+        Alert('사용 가능한 아이디입니다 !');
     }
     else{
         form_sign_up.id.setCustomValidity('이미 존재하는 아이디');
-        alert('이미 존재하는 아이디입니다 !');
+        Alert('이미 존재하는 아이디입니다 !');
     }
 });
 
@@ -74,11 +73,11 @@ const video_container = document.querySelector('#video_container');
 btn_next.addEventListener('click', (event)=>{
     // input 검증
     if(!form_sign_up.job.value||!form_sign_up.id.value||!form_sign_up.password.value||!form_sign_up.name.value||!form_sign_up.phone_number.value||!form_sign_up.affiliation.value)
-        return alert('입력되지 않은 항목이 존재합니다 !');
+        return Alert('입력되지 않은 항목이 존재합니다 !');
     if(form_sign_up.job.value==='student'&&!form_sign_up.grade.value)
-        return alert('입력되지 않은 항목이 존재합니다 !');
+        return Alert('입력되지 않은 항목이 존재합니다 !');
     if(!is_available_id)
-        return alert('아이디 중복확인을 해주세요 !');
+        return Alert('아이디 중복확인을 해주세요 !');
 
     //btn_next.disabled = true;
     step++;
@@ -119,7 +118,7 @@ navigator.mediaDevices.getUserMedia({video:true,audio:false})
                             vid_self.play();
                         })
                         .catch((e)=>{
-                            alert('사용자의 미디어를 찾을 수 없습니다 !');
+                            Alert('사용자의 미디어를 찾을 수 없습니다 !');
                         });
 }
 
@@ -142,22 +141,22 @@ socket.on('signUp_checkReady', (_result)=>{
         case -1:
             progress_text.innerText = '0%';
             progress_bar.style.width = 0;
-            return alert('에러 발생, 다시 시도해 주세요 !');
+            return Alert('에러 발생, 다시 시도해 주세요 !');
         break;
         case 1:
             progress_text.innerText = '0%';
             progress_bar.style.width = 0;
-            return alert('모자를 벗고 다시 시도해주세요 !');
+            return Alert('모자를 벗고 다시 시도해주세요 !');
         break;
         case 2:
             progress_text.innerText = '0%';
             progress_bar.style.width = 0;
-            return alert('마스크를 벗고 다시 시도해주세요 !');
+            return Alert('마스크를 벗고 다시 시도해주세요 !');
         break;
         case 3:
             progress_text.innerText = '0%';
             progress_bar.style.width = 0;
-            return alert('모자와 마스크를 벗고 다시 시도해주세요 !');
+            return Alert('모자와 마스크를 벗고 다시 시도해주세요 !');
         break;
     }
     btn_next.disabled = true;

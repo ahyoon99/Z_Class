@@ -134,3 +134,37 @@ select{
 #vid_self{
     margin-top:auto;
 }
+
+/* #####  출석부  ##### */
+#table_container{
+    position:relative;
+    flex:1;
+    overflow:auto;
+}
+
+table{
+    text-align: center;
+    font-size: 1.5rem;
+    position:absolute;
+    width:100%;
+    text-overflow: ellipsis;
+}
+thead th{
+    border-bottom: 0.2rem solid aliceblue;
+    padding: 0.5rem;
+}
+tbody td{
+    border-bottom: 0.1rem solid aliceblue;
+    padding: 0.5rem;
+}
+#date_container{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+#input_date{
+    background-color: rgba(0,0,0,0.25);
+    color:aliceblue;
+    border: none;
+    font-size: 2rem;
+}

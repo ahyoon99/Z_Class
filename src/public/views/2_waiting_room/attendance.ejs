@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Z-Class</title>
+        <link rel="stylesheet" href="/public/css/initial.css">
+        <link rel="stylesheet" href="/public/css/menu.css">
+        <link rel="stylesheet" href="/public/css/waiting_room.css">
+        <link rel="shortcut icon" href="/public/ico/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+    <div id="background_container">
+        <div id="background_1" class="background_base"></div>
+        <div id="background_2" class="background_base"></div>
+    </div>
+    <div id="container">
+        <div id="attendance_container" class="main_container">
+            <h1>출석부</h1>
+            <div id="date_container">
+                <input type="date" id="input_date">
+            </div>
+            <div id="table_container">
+            <table>
+                <thead>
+                    <th>이름</th>
+                    <th>출결</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            </div>
+            <div class="sub_btn_container last_content">
+                <button type="button" class="btn_back" onclick="location.href='/';">돌아가기</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const attendances = <%-JSON.stringify(attendance_info)%>;
+        const name_info = {};
+        <% for(let i=0; i<students_info.length;i++){ %>
+            name_info["<%=students_info[i]._id%>"] = "<%=students_info[i].name%>";
+        <% } %>
+    </script>
+    <script src="/public/js/2_waiting_room/attendance.js"></script>
+    </body>
+</html>

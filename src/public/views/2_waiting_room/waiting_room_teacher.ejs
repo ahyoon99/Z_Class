@@ -45,7 +45,10 @@
                         <% } %>
                     </div>
                 </div>
-                <button id="btn_enter_course" class="last_content btn_main" formaction="/class">강의 입장</button>
+                <div class="sub_btn_container">
+                    <button  id="btn_view_attendance" class="last_content" formaction="/course/attendance">출석부 확인</button>
+                    <button type="button" id="btn_enter_course" class="last_content btn_main">강의 입장</button>
+                </div>
                 <div class="sub_btn_container">
                     <button id="btn_modify_course" formaction="/course/modify">강의 수정</button>
                     <button type="button" id="btn_make_course" onclick="location.href='/course/make_course';">강의 추가</button>
@@ -53,6 +56,13 @@
             </form>
         </div>
     </div>
+    <div id="alert_container" class="display_none">
+        <div id="alert_wrapper">
+            <span id="span_alert"></span>
+            <button id="btn_alert" onclick="document.querySelector('#alert_container').classList.add('display_none');">확인</button>
+        </div>
+    </div>
+    <script src="/public/js/etc/alert.js"></script>
     <script src="/public/js/2_waiting_room/waiting_room.js"></script>
     </body>
 </html>
